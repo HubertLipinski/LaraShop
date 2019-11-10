@@ -26,6 +26,10 @@
         </main>
     </div>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{asset('plugins/greensock/TweenMax.min.js')}}"></script>
+    <script src="{{asset('plugins/greensock/TimelineMax.min.js')}}"></script>
+    <script src="{{asset('plugins/owl/owl.carousel.js')}}"></script>
+    <script src="{{asset('plugins/slick-1.8.0/slick.js')}}"></script>
     <script src="{{asset('js/custom.js')}}"></script>
     @yield('scripts')
 </body>
