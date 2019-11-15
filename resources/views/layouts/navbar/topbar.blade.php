@@ -28,11 +28,24 @@
                             </li>
                         </ul>
                     </div>
+                    @guest
                     <div class="top_bar_user">
                         <div class="user_icon"><img src="{{asset('images/test.png')}}" alt=""></div>
-                        <div><a href="#">Register</a></div>
+                        <div><a href="{{ route('register') }}">{{ __('Register') }}</a></div>
                         <div><a href="{{ route('login') }}">{{ __('Login') }}</a></div>
                     </div>
+                    @else
+                        <div class="top_bar_user">
+                            <div class="user_icon"><img src="{{asset('images/test.png')}}" alt=""></div>
+                            <div><a href="#">{{ __('Profile') }}</a></div>
+                            <div>
+                                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                            </div>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
+                    @endguest
                 </div>
             </div>
         </div>

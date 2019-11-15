@@ -24,6 +24,7 @@
 
             @yield('content')
         </main>
+        @include('layouts.footer.footer')
     </div>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{asset('plugins/greensock/TweenMax.min.js')}}"></script>
