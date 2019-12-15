@@ -11,27 +11,19 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Overpass:400,700,800&display=swap&subset=latin-ext" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" href="../../../public/css/style.css">
+
 </head>
 <body>
-    <div id="app" class="super_container">
-        @include('layouts.navbar.navbar')
+    <div id="app">
         <main class="py-4">
-
             @yield('content')
         </main>
-        @include('layouts.footer.footer')
     </div>
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{asset('plugins/greensock/TweenMax.min.js')}}"></script>
-    <script src="{{asset('plugins/greensock/TimelineMax.min.js')}}"></script>
-    <script src="{{asset('plugins/owl/owl.carousel.js')}}"></script>
-    <script src="{{asset('plugins/slick-1.8.0/slick.js')}}"></script>
-    <script src="{{asset('js/custom.js')}}"></script>
-    @yield('scripts')
 </body>
 </html>
