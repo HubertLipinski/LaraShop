@@ -16,14 +16,13 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <link rel="stylesheet" href="../../../public/css/style.css">
-
 </head>
 <body>
     <div id="app">
-        <main class="py-4">
+        <main>
             @yield('content')
         </main>
     </div>
+    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
