@@ -19,7 +19,6 @@ body,html {
 
 .landing {
     height: 100vh;
-    /*overflow-y: auto;*/
 }
 
 .landing-left {
@@ -68,15 +67,17 @@ body,html {
     font-weight: 900;
 }
 .btn-danger {
-    background-color: #f97b6b;
-    border: 1px solid;
+    background-color: $red;
+    border: 1px solid $red;
+    color: #fff;
 }
 .btn-danger:hover {
-    background-color: #f26667;
-    border: 1px solid;
+    background-color: $red-hover;
+    border: 1px solid $red-hover;
+    color: #121314;
 }
 
 .btn-outline-primary:hover {
-    background-color: #1e8cfc;
+    background-color: $blue;
     border: 1px solid;
 }
