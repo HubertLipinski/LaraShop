@@ -20,8 +20,9 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 
 </head>
-<body>
+<body data-spy="scroll" data-target="#navbarSupportedContent">
     <div id="app">
+        @include('layouts.navbar')
         <main>
             @yield('content')
         </main>

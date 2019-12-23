@@ -2,46 +2,17 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="landing">
-            <nav class="navbar navbar-expand-lg navbar-light transparent p-0 fixed-top">
-                <img class="landing-left img-fluid" src="{{asset('img/landing_curve_left_top.svg')}}" alt="">
-                <a class="navbar-brand p-0 w-50" href="#">
-                    <img class="p-3 p-sm-5 pr-0 logo img-fluid" src="{{asset('img/logo.png')}}" alt="">
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav pr-5 ml-auto">
-                        <li class="nav-item px-1 active">
-                            <a class="nav-link px-3" href="#start">Start</a>
-                        </li>
-                        <li class="nav-item px-1">
-                            <a class="nav-link px-3" href="#products">Produkty</a>
-                        </li>
-                        <li class="nav-item px-1">
-                            <a class="nav-link px-3" href="#sell">Sprzedaj</a>
-                        </li>
-                        <li class="nav-item px-1">
-                            <a class="nav-link px-3" href="#">Logowanie</a>
-                        </li>
-                        <li class="nav-item px-1">
-                            <a class="nav-link px-3" href="#">Rejestracja</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            <div class="col-md-6 d-flex justify-content-center align-items-center landing-text" id="start">
+        <div class="landing start" id="start">
+            <div class="col-md-6 d-flex justify-content-center align-items-center landing-text">
                 <div class="text-center" id="text">
                     <p class="h1 display-4">Kup lub sprzedaj</p>
                     <p class="h3 font-weight-normal pb-2">nieużywane przedmioty</p>
                     <div class="row no-gutters-p-0 my-4">
                         <div class="col-6 text-left">
-                            <a href="#products" type="button" class="btn btn-lg btn-outline-primary btn-block py-3 btn-prod">Produkty</a>
+                            <a href="#products" role="button" class="btn btn-lg btn-outline-primary btn-block py-3 btn-prod">Produkty</a>
                         </div>
                         <div class="col-6 text-right">
-                            <a href="#" type="button" class="btn btn-lg btn-danger btn-block py-3 btn-sprz">Sprzedawaj</a>
+                            <a href="#" role="button" class="btn btn-lg btn-danger btn-block py-3 btn-sprz">Sprzedawaj</a>
                         </div>
                     </div>
                 </div>
@@ -49,7 +20,6 @@
             <img class="landing-cart img-fluid d-none d-md-block" id="cart" src="{{asset('img/landingcart.png')}}" alt="">
             <img class="landing-bottom img-fluid d-none d-md-block" src="{{asset('img/landing_curve_bottom_short.svg')}}" alt="">
         </div>
-
         <div class="products d-flex flex-column" id="products">
             <p class="h2 display-4 py-3 align-self-center section-header">Produkty</p>
             <div class="container d-flex align-items-center mt-3">
@@ -162,13 +132,12 @@
                     </div>
                 </div>
             </div>
-            <a href="#products" type="button" class="btn btn-lg btn-outline-primary mt-3 py-3 product-more align-self-center">Zobacz więcej</a>
+            <a href="#products" role="button" class="btn btn-lg btn-outline-primary my-3 py-3 product-more align-self-center">Zobacz więcej</a>
         </div>
         <div class="sell" id="sell">
             <div class="d-flex flex-column text-center">
                 <p class="h2 display-4 py-3 align-self-center section-header">Sprzedaj</p>
             </div>
-
         </div>
     </div>
 
