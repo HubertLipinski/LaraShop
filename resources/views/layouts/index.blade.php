@@ -9,7 +9,7 @@
                     <p class="h3 font-weight-normal pb-2">nieużywane przedmioty</p>
                     <div class="row no-gutters-p-0 my-4">
                         <div class="col-6 text-left">
-                            <a href="#products" role="button" class="btn btn-lg btn-outline-primary btn-block py-3 btn-prod">Produkty</a>
+                            <a href="#items" role="button" class="btn btn-lg btn-outline-primary btn-block py-3 btn-prod">Przedmioty</a>
                         </div>
                         <div class="col-6 text-right">
                             <a href="#" role="button" class="btn btn-lg btn-danger btn-block py-3 btn-sprz">Sprzedawaj</a>
@@ -20,8 +20,8 @@
             <img class="landing-cart img-fluid d-none d-md-block" id="cart" src="{{asset('img/landingcart.png')}}" alt="">
             <img class="landing-bottom img-fluid d-none d-md-block" src="{{asset('img/landing_curve_bottom_short.svg')}}" alt="">
         </div>
-        <div class="products d-flex flex-column" id="products">
-            <p class="h2 display-4 py-3 align-self-center section-header">Produkty</p>
+        <div class="items d-flex flex-column" id="items">
+            <p class="h2 display-4 py-3 align-self-center section-header">Przedmioty</p>
             <div class="container d-flex align-items-center mt-3">
                 <div class="col-md-4">
                     <nav class="w-50 nav flex-column product-menu m-auto">
@@ -132,7 +132,7 @@
                     </div>
                 </div>
             </div>
-            <a href="#products" role="button" class="btn btn-lg btn-outline-primary my-3 py-3 product-more align-self-center">Zobacz więcej</a>
+            <a href="{{url('items')}}" role="button" class="btn btn-lg btn-outline-primary my-3 py-3 product-more align-self-center">Zobacz więcej</a>
         </div>
         <div class="sell" id="sell">
             <div class="d-flex flex-column text-center">
