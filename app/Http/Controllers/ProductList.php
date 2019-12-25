@@ -10,6 +10,6 @@ class ProductList extends Controller
 {
     public function index() {
         $products = Product::all();
-        return view('layouts.items')->with(['products'=>$products]);
+        return view('layouts.products.productsIndex')->with(['products'=>$products]);
     }
 }

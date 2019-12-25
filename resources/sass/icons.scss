@@ -1,9 +1,53 @@
-.user-icon {
+.basic-icon-setup {
     @extend %fa-icon;
     @extend .fas;
     @extend .fa-lg;
+}
+
+.user-icon {
+    @extend .basic-icon-setup;
 
     &:before {
         content: fa-content($fa-var-user-circle);
     }
 }
+
+.favourite {
+    @extend .basic-icon-setup;
+
+    &:before {
+        content: fa-content($fa-var-bookmark);
+    }
+
+    &:hover {
+       font-weight: 900;
+    }
+}
+
+.favourite-saved {
+    @extend .favourite;
+    font-weight: 900;
+
+    &:hover {
+        font-weight: normal;
+    }
+}
+
+.icon-right-arrow {
+    @extend .basic-icon-setup;
+    @extend .fa-3x;
+    color: #000;
+    &:before {
+        font-weight: 900;
+        content: fa-content($fa-var-caret-right);
+    }
+
+}
+
+.icon-left-arrow {
+    @extend .icon-right-arrow;
+    &:before {
+        content: fa-content($fa-var-caret-left);
+    }
+}
+

@@ -11201,7 +11201,7 @@ html {
   color: #000;
 }
 
-.product-menu :hover {
+.product-menu .nav-link:hover {
   color: #1e8cfc;
 }
 
@@ -11260,6 +11260,62 @@ html {
   height: 100vh;
 }
 
+.product-breadcrumbs {
+  background-color: #f8fafc;
+}
+
+.flex-custom-row,
+.items-container {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-flow: row wrap;
+  -webkit-box-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+.items-container {
+  -webkit-box-align: baseline;
+          align-items: baseline;
+}
+
+.items-container .item {
+  width: 400px;
+  min-height: 300px;
+  max-height: 550px;
+  background-color: #fff;
+}
+
+.items-container .item img {
+  display: block;
+  width: 100%;
+  height: 200px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.items-container .item .item-text {
+  max-height: 85px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+.items-container .item .carousel-indicators {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.items-container .item .carousel-indicators .item-indicator {
+  position: relative;
+  bottom: -15px;
+  padding: 2px;
+  border-radius: 2px;
+  border: 1px solid #000;
+}
+
 /*!
  * Font Awesome Free 5.12.0 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
@@ -11313,6 +11369,11 @@ html {
 
 .fa,
 .fas,
+.basic-icon-setup,
+.icon-right-arrow,
+.icon-left-arrow,
+.favourite,
+.favourite-saved,
 .user-icon {
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
@@ -11325,6 +11386,11 @@ html {
 
 .fa,
 .fas,
+.basic-icon-setup,
+.icon-right-arrow,
+.icon-left-arrow,
+.favourite,
+.favourite-saved,
 .user-icon,
 .far,
 .fal,
@@ -11339,6 +11405,11 @@ html {
   line-height: 1;
 }
 
+.basic-icon-setup,
+.icon-right-arrow,
+.icon-left-arrow,
+.favourite,
+.favourite-saved,
 .user-icon {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -11350,6 +11421,11 @@ html {
 }
 
 .fa-lg,
+.basic-icon-setup,
+.icon-right-arrow,
+.icon-left-arrow,
+.favourite,
+.favourite-saved,
 .user-icon {
   font-size: 1.3333333333em;
   line-height: 0.75em;
@@ -11372,7 +11448,9 @@ html {
   font-size: 2em;
 }
 
-.fa-3x {
+.fa-3x,
+.icon-right-arrow,
+.icon-left-arrow {
   font-size: 3em;
 }
 
@@ -11443,6 +11521,11 @@ html {
 
 .fa.fa-pull-left,
 .fas.fa-pull-left,
+.fa-pull-left.basic-icon-setup,
+.fa-pull-left.icon-right-arrow,
+.fa-pull-left.icon-left-arrow,
+.fa-pull-left.favourite,
+.fa-pull-left.favourite-saved,
 .fa-pull-left.user-icon,
 .far.fa-pull-left,
 .fal.fa-pull-left,
@@ -11452,6 +11535,11 @@ html {
 
 .fa.fa-pull-right,
 .fas.fa-pull-right,
+.fa-pull-right.basic-icon-setup,
+.fa-pull-right.icon-right-arrow,
+.fa-pull-right.icon-left-arrow,
+.fa-pull-right.favourite,
+.fa-pull-right.favourite-saved,
 .fa-pull-right.user-icon,
 .far.fa-pull-right,
 .fal.fa-pull-right,
@@ -17207,5 +17295,38 @@ readers do not read off random characters that represent icons */
 
 .user-icon:before {
   content: "\F2BD";
+}
+
+.favourite:before,
+.favourite-saved:before {
+  content: "\F02E";
+}
+
+.favourite:hover,
+.favourite-saved:hover {
+  font-weight: 900;
+}
+
+.favourite-saved {
+  font-weight: 900;
+}
+
+.favourite-saved:hover {
+  font-weight: normal;
+}
+
+.icon-right-arrow,
+.icon-left-arrow {
+  color: #000;
+}
+
+.icon-right-arrow:before,
+.icon-left-arrow:before {
+  font-weight: 900;
+  content: "\F0DA";
+}
+
+.icon-left-arrow:before {
+  content: "\F0D9";
 }
 
