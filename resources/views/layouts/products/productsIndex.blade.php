@@ -33,7 +33,8 @@
             </div>
             <div class="col-sm-12 col-md-9 px-3 py-1">
                 <div class="items-container m-auto">
-{{--                    foreach--}}
+                    @foreach($products as $item)
+{{--                        {{dd($item->name)}}--}}
                     <div class="item p-2 m-3 border-0">
                         <div class="item-photos pt-2 pb-1">
                             <div id="item_1" class="carousel slide" data-ride="false" data-interval="false">
@@ -79,9 +80,12 @@
                             </div>
                         </div>
                     </div>
+                    @endforeach
                 </div>
+                <nav class="d-flex justify-content-center">
+                    {{$products->links()}}
+                </nav>
             </div>
         </div>
     </div>
-{{--    {{dd($products)}}--}}
 @endsection

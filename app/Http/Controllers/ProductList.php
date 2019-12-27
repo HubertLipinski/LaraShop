@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class ProductList extends Controller
 {
     public function index() {
-        $products = Product::all();
+        $products = Product::paginate(3);
         return view('layouts.products.productsIndex')->with(['products'=>$products]);
     }
 }

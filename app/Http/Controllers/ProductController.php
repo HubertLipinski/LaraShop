@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Product as ProductModel;
 use Illuminate\Support\Facades\Auth;
 
-class Product extends Controller
+class ProductController extends Controller
 {
     private $product;
 
@@ -48,7 +48,7 @@ class Product extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**

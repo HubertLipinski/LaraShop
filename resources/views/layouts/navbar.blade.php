@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light transparent p-0 fixed-top fixed-navbar">
     <img class="landing-left img-fluid" src="{{asset('img/landing_curve_left_top.svg')}}" alt="">
-    <a class="navbar-brand p-0 w-50" href="{{url('/')}}">
+    <a class="navbar-brand p-0" href="{{url('/')}}">
         <img class="p-3 p-sm-5 pr-0 logo img-fluid" src="{{asset('img/logo.png')}}" alt="">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
