@@ -46,9 +46,20 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+//    todo add custom validation
     public function store(Request $request)
     {
-        dd($request->all());
+        $data = $request->all();
+        $this->product->create(
+            [
+                'user_id' => Auth::id(),
+                'name' => $data['name'],
+                'description' => $data['description'],
+                'price' => $data['price'],
+                'thumbnail' => 'null',
+            ]);
+        //todo add category insert on models
+        return back();
     }
 
     /**
