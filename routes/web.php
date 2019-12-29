@@ -14,6 +14,9 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('/items', function(){
-    return view('layouts.items');
-});
+
+Route::get('/items', 'ProductList@index');
+Route::get('/items/{id}', 'ProductController@show');
+Route::post('/items/add', 'ProductController@store')->name('addItem');
+
+Route::get('/sell', 'UserPanelController@sellView');

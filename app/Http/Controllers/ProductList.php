@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Product;
+use Illuminate\Support\Facades\Auth;
+
+class ProductList extends Controller
+{
+    public function index() {
+        $products = Product::paginate(3);
+        return view('layouts.products.productsIndex')->with(['products'=>$products]);
+    }
+}
