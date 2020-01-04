@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
-use App\Product as ProductModel;
+use App\Models\Product as ProductModel;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -47,18 +51,28 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
 //    todo add custom validation
-    public function store(Request $request)
+    //todo add multiple categories insert
+    public function store(ProductRequest $request)
     {
-        $data = $request->all();
-        $this->product->create(
+        $data = $request->validated();
+        $category = Category::findOrFail($data['category']);
+
+        $files = [];
+        foreach($data['images'] as $image) {
+            $path = $image->store('ProductsPhotos/'.$request->user()->id.'/');
+            array_push($files, $path);
+        }
+
+        $created = $this->product->create(
             [
                 'user_id' => Auth::id(),
                 'name' => $data['name'],
                 'description' => $data['description'],
                 'price' => $data['price'],
-                'thumbnail' => 'null',
+                'thumbnail' => $path,
             ]);
-        //todo add category insert on models
+        $created->category()->attach($category->id);
+
         return back();
     }
 

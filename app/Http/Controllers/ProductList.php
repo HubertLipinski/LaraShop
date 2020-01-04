@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Product;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Product;
 
 class ProductList extends Controller
 {

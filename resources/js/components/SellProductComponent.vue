@@ -8,7 +8,7 @@
             </div>
         </div>
         <div class="container">
-            <form method="post" :action="this.actionRoute">
+            <form method="post" :action="this.actionRoute" enctype="multipart/form-data">
                <input name="_token" v-bind:value="this.$csrfToken" type="hidden">
                 <div class="form-group">
                     <label for="name" class="h5">Nazwa</label>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="form-group">
                     <label for="image" class="h5">Zdjęcia</label>
-                    <input name="images[]" id="image" type="file"  multiple="multiple" accept="image/jpg, image/jpeg" class="form-control-file" @change="imageCheck" required>
+                    <input name="images[]" id="image" type="file" multiple="multiple" accept="image/jpg, image/jpeg" class="form-control-file" @change="imageCheck" required>
                     <p class="text-danger" v-if="imagesNumber > maxImagesNumber">Maxymalna ilość zdjęć to {{maxImagesNumber}}</p>
                 </div>
                 <div class="d-flex justify-content-end">
@@ -67,7 +67,7 @@
             }
         },
         created: function () {
-            console.log(JSON.parse(this.categories));
+            // console.log(this.errors);
         }
     }
 </script>
