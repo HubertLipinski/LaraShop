@@ -37495,15 +37495,13 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("label", { staticClass: "h5", attrs: { for: "price" } }, [
-            _vm._v("Cena")
+            _vm._v("Cena:")
           ]),
           _vm._v(" "),
           _vm._m(3),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
-            _c("label", { staticClass: "h5", attrs: { for: "image" } }, [
-              _vm._v("Zdjęcia")
-            ]),
+            _vm._m(4),
             _vm._v(" "),
             _c("input", {
               staticClass: "form-control-file",
@@ -37566,7 +37564,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
       _c("label", { staticClass: "h5", attrs: { for: "name" } }, [
-        _vm._v("Nazwa")
+        _vm._v("Nazwa:")
       ]),
       _vm._v(" "),
       _c("input", {
@@ -37589,7 +37587,7 @@ var staticRenderFns = [
       _c(
         "label",
         { staticClass: "h5", attrs: { for: "exampleFormControlTextarea1" } },
-        [_vm._v("Opis")]
+        [_vm._v("Opis:")]
       ),
       _vm._v(" "),
       _c("textarea", {
@@ -37629,6 +37627,17 @@ var staticRenderFns = [
           },
           [_vm._v("zł")]
         )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "h5", attrs: { for: "image" } }, [
+      _vm._v("Zdjęcia "),
+      _c("span", { staticClass: "text-muted" }, [
+        _vm._v("(Maksymalnie 5 zdjęć)")
       ])
     ])
   }
@@ -50015,8 +50024,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! I:\xampp\htdocs\LaraShop\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! I:\xampp\htdocs\LaraShop\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! H:\xampp\htdocs\LaraShop\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! H:\xampp\htdocs\LaraShop\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

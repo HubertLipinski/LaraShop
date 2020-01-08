@@ -34,28 +34,27 @@
             <div class="col-sm-12 col-md-9 px-3 py-1">
                 <div class="items-container m-auto">
                     @foreach($products as $item)
-{{--                        {{dd($item->name)}}--}}
+
                     <div class="item p-2 m-3 border-0">
                         <div class="item-photos pt-2 pb-1">
-                            <div id="item_1" class="carousel slide" data-ride="false" data-interval="false">
+                            <div id="item_{{$item->id}}" class="carousel slide" data-ride="false" data-interval="false">
                                 <ol class="carousel-indicators">
-                                    <li data-target="#item_1" data-slide-to="0" class="item-indicator active"></li>
-                                    <li data-target="#item_1" data-slide-to="1" class="item-indicator"></li>
-{{--                                    <li data-target="#item_1" data-slide-to="2"></li>--}}
+                                    @for($i = 0; $i < count(json_decode($item->thumbnail)); $i++)
+                                            <li data-target="#item_{{$item->id}}" data-slide-to="{{$i}}" class="item-indicator @if($i==1) active @endif"></li>
+                                        @endfor
                                 </ol>
                                 <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <img src="{{asset('img/items/new_3.jpg')}}" alt="Card image cap">
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="{{asset('img/items/new_3.jpg')}}" alt="Card image cap">
-                                    </div>
+                                    @for($i = 0; $i < count(json_decode($item->thumbnail)); $i++)
+                                        <div class="carousel-item @if($i==1) active @endif">
+                                            <img src="{{route('getImages', [$item->id, $i])}}" alt="Card image cap">
+                                        </div>
+                                    @endfor
                                 </div>
-                                <a class="carousel-control-prev" href="#item_1" role="button" data-slide="prev">
+                                <a class="carousel-control-prev" href="#item_{{$item->id}}" role="button" data-slide="prev">
                                     <span class="icon-left-arrow" aria-hidden="true"></span>
                                     <span class="sr-only">Previous</span>
                                 </a>
-                                <a class="carousel-control-next" href="#item_1" role="button" data-slide="next">
+                                <a class="carousel-control-next" href="#item_{{$item->id}}" role="button" data-slide="next">
                                     <span class="icon-right-arrow" aria-hidden="true"></span>
                                     <span class="sr-only">Next</span>
                                 </a>

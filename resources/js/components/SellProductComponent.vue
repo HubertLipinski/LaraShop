@@ -11,11 +11,11 @@
             <form method="post" :action="this.actionRoute" enctype="multipart/form-data">
                <input name="_token" v-bind:value="this.$csrfToken" type="hidden">
                 <div class="form-group">
-                    <label for="name" class="h5">Nazwa</label>
+                    <label for="name" class="h5">Nazwa:</label>
                     <input name="name" type="text" class="form-control form-control-lg" id="name" aria-describedby="name" required>
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1" class="h5">Opis</label>
+                    <label for="exampleFormControlTextarea1" class="h5">Opis:</label>
                     <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="4" required></textarea>
                 </div>
                 <div class="form-group w-50">
@@ -25,7 +25,7 @@
                         <option v-for="category in JSON.parse(this.categories)" :value="category.id">  {{category.name}} </option>
                     </select>
                 </div>
-                <label for="price" class="h5">Cena</label>
+                <label for="price" class="h5">Cena:</label>
                 <div class="form-group col-4 input-group pl-0">
                     <input name="price" type="number" class="form-control form-control-lg" id="price" aria-describedby="price" min="0" required>
                     <div class="input-group-append">
@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="image" class="h5">Zdjęcia</label>
+                    <label for="image" class="h5">Zdjęcia <span class="text-muted">(Maksymalnie 5 zdjęć)</span></label>
                     <input name="images[]" id="image" type="file" multiple="multiple" accept="image/jpg, image/jpeg" class="form-control-file" @change="imageCheck" required>
                     <p class="text-danger" v-if="imagesNumber > maxImagesNumber">Maxymalna ilość zdjęć to {{maxImagesNumber}}</p>
                 </div>

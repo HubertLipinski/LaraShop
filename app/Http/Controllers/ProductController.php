@@ -50,8 +50,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-//    todo add custom validation
-    //todo add multiple categories insert
+    //optional todo add multiple categories insert
     public function store(ProductRequest $request)
     {
         $data = $request->validated();
@@ -59,7 +58,7 @@ class ProductController extends Controller
 
         $files = [];
         foreach($data['images'] as $image) {
-            $path = $image->store('ProductsPhotos/'.$request->user()->id.'/');
+            $path = Storage::put('ProductsPhotos/'.$request->user()->id, $image, 'public');
             array_push($files, $path);
         }
 
@@ -69,11 +68,11 @@ class ProductController extends Controller
                 'name' => $data['name'],
                 'description' => $data['description'],
                 'price' => $data['price'],
-                'thumbnail' => $path,
+                'thumbnail' => json_encode($files),
             ]);
         $created->category()->attach($category->id);
 
-        return back();
+        return back()->with(['success'=>'Pomyślnie dodano przedmiot!']);
     }
 
     /**
