@@ -12,7 +12,7 @@
                             <a href="#items" role="button" class="btn btn-lg btn-outline-primary btn-block py-3 btn-prod">Przedmioty</a>
                         </div>
                         <div class="col-6 text-right">
-                            <a href="#" role="button" class="btn btn-lg btn-danger btn-block py-3 btn-sprz">Sprzedawaj</a>
+                            <a href="{{route('sellItem')}}" role="button" class="btn btn-lg btn-danger btn-block py-3 btn-sprz">Sprzedawaj</a>
                         </div>
                     </div>
                 </div>
@@ -20,9 +20,9 @@
             <img class="landing-cart img-fluid d-none d-md-block" id="cart" src="{{asset('img/landingcart.png')}}" alt="">
             <img class="landing-bottom img-fluid d-none d-md-block" src="{{asset('img/landing_curve_bottom_short.svg')}}" alt="">
         </div>
-        <div class="items d-flex flex-column" id="items">
-            <p class="h2 display-4 py-3 align-self-center section-header">Przedmioty</p>
-            <div class="container d-flex align-items-center mt-3">
+        <div class="products d-flex flex-column" id="items">
+            <p class="h2 display-4 align-self-center section-header pb-3">Przedmioty</p>
+            <div class="container d-flex align-items-center">
                 <div class="col-md-4">
                     <nav class="w-50 nav flex-column product-menu m-auto">
                         <a class="nav-link active" href="#">Elektronika</a>
@@ -133,11 +133,6 @@
                 </div>
             </div>
             <a href="{{url('items')}}" role="button" class="btn btn-lg btn-outline-primary my-3 py-3 product-more align-self-center">Zobacz więcej</a>
-        </div>
-        <div class="sell" id="sell">
-            <div class="d-flex flex-column text-center">
-                <p class="h2 display-4 py-3 align-self-center section-header">Sprzedaj</p>
-            </div>
         </div>
     </div>
 

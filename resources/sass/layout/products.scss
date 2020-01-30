@@ -1,13 +1,10 @@
-.products {
-    min-height: 100vh;
-    background-color: #fff;
-    //border-top: 2px solid $blue;
-    border-bottom: 10px solid rgba($blue, .17);
-    border-bottom-left-radius: 400px;
+.basic-block {
+    height: 100vh;
+    padding-top: $navbar-height;
 }
 
-.section-header {
-    margin-top: 150px;
+.products {
+    @extend .basic-block
 }
 
 .product-menu {

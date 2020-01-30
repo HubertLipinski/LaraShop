@@ -25,8 +25,6 @@ class ProductList extends Controller
         $product = Product::findOrFail($id);
         $filename = json_decode($product->thumbnail);
 
-        Log::debug(1);
-
         $exists = Storage::exists($filename[$index]);
         if (!$exists) abort(404);
         $image = Storage::get($filename[$index]);

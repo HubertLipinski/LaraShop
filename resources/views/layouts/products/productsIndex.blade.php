@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid mt-5 pt-5">
+    <div class="container-fluid products">
         <div class="row">
             <div class="col-md-12 text-center">
                 <div class="col-md-8 offset-md-2 px-0">
@@ -40,12 +40,12 @@
                             <div id="item_{{$item->id}}" class="carousel slide" data-ride="false" data-interval="false">
                                 <ol class="carousel-indicators">
                                     @for($i = 0; $i < count(json_decode($item->thumbnail)); $i++)
-                                            <li data-target="#item_{{$item->id}}" data-slide-to="{{$i}}" class="item-indicator @if($i==1) active @endif"></li>
+                                            <li data-target="#item_{{$item->id}}" data-slide-to="{{$i}}" class="item-indicator @if($i==0) active @endif"></li>
                                         @endfor
                                 </ol>
                                 <div class="carousel-inner">
                                     @for($i = 0; $i < count(json_decode($item->thumbnail)); $i++)
-                                        <div class="carousel-item @if($i==1) active @endif">
+                                        <div class="carousel-item @if($i==0) active @endif">
                                             <img src="{{route('getImages', [$item->id, $i])}}" alt="Card image cap">
                                         </div>
                                     @endfor
@@ -74,7 +74,7 @@
                                     <a href="#" class="btn btn-block p-2 favourite"></a>
                                 </div>
                                 <div class="col-9">
-                                    <a href="#" class="btn btn-block btn-outline-primary w-50 ml-auto">Zobacz więcej</a>
+                                    <a href="{{route('showProduct', $item->id)}}" class="btn btn-block btn-outline-primary w-50 ml-auto">Zobacz więcej</a>
                                 </div>
                             </div>
                         </div>

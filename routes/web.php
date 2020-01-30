@@ -15,9 +15,9 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/items', 'ProductList@index');
+Route::get('/items', 'ProductList@index')->name('productsList');
 Route::get('/items/image/{id}/{index}', 'ProductList@getImages')->name('getImages');
-Route::get('/items/{id}', 'ProductController@show');
+Route::get('/items/{id}', 'ProductController@show')->name('showProduct');
 Route::post('/items/add', 'ProductController@store')->name('addItem');
 
-Route::get('/sell', 'UserPanelController@sellView');
+Route::get('/sell', 'UserPanelController@sellView')->name('sellItem');

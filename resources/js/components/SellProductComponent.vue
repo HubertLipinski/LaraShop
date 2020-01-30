@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid mt-5 pt-5">
+    <div class="container-fluid basic-block" id="#sell">
         <div class="row">
             <div class="col-md-12 text-center">
                 <div class="col-md-8 offset-md-2 px-0">
@@ -8,6 +8,11 @@
             </div>
         </div>
         <div class="container">
+            <div class="alert alert-danger" v-if="errorData.length > 0">
+                <ul v-for="error in errorData">
+                    <li>{{error}}</li>
+                </ul>
+            </div>
             <form method="post" :action="this.actionRoute" enctype="multipart/form-data">
                <input name="_token" v-bind:value="this.$csrfToken" type="hidden">
                 <div class="form-group">
@@ -51,12 +56,13 @@
 
     export default {
         name: "SellProductComponent",
-        props: ['actionRoute', 'categories'],
+        props: ['actionRoute', 'categories', 'errors'],
         data() {
             return {
                 canSend: true,
                 maxImagesNumber: 5,
-                imagesNumber: 0
+                imagesNumber: 0,
+                errorData: {}
             }
         },
         methods: {
@@ -67,7 +73,7 @@
             }
         },
         created: function () {
-            // console.log(this.errors);
+            this.errorData = JSON.parse(this.errors);
         }
     }
 </script>

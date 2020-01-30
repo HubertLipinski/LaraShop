@@ -1920,16 +1920,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 Vue.use(vue_csrf__WEBPACK_IMPORTED_MODULE_0___default.a);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "SellProductComponent",
-  props: ['actionRoute', 'categories'],
+  props: ['actionRoute', 'categories', 'errors'],
   data: function data() {
     return {
       canSend: true,
       maxImagesNumber: 5,
-      imagesNumber: 0
+      imagesNumber: 0,
+      errorData: {}
     };
   },
   methods: {
@@ -1939,7 +1945,8 @@ Vue.use(vue_csrf__WEBPACK_IMPORTED_MODULE_0___default.a);
       this.imagesNumber > this.maxImagesNumber ? this.canSend = false : this.canSend = true;
     }
   },
-  created: function created() {// console.log(this.errors);
+  created: function created() {
+    this.errorData = JSON.parse(this.errors);
   }
 });
 
@@ -37434,114 +37441,129 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-fluid mt-5 pt-5" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "container" }, [
-      _c(
-        "form",
-        {
-          attrs: {
-            method: "post",
-            action: this.actionRoute,
-            enctype: "multipart/form-data"
-          }
-        },
-        [
-          _c("input", {
-            attrs: { name: "_token", type: "hidden" },
-            domProps: { value: this.$csrfToken }
-          }),
-          _vm._v(" "),
-          _vm._m(1),
-          _vm._v(" "),
-          _vm._m(2),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group w-50" }, [
-            _c(
-              "label",
-              {
-                staticClass: "h5",
-                attrs: { for: "exampleFormControlSelect2" }
-              },
-              [_vm._v("Kategoria:")]
-            ),
-            _vm._v(" "),
-            _c(
-              "select",
-              {
-                staticClass: "form-control",
-                attrs: {
-                  name: "category",
-                  id: "exampleFormControlSelect2",
-                  required: ""
-                }
-              },
-              [
-                _c(
-                  "option",
-                  { attrs: { value: "", disabled: "", selected: "" } },
-                  [_vm._v("Wybierz")]
-                ),
-                _vm._v(" "),
-                _vm._l(JSON.parse(this.categories), function(category) {
-                  return _c("option", { domProps: { value: category.id } }, [
-                    _vm._v("  " + _vm._s(category.name) + " ")
-                  ])
-                })
-              ],
-              2
+  return _c(
+    "div",
+    { staticClass: "container-fluid basic-block", attrs: { id: "#sell" } },
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "container" }, [
+        _vm.errorData.length > 0
+          ? _c(
+              "div",
+              { staticClass: "alert alert-danger" },
+              _vm._l(_vm.errorData, function(error) {
+                return _c("ul", [_c("li", [_vm._v(_vm._s(error))])])
+              }),
+              0
             )
-          ]),
-          _vm._v(" "),
-          _c("label", { staticClass: "h5", attrs: { for: "price" } }, [
-            _vm._v("Cena:")
-          ]),
-          _vm._v(" "),
-          _vm._m(3),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _vm._m(4),
-            _vm._v(" "),
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
+          "form",
+          {
+            attrs: {
+              method: "post",
+              action: this.actionRoute,
+              enctype: "multipart/form-data"
+            }
+          },
+          [
             _c("input", {
-              staticClass: "form-control-file",
-              attrs: {
-                name: "images[]",
-                id: "image",
-                type: "file",
-                multiple: "multiple",
-                accept: "image/jpg, image/jpeg",
-                required: ""
-              },
-              on: { change: _vm.imageCheck }
+              attrs: { name: "_token", type: "hidden" },
+              domProps: { value: this.$csrfToken }
             }),
             _vm._v(" "),
-            _vm.imagesNumber > _vm.maxImagesNumber
-              ? _c("p", { staticClass: "text-danger" }, [
-                  _vm._v(
-                    "Maxymalna ilość zdjęć to " + _vm._s(_vm.maxImagesNumber)
+            _vm._m(1),
+            _vm._v(" "),
+            _vm._m(2),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group w-50" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "h5",
+                  attrs: { for: "exampleFormControlSelect2" }
+                },
+                [_vm._v("Kategoria:")]
+              ),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  staticClass: "form-control",
+                  attrs: {
+                    name: "category",
+                    id: "exampleFormControlSelect2",
+                    required: ""
+                  }
+                },
+                [
+                  _c(
+                    "option",
+                    { attrs: { value: "", disabled: "", selected: "" } },
+                    [_vm._v("Wybierz")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(JSON.parse(this.categories), function(category) {
+                    return _c("option", { domProps: { value: category.id } }, [
+                      _vm._v("  " + _vm._s(category.name) + " ")
+                    ])
+                  })
+                ],
+                2
+              )
+            ]),
+            _vm._v(" "),
+            _c("label", { staticClass: "h5", attrs: { for: "price" } }, [
+              _vm._v("Cena:")
+            ]),
+            _vm._v(" "),
+            _vm._m(3),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _vm._m(4),
+              _vm._v(" "),
+              _c("input", {
+                staticClass: "form-control-file",
+                attrs: {
+                  name: "images[]",
+                  id: "image",
+                  type: "file",
+                  multiple: "multiple",
+                  accept: "image/jpg, image/jpeg",
+                  required: ""
+                },
+                on: { change: _vm.imageCheck }
+              }),
+              _vm._v(" "),
+              _vm.imagesNumber > _vm.maxImagesNumber
+                ? _c("p", { staticClass: "text-danger" }, [
+                    _vm._v(
+                      "Maxymalna ilość zdjęć to " + _vm._s(_vm.maxImagesNumber)
+                    )
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "d-flex justify-content-end" }, [
+              _vm.canSend
+                ? _c(
+                    "button",
+                    {
+                      staticClass:
+                        "btn btn-block w-25 btn-lg btn-outline-success",
+                      attrs: { type: "submit" }
+                    },
+                    [_vm._v("Wyślij")]
                   )
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "d-flex justify-content-end" }, [
-            _vm.canSend
-              ? _c(
-                  "button",
-                  {
-                    staticClass:
-                      "btn btn-block w-25 btn-lg btn-outline-success",
-                    attrs: { type: "submit" }
-                  },
-                  [_vm._v("Wyślij")]
-                )
-              : _vm._e()
-          ])
-        ]
-      )
-    ])
-  ])
+                : _vm._e()
+            ])
+          ]
+        )
+      ])
+    ]
+  )
 }
 var staticRenderFns = [
   function() {

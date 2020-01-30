@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light transparent p-0 fixed-top fixed-navbar">
+<nav class="navbar navbar-expand-lg navbar-light transparent p-0 fixed-navbar">
     <img class="landing-left img-fluid" src="{{asset('img/landing_curve_left_top.svg')}}" alt="">
     <a class="navbar-brand p-0" href="{{url('/')}}">
         <img class="p-3 p-sm-5 pr-0 logo img-fluid" src="{{asset('img/logo.png')}}" alt="">
@@ -18,7 +18,7 @@
                     <a class="nav-link px-3" href="#items">Przedmioty</a>
                 </li>
                 <li class="nav-item px-1">
-                    <a class="nav-link px-3" href="#sell">Sprzedaj</a>
+                    <a class="nav-link px-3" href="{{route('sellItem')}}">Sprzedaj</a>
                 </li>
             @else
                 <li class="nav-item px-1">

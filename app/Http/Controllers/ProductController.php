@@ -85,7 +85,14 @@ class ProductController extends Controller
     {
         $singleProduct = $this->product->findOrFail($id);
         abort_unless(Auth::user()->can('view', $singleProduct), 401);
-        dd($singleProduct);
+        $categories = $singleProduct->category()
+            ->pluck('name')
+            ->toArray();
+        return view('layouts.products.product')
+            ->with([
+                    'product'=>$singleProduct,
+                    'categories'=>$categories,
+                ]);
     }
 
     /**
