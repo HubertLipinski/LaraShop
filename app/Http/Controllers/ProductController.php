@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
-use App\Product as ProductModel;
+use App\Models\Product as ProductModel;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -46,20 +50,29 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-//    todo add custom validation
-    public function store(Request $request)
+    //optional todo add multiple categories insert
+    public function store(ProductRequest $request)
     {
-        $data = $request->all();
-        $this->product->create(
+        $data = $request->validated();
+        $category = Category::findOrFail($data['category']);
+
+        $files = [];
+        foreach($data['images'] as $image) {
+            $path = Storage::put('ProductsPhotos/'.$request->user()->id, $image, 'public');
+            array_push($files, $path);
+        }
+
+        $created = $this->product->create(
             [
                 'user_id' => Auth::id(),
                 'name' => $data['name'],
                 'description' => $data['description'],
                 'price' => $data['price'],
-                'thumbnail' => 'null',
+                'thumbnail' => json_encode($files),
             ]);
-        //todo add category insert on models
-        return back();
+        $created->category()->attach($category->id);
+
+        return back()->with(['success'=>'Pomyślnie dodano przedmiot!']);
     }
 
     /**
@@ -72,7 +85,14 @@ class ProductController extends Controller
     {
         $singleProduct = $this->product->findOrFail($id);
         abort_unless(Auth::user()->can('view', $singleProduct), 401);
-        dd($singleProduct);
+        $categories = $singleProduct->category()
+            ->pluck('name')
+            ->toArray();
+        return view('layouts.products.product')
+            ->with([
+                    'product'=>$singleProduct,
+                    'categories'=>$categories,
+                ]);
     }
 
     /**

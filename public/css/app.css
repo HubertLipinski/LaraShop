@@ -11105,12 +11105,22 @@ html {
   margin: 0;
   padding: 0;
   font-family: "Overpass", sans-serif;
-  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
+html {
+  overflow-x: hidden;
+}
+
+.fixed-navbar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
 .container-fluid {
-  margin: 0;
+  margin: -150px 0 0;
   padding: 0;
 }
 
@@ -11125,9 +11135,14 @@ html {
 
 .landing-left {
   position: absolute;
+  max-height: 150px;
   left: 0;
-  top: -50px;
+  top: -2px;
   z-index: -1;
+}
+
+.logo {
+  width: 250px;
 }
 
 .landing-bottom {
@@ -11184,15 +11199,10 @@ html {
   border: 1px solid;
 }
 
+.basic-block,
 .products {
-  min-height: 100vh;
-  background-color: #fff;
-  border-bottom: 10px solid rgba(30, 140, 252, 0.17);
-  border-bottom-left-radius: 400px;
-}
-
-.section-header {
-  margin-top: 150px;
+  height: 100vh;
+  padding-top: 150px;
 }
 
 .product-menu .nav-link {

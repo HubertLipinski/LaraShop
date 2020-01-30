@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Policies\ProductsPolicy;
-use App\Product;
+use App\Models\Product;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 

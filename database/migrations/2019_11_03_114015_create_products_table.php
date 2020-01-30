@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->float('price');
             $table->text('description');
-            $table->string('thumbnail');
+            $table->json('thumbnail');
             $table->timestamps();
 
             $table->foreign('user_id')
