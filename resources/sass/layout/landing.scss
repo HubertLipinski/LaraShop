@@ -1,0 +1,97 @@
+body,html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Overpass', sans-serif;
+    scroll-behavior: smooth;
+}
+
+html {
+    overflow-x: hidden;
+}
+
+.fixed-navbar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.container-fluid {
+    margin: 0 -$navbar-height 0 0;
+    padding: 0;
+}
+
+.menu-bar {
+    height: $navbar-height;
+    width: 100%;
+}
+
+.landing {
+    height: 100vh;
+}
+
+.landing-left {
+    position: absolute;
+    max-height: $navbar-height;
+    left: 0;
+    top: -2px;
+    z-index: -1;
+}
+
+.logo {
+    width: 250px;
+}
+
+.landing-bottom {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.landing-cart {
+    position: absolute;
+    bottom: 35px;
+    right: 0;
+    width: 75vh;
+    height: auto;
+}
+
+.landing-text {
+    height: 100vh;
+    z-index: 1;
+}
+
+.navbar.transparent.navbar-inverse .navbar-inner {
+    border-width: 0px;
+    -webkit-box-shadow: 0px 0px;
+    box-shadow: 0px 0px;
+    background-color: rgba(0,0,0,0.0);
+    background-image: -webkit-gradient(linear, 50.00% 0.00%, 50.00% 100.00%, color-stop( 0% , rgba(0,0,0,0.00)),color-stop( 100% , rgba(0,0,0,0.00)));
+    background-image: -webkit-linear-gradient(270deg,rgba(0,0,0,0.00) 0%,rgba(0,0,0,0.00) 100%);
+    background-image: linear-gradient(180deg,rgba(0,0,0,0.00) 0%,rgba(0,0,0,0.00) 100%);
+}
+
+.nav-item {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.h1 {
+    font-weight: 900;
+}
+.btn-danger {
+    background-color: $red;
+    border: 1px solid $red;
+    color: #fff;
+}
+.btn-danger:hover {
+    background-color: $red-hover;
+    border: 1px solid $red-hover;
+    color: #121314;
+}
+
+.btn-outline-primary:hover {
+    background-color: $blue;
+    border: 1px solid;
+}
