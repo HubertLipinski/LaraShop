@@ -11326,6 +11326,11 @@ html {
   border: 1px solid #000;
 }
 
+.cart-image {
+  width: 250px;
+  height: auto;
+}
+
 /*!
  * Font Awesome Free 5.12.0 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
@@ -11379,6 +11384,7 @@ html {
 
 .fa,
 .fas,
+.shopping-cart,
 .basic-icon-setup,
 .icon-right-arrow,
 .icon-left-arrow,
@@ -11396,6 +11402,7 @@ html {
 
 .fa,
 .fas,
+.shopping-cart,
 .basic-icon-setup,
 .icon-right-arrow,
 .icon-left-arrow,
@@ -11431,6 +11438,7 @@ html {
 }
 
 .fa-lg,
+.shopping-cart,
 .basic-icon-setup,
 .icon-right-arrow,
 .icon-left-arrow,
@@ -11531,6 +11539,7 @@ html {
 
 .fa.fa-pull-left,
 .fas.fa-pull-left,
+.fa-pull-left.shopping-cart,
 .fa-pull-left.basic-icon-setup,
 .fa-pull-left.icon-right-arrow,
 .fa-pull-left.icon-left-arrow,
@@ -11545,6 +11554,7 @@ html {
 
 .fa.fa-pull-right,
 .fas.fa-pull-right,
+.fa-pull-right.shopping-cart,
 .fa-pull-right.basic-icon-setup,
 .fa-pull-right.icon-right-arrow,
 .fa-pull-right.icon-left-arrow,
@@ -17338,5 +17348,13 @@ readers do not read off random characters that represent icons */
 
 .icon-left-arrow:before {
   content: "\F0D9";
+}
+
+.shopping-cart {
+  opacity: 0.75;
+}
+
+.shopping-cart:before {
+  content: "\F07A";
 }
 

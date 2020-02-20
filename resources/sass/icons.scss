@@ -51,3 +51,12 @@
     }
 }
 
+
+.shopping-cart {
+    @extend .fas;
+    @extend .fa-lg;
+    opacity: .75;
+    &:before {
+        content: fa-content($fa-var-shopping-cart);
+    }
+}
