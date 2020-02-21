@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class CategoryPivot extends Pivot
+class CartPivot extends Pivot
 {
-    protected $table = 'category_product';
+    protected $table = 'cart_product';
 }
