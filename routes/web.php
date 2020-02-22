@@ -21,6 +21,13 @@ Route::get('/items/{id}', 'ProductController@show')->name('showProduct');
 Route::post('/items/add', 'ProductController@store')->name('addItem');
 
 Route::get('/sell', 'UserPanelController@sellView')->name('sellItem');
+Route::get('/cart', 'CartController@index')->name('cart');
+
+Route::middleware('auth')->group(function () {
+    Route::get('user/profile', function () {
+        return view('welcome');
+    })->name('user.profile');
+});
 
 
 Route::group(['prefix' => 'admin'], function () {

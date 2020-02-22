@@ -12,13 +12,13 @@
         <ul class="navbar-nav pr-5 ml-auto">
             @if(!Request::is('login', 'register'))
                 <li class="nav-item px-1">
-                    <a class="nav-link px-3" href="#start">Start</a>
+                    <a class="nav-link px-3 @if(Request::is('/')) {{'active'}} @endif" href="{{route('home')}}">Start</a>
                 </li>
                 <li class="nav-item px-1">
-                    <a class="nav-link px-3" href="#items">Przedmioty</a>
+                    <a class="nav-link px-3 @if(Request::is('items*')) {{'active'}} @endif" href="{{route('productsList')}}">Przedmioty</a>
                 </li>
                 <li class="nav-item px-1">
-                    <a class="nav-link px-3" href="{{route('sellItem')}}">Sprzedaj</a>
+                    <a class="nav-link px-3 @if(Request::is('sell')) {{'active'}} @endif" href="{{route('sellItem')}}">Sprzedaj</a>
                 </li>
             @else
                 <li class="nav-item px-1">
@@ -36,10 +36,10 @@
             @auth
                     <li class="nav-item dropdown px-1">
                         <a class="nav-link px-3 dropdown-toggle" type="button" id="profileMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="pr-2 user-icon"></i>Test1234
+                            <i class="pr-2 user-icon"></i>{{Auth::user()->name}}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="profileMenu">
-                            <a class="dropdown-item" href="#">Profil</a>
+                            <a class="dropdown-item" href="{{route('user.profile')}}">Profil</a>
                             <a class="dropdown-item" href="#">Wiadomości</a>
                             <a class="dropdown-item" href="#">Moje przedmioty</a>
                             <a class="dropdown-item" href="#">Kupione</a>
@@ -50,6 +50,9 @@
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}
                     </form>
+                    <li class="nav-item @if(Request::is('cart')) {{'active'}} @endif">
+                        <a class="nav-link d-block " href="{{route('cart')}}"><i class="shopping-cart"></i></a>
+                    </li>
             @endauth
         </ul>
     </div>

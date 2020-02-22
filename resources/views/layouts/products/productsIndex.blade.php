@@ -46,7 +46,7 @@
                                 <div class="carousel-inner">
                                     @for($i = 0; $i < count(json_decode($item->thumbnail)); $i++)
                                         <div class="carousel-item @if($i==0) active @endif">
-                                            <img src="{{route('getImages', [$item->id, $i])}}" alt="Card image cap">
+                                            <img src="{{route('getImages', [$item->id, $i])}}" alt="image for product">
                                         </div>
                                     @endfor
                                 </div>
