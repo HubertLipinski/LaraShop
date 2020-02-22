@@ -28,3 +28,8 @@ Route::middleware('auth')->group(function () {
         return view('welcome');
     })->name('user.profile');
 });
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
