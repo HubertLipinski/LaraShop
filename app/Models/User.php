@@ -40,4 +40,8 @@ class User extends \TCG\Voyager\Models\User
     public function products() {
         return $this->hasMany('App\Models\Product');
     }
+
+    public function cart() {
+        return $this->hasOne('App\Models\Cart');
+    }
 }
