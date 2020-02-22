@@ -16,30 +16,36 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>
-                        <img class="cart-image" src="{{route('getImages', [$product->id, 0])}}" alt="Card image cap">
+                    <td class="align-middle">
+                        <div class="cart-image">
+                            <img class="rounded img-fluid" src="{{route('getImages', [$product->id, 0])}}" alt="Card image cap">
+                        </div>
                     </td>
-                    <td >{{$product->name}}</td>
-                    <td>{{$product->price}}</td>
-                    <td>ilosc</td>
-                    <td>razem</td>
-                    <td>delete</td>
-                </tr>
-                <tr>
-
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Larry the Bird</td>
-                    <td>@twitter</td>
-                    <td>@twitter</td>
+                    <td class="align-middle">{{$product->name}}</td>
+                    <td class="align-middle">{{$product->price}} zł</td>
+                    <td class="align-middle">
+                        <div class="form-group cart-qty m-auto p-0 m-0">
+                            <input type="number" class="form-control" min="1" id="exampleInputPassword1" placeholder="1">
+                        </div>
+                    </td>
+                    <td class="align-middle">razem</td>
+                    <td class="align-middle">
+                        <button type="button" class="btn btn-outline-danger">
+                            Usuń <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
                 </tr>
                 </tbody>
+                <hr/>
             </table>
+            <hr/>
+            <div>
+                form z addresem
+            </div>
+            <div class="w-100 p-5 text-right">
+                <p class="h5">Do zapłaty: 123 zł</p>
+                kontynuuj
+            </div>
         </div>
     </div>
 @endsection

@@ -11219,6 +11219,11 @@ html {
   height: 130px;
 }
 
+.single-product img {
+  width: 300px;
+  height: auto;
+}
+
 .product-item-double,
 .product {
   -webkit-transition: 0.4s;
@@ -11326,9 +11331,18 @@ html {
   border: 1px solid #000;
 }
 
-.cart-image {
-  width: 250px;
+.cart-image img {
+  width: 95px;
   height: auto;
+}
+
+.nopadding tr td {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.cart-qty {
+  width: 70px;
 }
 
 /*!

@@ -1,4 +1,17 @@
 .cart-image {
-    width: 250px;
-    height: auto;
+    img {
+        width: 95px;
+        height: auto;
+    }
+}
+
+.nopadding {
+    tr td{
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+}
+
+.cart-qty {
+   width: 70px;
 }
