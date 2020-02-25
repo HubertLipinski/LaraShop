@@ -5,7 +5,7 @@
         <p class="h1">Twój koszyk</p>
         <div class="container py-2">
             <p class="h3 pt-2">1. Przedmioty</p>
-            <table class="table table-borderless table-hover text-center">
+            <table class="table table-borderless text-center">
                 <thead>
                     <tr>
                         <th scope="col" colspan="2">Produkt</th>
@@ -105,9 +105,35 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div class="cart-payment-container">
                 <p class="h3 pt-2">3. Płatność</p>
-                kafelki wybierane
+                <div class="row m-3">
+
+                    <input type="radio" id="credit-card" value="credit-card" name="payment-option">
+                    <label for="credit-card">
+                        <div class="cart-payment mr-3">
+                            <i class="credit-card"></i>
+                            <p class="font-weight-bold">Karta kredytowa</p>
+                        </div>
+                    </label>
+
+                    <input type="radio" id="paypal" value="paypal" name="payment-option">
+                    <label for="paypal">
+                        <div class="cart-payment mr-3">
+                            <i class="cc-paypal"></i>
+                            <p class="font-weight-bold">PayPal</p>
+                        </div>
+                    </label>
+
+                    <input type="radio" id="payU" value="payU" name="payment-option">
+                    <label for="payU">
+                        <div class="cart-payment">
+                            <i class="payu"></i>
+                            <p class="font-weight-bold">PayU</p>
+                        </div>
+                    </label>
+
+                </div>
             </div>
             <div class="p-5 text-right">
                 <p class="h4">Do zapłaty: <b>123 zł</b></p>

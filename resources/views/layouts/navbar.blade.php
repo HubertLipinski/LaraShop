@@ -34,6 +34,11 @@
                 </li>
             @endguest
             @auth
+                    @if(Auth::user()->role = "Admin")
+                        <li class="nav-item px-1">
+                            <a class="nav-link px-3" href="{{url('/admin')}}">Panel Admina</a>
+                        </li>
+                    @endif
                     <li class="nav-item dropdown px-1">
                         <a class="nav-link px-3 dropdown-toggle" type="button" id="profileMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="pr-2 user-icon"></i>{{Auth::user()->name}}

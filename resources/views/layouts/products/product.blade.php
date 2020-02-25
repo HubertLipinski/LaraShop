@@ -29,10 +29,10 @@
                         <p class="h3">250 zł</p>
                     </div>
                     <div class="row">
-                        <div class="col-12 d-flex align-items-center">
-                            <a href="#" class="btn btn-block p-2 favourite w-25"></a>
-                            <a href="#" class="btn btn-block btn-outline-primary w-50 ml-auto">Dodaj do koszyka</a>
-                            <a href="#" class="btn btn-block btn-danger w-50 ml-3">Kup teraz</a>
+                        <div class="col-12 d-flex align-items-center mt-2">
+                            <a href="#" class="btn btn-block favourite w-25 p-2 mr-3"></a>
+                            <a href="#" class="btn btn-block btn-outline-primary mt-0 w-50 ml-auto">Dodaj do koszyka</a>
+                            <a href="#" class="btn btn-block btn-danger mt-0 w-50 ml-3">Kup teraz</a>
                         </div>
                     </div>
                 </div>

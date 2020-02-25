@@ -19,3 +19,34 @@
 .cart-saved-address p {
     margin-bottom: 5px;
 }
+
+.cart-payment-container {
+    .cart-payment {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        width: $cart-width;
+        height: $cart-height;
+        border-radius: 15px;
+        text-align: center;
+        background-color: #fafafa;
+        border: 3px solid $cart-payment-color;
+        cursor: pointer;
+    }
+
+    input[type=radio] {
+        display: none;
+    }
+
+    input[type=radio]:checked + label .cart-payment {
+        background-color: $cart-payment-color-active;
+        border: 2px solid #fbfdff;
+        transform: scale(0.95);
+    }
+}
+
+
+
+
+
