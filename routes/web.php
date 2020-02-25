@@ -22,6 +22,7 @@ Route::post('/items/add', 'ProductController@store')->name('addItem');
 
 Route::get('/sell', 'UserPanelController@sellView')->name('sellItem');
 Route::get('/cart', 'CartController@index')->name('cart');
+Route::post('/cart/add', 'CartController@addToCart')->name('addToCart');
 
 Route::middleware('auth')->group(function () {
     Route::get('user/profile', function () {

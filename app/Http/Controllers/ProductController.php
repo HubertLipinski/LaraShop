@@ -84,7 +84,7 @@ class ProductController extends Controller
     public function show($id)
     {
         $singleProduct = $this->product->findOrFail($id);
-        abort_unless(Auth::user()->can('view', $singleProduct), 401);
+//        abort_unless(Auth::user()->can('view', $singleProduct), 401);
         $categories = $singleProduct->category()
             ->pluck('name')
             ->toArray();

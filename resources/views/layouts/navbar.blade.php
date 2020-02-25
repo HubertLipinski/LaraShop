@@ -56,7 +56,12 @@
                         {{ csrf_field() }}
                     </form>
                     <li class="nav-item @if(Request::is('cart')) {{'active'}} @endif">
-                        <a class="nav-link d-block " href="{{route('cart')}}"><i class="shopping-cart"></i></a>
+                        <a class="nav-link d-block cart-button" href="{{route('cart')}}">
+                            <i class="shopping-cart"></i>
+                            @if(count(Auth::user()->cart->items) > 0)
+                                <span class="badge badge-pill badge-primary align-text-bottom">{{Auth::user()->cart->items->count()}}</span>
+                            @endif
+                        </a>
                     </li>
             @endauth
         </ul>

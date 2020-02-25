@@ -11141,6 +11141,12 @@ html {
   z-index: -1;
 }
 
+.cart-button span {
+  position: relative;
+  top: -10px;
+  left: -10px;
+}
+
 .logo {
   width: 250px;
 }
