@@ -22,6 +22,12 @@
 .product img {
     height: 130px;
 }
+
+.single-product img {
+    width: 300px;
+    height: auto;
+}
+
 .product-item-double, .product {
     transition: $transition-time;
 }

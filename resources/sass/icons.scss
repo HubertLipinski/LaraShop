@@ -60,3 +60,27 @@
         content: fa-content($fa-var-shopping-cart);
     }
 }
+
+.credit-card {
+    @extend .far;
+    @extend .fa-3x;
+    &:before {
+        content: fa-content($fa-var-credit-card);
+        opacity: 0.8;
+    }
+}
+
+.cc-paypal {
+    @extend .fab;
+    @extend .fa-3x;
+    &:before {
+        content: fa-content($fa-var-cc-paypal);
+        color: #009cde;
+    }
+}
+
+.payu {
+    content: url("../../public/img/payu_icon.png");
+    width: 65px;
+    height: auto;
+}

@@ -34,7 +34,6 @@
             <div class="col-sm-12 col-md-9 px-3 py-1">
                 <div class="items-container m-auto">
                     @foreach($products as $item)
-
                     <div class="item p-2 m-3 border-0">
                         <div class="item-photos pt-2 pb-1">
                             <div id="item_{{$item->id}}" class="carousel slide" data-ride="false" data-interval="false">
@@ -46,7 +45,7 @@
                                 <div class="carousel-inner">
                                     @for($i = 0; $i < count(json_decode($item->thumbnail)); $i++)
                                         <div class="carousel-item @if($i==0) active @endif">
-                                            <img src="{{route('getImages', [$item->id, $i])}}" alt="image for product">
+                                            <img src="{{json_decode($item->thumbnail)[$i]}}" alt="image for product">
                                         </div>
                                     @endfor
                                 </div>

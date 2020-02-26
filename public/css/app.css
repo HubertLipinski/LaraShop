@@ -11141,6 +11141,12 @@ html {
   z-index: -1;
 }
 
+.cart-button span {
+  position: relative;
+  top: -10px;
+  left: -10px;
+}
+
 .logo {
   width: 250px;
 }
@@ -11217,6 +11223,11 @@ html {
 
 .product img {
   height: 130px;
+}
+
+.single-product img {
+  width: 300px;
+  height: auto;
 }
 
 .product-item-double,
@@ -11326,9 +11337,52 @@ html {
   border: 1px solid #000;
 }
 
-.cart-image {
-  width: 250px;
+.cart-image img {
+  width: 95px;
   height: auto;
+}
+
+.nopadding tr td {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.cart-qty {
+  width: 70px;
+}
+
+.cart-saved-address p {
+  margin-bottom: 5px;
+}
+
+.cart-payment-container .cart-payment {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+  -webkit-box-align: center;
+          align-items: center;
+  -webkit-box-pack: space-evenly;
+          justify-content: space-evenly;
+  width: 150px;
+  height: 150px;
+  border-radius: 15px;
+  text-align: center;
+  background-color: #fafafa;
+  border: 3px solid #e8eaec;
+  cursor: pointer;
+}
+
+.cart-payment-container input[type=radio] {
+  display: none;
+}
+
+.cart-payment-container input[type=radio]:checked + label .cart-payment {
+  background-color: #e4e6e8;
+  border: 2px solid #fbfdff;
+  -webkit-transform: scale(0.95);
+          transform: scale(0.95);
 }
 
 /*!
@@ -11345,7 +11399,8 @@ html {
   src: url(../fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.eot?088a34f78f530102fd9661173b4a4f26) format("embedded-opentype"), url(../fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.woff2?822d94f19fe57477865209e1242a3c63) format("woff2"), url(../fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.woff?f4920c94c0861c537f72ba36590f6362) format("woff"), url(../fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.ttf?273dc9bf9778fd37fa61357645d46a28) format("truetype"), url(../fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.svg?d72293118cda50ec50c39957d9d836d0) format("svg");
 }
 
-.fab {
+.fab,
+.cc-paypal {
   font-family: "Font Awesome 5 Brands";
 }
 
@@ -11363,7 +11418,8 @@ html {
   src: url(../fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.eot?3ac49cb33f43a6471f21ab3df40d1b1e) format("embedded-opentype"), url(../fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.woff2?9efb86976bd53e159166c12365f61e25) format("woff2"), url(../fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.woff?a57bcf76c178aee452db7a57b75509b6) format("woff"), url(../fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.ttf?ece54318791c51b52dfdc689efdb6271) format("truetype"), url(../fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.svg?d2e53334c22a9a4937bc26e84b36e1e0) format("svg");
 }
 
-.far {
+.far,
+.credit-card {
   font-family: "Font Awesome 5 Free";
   font-weight: 400;
 }
@@ -11410,9 +11466,11 @@ html {
 .favourite-saved,
 .user-icon,
 .far,
+.credit-card,
 .fal,
 .fad,
-.fab {
+.fab,
+.cc-paypal {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   display: inline-block;
@@ -11467,6 +11525,8 @@ html {
 }
 
 .fa-3x,
+.cc-paypal,
+.credit-card,
 .icon-right-arrow,
 .icon-left-arrow {
   font-size: 3em;
@@ -11547,8 +11607,10 @@ html {
 .fa-pull-left.favourite-saved,
 .fa-pull-left.user-icon,
 .far.fa-pull-left,
+.fa-pull-left.credit-card,
 .fal.fa-pull-left,
-.fab.fa-pull-left {
+.fab.fa-pull-left,
+.fa-pull-left.cc-paypal {
   margin-right: 0.3em;
 }
 
@@ -11562,8 +11624,10 @@ html {
 .fa-pull-right.favourite-saved,
 .fa-pull-right.user-icon,
 .far.fa-pull-right,
+.fa-pull-right.credit-card,
 .fal.fa-pull-right,
-.fab.fa-pull-right {
+.fab.fa-pull-right,
+.fa-pull-right.cc-paypal {
   margin-left: 0.3em;
 }
 
@@ -17356,5 +17420,21 @@ readers do not read off random characters that represent icons */
 
 .shopping-cart:before {
   content: "\F07A";
+}
+
+.credit-card:before {
+  content: "\F09D";
+  opacity: 0.8;
+}
+
+.cc-paypal:before {
+  content: "\F1F4";
+  color: #009cde;
+}
+
+.payu {
+  content: url(../images/payu_icon.png?5193116fdd97e33cf103d82099f5a041);
+  width: 65px;
+  height: auto;
 }
 

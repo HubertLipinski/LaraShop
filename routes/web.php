@@ -16,12 +16,15 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/items', 'ProductList@index')->name('productsList');
-Route::get('/items/image/{id}/{index}', 'ProductList@getImages')->name('getImages');
 Route::get('/items/{id}', 'ProductController@show')->name('showProduct');
 Route::post('/items/add', 'ProductController@store')->name('addItem');
 
 Route::get('/sell', 'UserPanelController@sellView')->name('sellItem');
 Route::get('/cart', 'CartController@index')->name('cart');
+Route::post('/cart/add', 'CartController@addToCart')->name('addToCart');
+Route::post('/cart/delete/{id}', 'CartController@deleteFromCart')->name('deleteFromCart');
+
+Route::post('/cart/checkout', 'CheckoutController@checkout')->name('cartCheckout');
 
 Route::middleware('auth')->group(function () {
     Route::get('user/profile', function () {

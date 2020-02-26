@@ -16,8 +16,8 @@
             {{implode(' · ', $categories)}}
         </p>
         <div class="row py-3">
-            <div class="col-md-6">
-                <img src="{{route('getImages', [$product->id, 0])}}" class="img-fluid" alt="">
+            <div class="col-md-6 text-center single-product">
+                <img src="{{json_decode($product->thumbnail)[0]}}" class="img-fluid" alt="">
             </div>
             <div class="col-md-6">
                 <p class="lead">Opis produktu:</p>
@@ -29,10 +29,15 @@
                         <p class="h3">250 zł</p>
                     </div>
                     <div class="row">
-                        <div class="col-12 d-flex align-items-center">
-                            <a href="#" class="btn btn-block p-2 favourite w-25"></a>
-                            <a href="#" class="btn btn-block btn-outline-primary w-50 ml-auto">Dodaj do koszyka</a>
-                            <a href="#" class="btn btn-block btn-danger w-50 ml-3">Kup teraz</a>
+                        <div class="col-12 d-flex align-items-center justify-content-end mt-2">
+                            <a href="#" class="btn btn-block favourite w-25 p-2 mr-3"></a>
+                            <a href="#" class="btn btn-block btn-outline-primary mt-0 w-50 ml-auto d-none">Dodaj do koszyka</a>
+{{--                            <a href="#" class="btn btn-block btn-danger mt-0 w-50 ml-3">Kup teraz</a>--}}
+                            <form class="w-100 m-auto" method="POST" action="{{route('addToCart')}}">
+                                @csrf
+                                <input type="hidden" name="id" value="{{$product->id}}">
+                                <button type="submit" class="btn btn-block btn-danger mt-0 w-50 ml-3 ml-auto">Dodaj do koszyka</button>
+                            </form>
                         </div>
                     </div>
                 </div>
