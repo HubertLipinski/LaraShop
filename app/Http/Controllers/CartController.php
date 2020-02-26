@@ -16,7 +16,6 @@ class CartController extends Controller
     /**
      * CartController constructor.
      * @param Product $product
-     * @param Cart $cart
      */
     public function __construct(Product $product)
     {
@@ -25,8 +24,8 @@ class CartController extends Controller
     }
 
     public function index() {
-        $product = Product::find(1);
-        return view('layouts.cart.cart')->with(['product'=>$product]);
+        $products = Auth::user()->cart->items;
+        return view('layouts.cart.cart')->with(['products'=>$products]);
     }
 
     // todo dodac request validation

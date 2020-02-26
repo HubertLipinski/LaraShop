@@ -17,7 +17,7 @@
         </p>
         <div class="row py-3">
             <div class="col-md-6 text-center single-product">
-                <img src="{{route('getImages', [$product->id, 0])}}" class="img-fluid" alt="">
+                <img src="{{json_decode($product->thumbnail)[0]}}" class="img-fluid" alt="">
             </div>
             <div class="col-md-6">
                 <p class="lead">Opis produktu:</p>

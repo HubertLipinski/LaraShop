@@ -59,7 +59,8 @@ class ProductController extends Controller
         $files = [];
         foreach($data['images'] as $image) {
             $path = Storage::put('ProductsPhotos/'.$request->user()->id, $image, 'public');
-            array_push($files, $path);
+            $link = Storage::url($path);
+            array_push($files, $link);
         }
 
         $created = $this->product->create(
@@ -68,7 +69,7 @@ class ProductController extends Controller
                 'name' => $data['name'],
                 'description' => $data['description'],
                 'price' => $data['price'],
-                'thumbnail' => json_encode($files),
+                'thumbnail' => json_encode($files, JSON_UNESCAPED_SLASHES),
             ]);
         $created->category()->attach($category->id);
 
