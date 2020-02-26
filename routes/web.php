@@ -16,8 +16,6 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/items', 'ProductList@index')->name('productsList');
-Route::get('/items/image/{id}/{index}', 'ProductList@getImages')->name('getImages');
-Route::get('/items/image/{id}/{index}/link', 'ProductList@getImagesLink')->name('getImagesLink');
 Route::get('/items/{id}', 'ProductController@show')->name('showProduct');
 Route::post('/items/add', 'ProductController@store')->name('addItem');
 
