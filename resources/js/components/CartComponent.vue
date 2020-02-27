@@ -133,7 +133,7 @@
                 </div>
                 <div class="p-5 text-right">
                     <p class="h4">Do zapłaty: <b>123 zł</b></p>
-                    <p class="text-muted">Kupon rabatowy -</p>
+<!--                    <p class="text-muted">Kupon rabatowy -</p>-->
                     <button type="submit" class="btn btn-lg btn-outline-primary py-2">Przejdź do płatności</button>
                 </div>
             </form>
