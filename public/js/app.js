@@ -1983,6 +1983,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 Vue.use(vue_csrf__WEBPACK_IMPORTED_MODULE_0___default.a);
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1991,7 +1998,9 @@ Vue.use(vue_csrf__WEBPACK_IMPORTED_MODULE_0___default.a);
   data: function data() {
     return {
       imageLinks: [],
-      productsList: {}
+      productsList: {},
+      savedAddresses: [],
+      selectedAddress: 'new_address'
     };
   },
   methods: {
@@ -2001,6 +2010,7 @@ Vue.use(vue_csrf__WEBPACK_IMPORTED_MODULE_0___default.a);
   },
   mounted: function mounted() {
     this.productsList = JSON.parse(this.products);
+    this.savedAddresses = JSON.parse(this.saved_addresses); // console.log(this.savedAddresses);
   }
 });
 
@@ -37574,94 +37584,315 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("p", { staticClass: "h1" }, [_vm._v("Twój koszyk")]),
     _vm._v(" "),
-    _c("div", { staticClass: "container py-2" }, [
-      _c("form", { attrs: { method: "POST", action: this.actionRoute } }, [
-        _c("input", {
-          attrs: { name: "_token", type: "hidden" },
-          domProps: { value: this.$csrfToken }
-        }),
-        _vm._v(" "),
-        _c("p", { staticClass: "h3 pt-2" }, [_vm._v("1. Przedmioty")]),
-        _vm._v(" "),
-        _c("table", { staticClass: "table table-borderless text-center" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c(
-            "tbody",
-            _vm._l(_vm.productsList, function(product, index) {
-              return _c("tr", [
-                _c("td", { staticClass: "align-middle" }, [
-                  _c("div", { staticClass: "cart-image" }, [
-                    _c("img", {
-                      staticClass: "rounded img-fluid",
-                      attrs: {
-                        src: JSON.parse(product.thumbnail)[0],
-                        alt: "Card image cap"
-                      }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "align-middle" }, [
-                  _vm._v(_vm._s(product.name))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "align-middle" }, [
-                  _vm._v(_vm._s(product.price) + " zł")
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "align-middle" }, [
-                  _c(
-                    "div",
-                    { staticClass: "form-group cart-qty m-auto p-0 m-0" },
-                    [
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "number",
-                          name: "qty[" + index + "]",
-                          value: "1",
-                          min: "1",
-                          placeholder: "1"
-                        }
-                      })
-                    ]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "align-middle" }, [_vm._v("razem")]),
-                _vm._v(" "),
-                _c("td", { staticClass: "align-middle" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-outline-danger",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          return _vm.deleteItem(product.id)
-                        }
-                      }
-                    },
-                    [
-                      _vm._v("\n                            Usuń "),
-                      _c("i", { staticClass: "fas fa-trash" })
-                    ]
-                  )
-                ])
-              ])
+    _vm.productsList.length > 0
+      ? _c("div", { staticClass: "container py-2" }, [
+          _c("form", { attrs: { method: "POST", action: this.actionRoute } }, [
+            _c("input", {
+              attrs: { name: "_token", type: "hidden" },
+              domProps: { value: this.$csrfToken }
             }),
-            0
-          )
-        ]),
-        _vm._v(" "),
-        _vm._m(1),
-        _vm._v(" "),
-        _vm._m(2),
-        _vm._v(" "),
-        _vm._m(3)
-      ])
-    ])
+            _vm._v(" "),
+            _c("p", { staticClass: "h3 pt-2" }, [_vm._v("1. Przedmioty")]),
+            _vm._v(" "),
+            _vm.productsList.length > 0
+              ? _c(
+                  "table",
+                  { staticClass: "table table-borderless text-center" },
+                  [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.productsList, function(product, index) {
+                        return _c("tr", [
+                          _c("td", { staticClass: "align-middle" }, [
+                            _c("div", { staticClass: "cart-image" }, [
+                              _c("img", {
+                                staticClass: "rounded img-fluid",
+                                attrs: {
+                                  src: JSON.parse(product.thumbnail)[0],
+                                  alt: "Card image cap"
+                                }
+                              })
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "align-middle" }, [
+                            _vm._v(_vm._s(product.name))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "align-middle" }, [
+                            _vm._v(_vm._s(product.price) + " zł")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "align-middle" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "form-group cart-qty m-auto p-0 m-0"
+                              },
+                              [
+                                _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "number",
+                                    name: "qty[" + index + "]",
+                                    value: "1",
+                                    min: "1",
+                                    placeholder: "1"
+                                  }
+                                })
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "align-middle" }, [
+                            _vm._v("razem")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "align-middle" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-outline-danger",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.deleteItem(product.id)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                Usuń "
+                                ),
+                                _c("i", { staticClass: "fas fa-trash" })
+                              ]
+                            )
+                          ])
+                        ])
+                      }),
+                      0
+                    )
+                  ]
+                )
+              : _c("p", { staticClass: "h5 p-3" }, [
+                  _vm._v("Nie masz żadnych przedmiotów w koszyku!")
+                ]),
+            _vm._v(" "),
+            _c("div", [
+              _c("p", { staticClass: "h3 pt-2" }, [_vm._v("2. Adres dostawy")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row px-3 py-2" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "col-md-2 d-flex align-items-center justify-content-center"
+                  },
+                  [
+                    _c("div", { staticClass: "form-group w-100" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "h5",
+                          attrs: { for: "shipping-address" }
+                        },
+                        [_vm._v("Zapisane adresy")]
+                      ),
+                      _vm._v(" "),
+                      _vm.savedAddresses.length !== 0
+                        ? _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.selectedAddress,
+                                  expression: "selectedAddress"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { id: "shipping-address" },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.selectedAddress = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "option",
+                                { attrs: { value: "new_address" } },
+                                [_vm._v("Nowy adres")]
+                              ),
+                              _vm._v(" "),
+                              _vm._l(this.savedAddresses, function(
+                                address,
+                                index
+                              ) {
+                                return _c(
+                                  "option",
+                                  { domProps: { value: index } },
+                                  [_vm._v(_vm._s(address.display_name))]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        : _c("p", { staticClass: "pl-3" }, [
+                            _vm._v(
+                              "\n                                    Brak zapisanych adresów! "
+                            ),
+                            _c("br"),
+                            _vm._v(
+                              " Możesz je dodać w ustawieniach.\n                                "
+                            )
+                          ])
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-md-10 d-flex justify-content-center" },
+                  [
+                    this.savedAddresses.length > 0 &&
+                    _vm.selectedAddress !== "new_address"
+                      ? _c("div", { staticClass: "cart-saved-address" }, [
+                          _c("p", [
+                            _c("b", [_vm._v("Imie: ")]),
+                            _vm._v(
+                              " " +
+                                _vm._s(
+                                  _vm.savedAddresses[_vm.selectedAddress].name
+                                ) +
+                                " "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _c("b", [_vm._v("Nazwisko: ")]),
+                            _vm._v(
+                              " " +
+                                _vm._s(
+                                  _vm.savedAddresses[_vm.selectedAddress]
+                                    .surname
+                                )
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _c("b", [_vm._v("Adres: ")]),
+                            _vm._v(
+                              " " +
+                                _vm._s(
+                                  _vm.savedAddresses[_vm.selectedAddress]
+                                    .address
+                                ) +
+                                " "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _c("b", [_vm._v("Kod pocztowy: ")]),
+                            _vm._v(
+                              " " +
+                                _vm._s(
+                                  _vm.savedAddresses[_vm.selectedAddress]
+                                    .zip_code
+                                ) +
+                                " "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _c("b", [_vm._v("Miasto: ")]),
+                            _vm._v(
+                              " " +
+                                _vm._s(
+                                  _vm.savedAddresses[_vm.selectedAddress].city
+                                )
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _c("b", [_vm._v("Kraj: ")]),
+                            _vm._v(
+                              " " +
+                                _vm._s(
+                                  _vm.savedAddresses[_vm.selectedAddress]
+                                    .country
+                                )
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _c("b", [_vm._v("Nr. Telefonu: ")]),
+                            _vm._v(
+                              " +" +
+                                _vm._s(
+                                  _vm.savedAddresses[_vm.selectedAddress].number
+                                ) +
+                                " "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            staticClass: "form-control",
+                            attrs: { type: "hidden", name: "saved_address" },
+                            domProps: {
+                              value: _vm.savedAddresses[_vm.selectedAddress].id
+                            }
+                          })
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    this.savedAddresses.length === 0 ||
+                    _vm.selectedAddress === "new_address"
+                      ? _c("div", { staticClass: "w-75" }, [
+                          _vm._m(1),
+                          _vm._v(" "),
+                          _vm._m(2),
+                          _vm._v(" "),
+                          _vm._m(3)
+                        ])
+                      : _vm._e()
+                  ]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._m(4),
+            _vm._v(" "),
+            _vm._m(5)
+          ])
+        ])
+      : _c(
+          "div",
+          {
+            staticClass:
+              "d-flex justify-content-center align-content-center p-5 m-5 m-auto "
+          },
+          [
+            _c("p", { staticClass: "h5 p-3" }, [
+              _vm._v("Dodaj najpierw przedmioty do koszyka!")
+            ])
+          ]
+        )
   ])
 }
 var staticRenderFns = [
@@ -37689,162 +37920,104 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("p", { staticClass: "h3 pt-2" }, [_vm._v("2. Adres dostawy")]),
+    return _c("div", { staticClass: "form-row" }, [
+      _c("div", { staticClass: "form-group col-md-6" }, [
+        _c("label", { attrs: { for: "name" } }, [_vm._v("Imie")]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: { type: "text", id: "name", name: "name", required: "" }
+        })
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "row px-3 py-2" }, [
+      _c("div", { staticClass: "form-group col-md-6" }, [
+        _c("label", { attrs: { for: "surname" } }, [_vm._v("Nazwisko")]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: { type: "text", id: "surname", name: "surname", required: "" }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-row" }, [
+      _c("div", { staticClass: "form-group col-md-8" }, [
+        _c("label", { attrs: { for: "inputAddress" } }, [_vm._v("Adres")]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            id: "inputAddress",
+            name: "address",
+            placeholder: "1234 Main St",
+            required: ""
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-4" }, [
+        _c("label", { attrs: { for: "telephone" } }, [_vm._v("Nr Telefonu")]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            id: "telephone",
+            name: "telephone",
+            required: ""
+          }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-row" }, [
+      _c("div", { staticClass: "form-group col-md-6" }, [
+        _c("label", { attrs: { for: "inputCity" } }, [_vm._v("Miasto")]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: { type: "text", id: "inputCity", name: "city", required: "" }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-4" }, [
+        _c("label", { attrs: { for: "voivodeship" } }, [_vm._v("Województwo")]),
+        _vm._v(" "),
         _c(
-          "div",
+          "select",
           {
-            staticClass:
-              "col-md-2 d-flex align-items-center justify-content-center"
+            staticClass: "form-control",
+            attrs: { id: "voivodeship", name: "voivodeship", required: "" }
           },
           [
-            _c("div", { staticClass: "form-group w-100" }, [
-              _c("label", { attrs: { for: "shipping-address" } }, [
-                _vm._v("Zapisane adresy")
-              ]),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  staticClass: "form-control",
-                  attrs: { id: "shipping-address", name: "saved_address" }
-                },
-                [
-                  _c("option", { attrs: { value: "Domowy", selected: "" } }, [
-                    _vm._v("Domowy")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "domowy2" } }, [
-                    _vm._v("Dom 2")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "poczta" } }, [
-                    _vm._v("Poczta")
-                  ])
-                ]
-              )
-            ])
+            _c("option", [_vm._v("Choose...")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("...")])
           ]
-        ),
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-2" }, [
+        _c("label", { attrs: { for: "inputZip" } }, [_vm._v("Kod pocztowy")]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-md-10 d-flex justify-content-center" }, [
-          _c("div", { staticClass: "cart-saved-address" }, [
-            _c("p", [_c("b", [_vm._v("Imie: ")]), _vm._v(" Jan ")]),
-            _vm._v(" "),
-            _c("p", [_c("b", [_vm._v("Nazwisko: ")]), _vm._v(" Nowak")]),
-            _vm._v(" "),
-            _c("p", [_c("b", [_vm._v("Adres: ")]), _vm._v(" Tymczasowa 1 ")]),
-            _vm._v(" "),
-            _c("p", [_c("b", [_vm._v("Kod pocztowy: ")]), _vm._v(" 55-032 ")]),
-            _vm._v(" "),
-            _c("p", [_c("b", [_vm._v("Miasto: ")]), _vm._v(" Poznań")]),
-            _vm._v(" "),
-            _c("p", [_c("b", [_vm._v("Kraj: ")]), _vm._v(" Polska")]),
-            _vm._v(" "),
-            _c("p", [
-              _c("b", [_vm._v("Nr. Telefonu: ")]),
-              _vm._v(" +482300101092 ")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "w-75 d-none" }, [
-            _c("div", { staticClass: "form-row" }, [
-              _c("div", { staticClass: "form-group col-md-6" }, [
-                _c("label", { attrs: { for: "name" } }, [_vm._v("Imie")]),
-                _vm._v(" "),
-                _c("input", {
-                  staticClass: "form-control",
-                  attrs: { type: "text", id: "name", name: "name" }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group col-md-6" }, [
-                _c("label", { attrs: { for: "surname" } }, [
-                  _vm._v("Nazwisko")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  staticClass: "form-control",
-                  attrs: { type: "text", id: "surname", name: "surname" }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-row" }, [
-              _c("div", { staticClass: "form-group col-md-8" }, [
-                _c("label", { attrs: { for: "inputAddress" } }, [
-                  _vm._v("Adres")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "text",
-                    id: "inputAddress",
-                    name: "address",
-                    placeholder: "1234 Main St"
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group col-md-4" }, [
-                _c("label", { attrs: { for: "telephone" } }, [
-                  _vm._v("Nr Telefonu")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  staticClass: "form-control",
-                  attrs: { type: "text", id: "telephone", name: "telephone" }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-row" }, [
-              _c("div", { staticClass: "form-group col-md-6" }, [
-                _c("label", { attrs: { for: "inputCity" } }, [
-                  _vm._v("Miasto")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  staticClass: "form-control",
-                  attrs: { type: "text", id: "inputCity", name: "city" }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group col-md-4" }, [
-                _c("label", { attrs: { for: "voivodeship" } }, [
-                  _vm._v("Województwo")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    staticClass: "form-control",
-                    attrs: { id: "voivodeship", name: "voivodeship" }
-                  },
-                  [
-                    _c("option", [_vm._v("Choose...")]),
-                    _vm._v(" "),
-                    _c("option", [_vm._v("...")])
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group col-md-2" }, [
-                _c("label", { attrs: { for: "inputZip" } }, [
-                  _vm._v("Kod pocztowy")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  staticClass: "form-control",
-                  attrs: { type: "text", id: "inputZip", name: "zip_code" }
-                })
-              ])
-            ])
-          ])
-        ])
+        _c("input", {
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            id: "inputZip",
+            name: "zip_code",
+            required: ""
+          }
+        })
       ])
     ])
   },
@@ -37861,7 +38034,8 @@ var staticRenderFns = [
             type: "radio",
             id: "credit-card",
             value: "credit-card",
-            name: "payment-option"
+            name: "payment-option",
+            required: ""
           }
         }),
         _vm._v(" "),
@@ -37880,7 +38054,8 @@ var staticRenderFns = [
             type: "radio",
             id: "paypal",
             value: "paypal",
-            name: "payment-option"
+            name: "payment-option",
+            required: ""
           }
         }),
         _vm._v(" "),
@@ -37897,7 +38072,8 @@ var staticRenderFns = [
             type: "radio",
             id: "payU",
             value: "payU",
-            name: "payment-option"
+            name: "payment-option",
+            required: ""
           }
         }),
         _vm._v(" "),
@@ -37920,8 +38096,6 @@ var staticRenderFns = [
         _vm._v("Do zapłaty: "),
         _c("b", [_vm._v("123 zł")])
       ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "text-muted" }, [_vm._v("Kupon rabatowy -")]),
       _vm._v(" "),
       _c(
         "button",

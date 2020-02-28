@@ -44,4 +44,12 @@ class User extends \TCG\Voyager\Models\User
     public function cart() {
         return $this->hasOne('App\Models\Cart');
     }
+
+    public function address() {
+        return $this->hasMany('App\Models\SavedAddress');
+    }
+
+    public function isAdmin() {
+        return $this->role()->where('name', 'admin')->exists();
+    }
 }

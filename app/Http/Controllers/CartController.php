@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Product;
+use App\Models\SavedAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,13 +24,21 @@ class CartController extends Controller
         $this->product = $product;
     }
 
-    public function index() {
+    public function index()
+    {
         $products = Auth::user()->cart->items;
-        return view('layouts.cart.cart')->with(['products'=>$products]);
+        $addresses = Auth::user()->address;
+
+        return view('layouts.cart.cart')
+            ->with([
+                'products' => $products,
+                'addresses' => $addresses,
+            ]);
     }
 
     // todo dodac request validation
-    public function addToCart(Request $request) {
+    public function addToCart(Request $request)
+    {
         $id = $request->id;
         $product = $this->product->findOrFail($id);
         $cart = Auth::user()->cart;

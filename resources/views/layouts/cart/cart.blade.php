@@ -4,7 +4,7 @@
     <cart
         action-route="{{route('cartCheckout')}}"
         products="{{$products}}"
-        saved_addresses="{{}}"
+        saved_addresses="{{$addresses}}"
     >
     </cart>
 
