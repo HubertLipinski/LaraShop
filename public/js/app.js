@@ -38034,7 +38034,7 @@ var staticRenderFns = [
             type: "radio",
             id: "credit-card",
             value: "credit-card",
-            name: "payment-option",
+            name: "payment_option",
             required: ""
           }
         }),
@@ -38054,7 +38054,7 @@ var staticRenderFns = [
             type: "radio",
             id: "paypal",
             value: "paypal",
-            name: "payment-option",
+            name: "payment_option",
             required: ""
           }
         }),
@@ -38072,7 +38072,7 @@ var staticRenderFns = [
             type: "radio",
             id: "payU",
             value: "payU",
-            name: "payment-option",
+            name: "payment_option",
             required: ""
           }
         }),

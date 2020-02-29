@@ -9,6 +9,7 @@ class SavedAddress extends Model
     protected $table = 'user_saved_addresses';
 
     protected $fillable = [
+        'user_id',
         'display_name',
         'name',
         'surname',
@@ -17,6 +18,11 @@ class SavedAddress extends Model
         'city',
         'country',
         'number',
+    ];
+
+    protected $attributes = [
+        'country' => 'Polska',
+        'display_name' => 'Bez Nazwy',
     ];
 
     public function user() {

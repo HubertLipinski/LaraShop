@@ -5,7 +5,6 @@ namespace App\Services\Payments;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
-use PhpParser\Node\Scalar\String_;
 
 class Payment implements iPayment
 {

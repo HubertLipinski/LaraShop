@@ -110,7 +110,7 @@
                 <div class="cart-payment-container">
                     <p class="h3 pt-2">3. Płatność</p>
                     <div class="row m-3">
-                        <input type="radio" id="credit-card" value="credit-card" name="payment-option" required>
+                        <input type="radio" id="credit-card" value="credit-card" name="payment_option" required>
                         <label for="credit-card">
                             <div class="cart-payment mr-3">
                                 <i class="credit-card"></i>
@@ -118,7 +118,7 @@
                             </div>
                         </label>
 
-                        <input type="radio" id="paypal" value="paypal" name="payment-option" required>
+                        <input type="radio" id="paypal" value="paypal" name="payment_option" required>
                         <label for="paypal">
                             <div class="cart-payment mr-3">
                                 <i class="cc-paypal"></i>
@@ -126,7 +126,7 @@
                             </div>
                         </label>
 
-                        <input type="radio" id="payU" value="payU" name="payment-option" required>
+                        <input type="radio" id="payU" value="payU" name="payment_option" required>
                         <label for="payU">
                             <div class="cart-payment">
                                 <i class="payu"></i>
