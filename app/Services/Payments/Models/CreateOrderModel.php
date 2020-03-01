@@ -2,37 +2,56 @@
 
 namespace App\Services\Payments\Models;
 
-use App\Models\SavedAddress;
-use App\Models\User;
 use Illuminate\Contracts\Support\Arrayable;
 
 class CreateOrderModel implements Arrayable
 {
 
-    private $config;
-    private $address;
-    private $buyer;
+    private $payuData;
+    private $paymentUserData;
     private $products;
+    private $description;
+    private $amount;
 
 
-    public function __construct(User $user, SavedAddress $address)
+    public function __construct(PaymentPayuData $payuData, PaymentUserData $paymentUserData)
     {
-//        $this->createFromSavedAddress($address);
+        $this->payuData = $payuData;
+        $this->paymentUserData = $paymentUserData;
+        $this->description = 'Testowa płatność';
+        $this->amount = 100;
     }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @param int $amount
+     */
+    public function setAmount(int $amount): void
+    {
+        $this->amount = $amount;
+    }
+
 
     public function toArray(): array
     {
         return [
-                'notifyUrl'=> 'notifyurl',
-                'continueUrl'=> config('app.url'),
-                'customerIp' => request()->ip(),
-                'merchantPosId' => config('payment.payU.pos_id'),
+                'notifyUrl'=> $this->payuData->getNotifyUrl(),
+                'continueUrl'=> $this->payuData->getContinueUrl(),
+                'customerIp' => $this->payuData->getCustomerIp(),
+                'merchantPosId' => $this->payuData->getMerchantPosId(),
 
-                'description' => 'Testowa platność',
+                'description' => $this->description,
                 'currencyCode' => 'PLN',
-                'totalAmount' => '100',
+                'totalAmount' => $this->amount,
 
-                "buyer" => $this->address->toArray(),
+                'buyer' => $this->paymentUserData->toArray(),
 
                 'settings' => [
                     "invoiceDisabled" => "true"

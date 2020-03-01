@@ -4,6 +4,8 @@ namespace App\Services\Payments;
 
 use App\Models\SavedAddress;
 use App\Models\User;
+use App\Services\Payments\Models\CreateOrderModel;
+use App\Services\Payments\Models\PaymentPayuData;
 use App\Services\Payments\Models\PaymentUserData;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -12,22 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Payment implements iPayment
 {
-    private $client;
-
-    private $config;
     private $address;
-    private $buyer;
-    private $products;
-
-    /**
-     * Payment constructor.
-     * @param User $user
-     * @param SavedAddress $address
-     */
-    public function __construct(User $user)
-    {
-        //
-    }
 
     /**
      * @param PaymentUserData $address
@@ -79,41 +66,22 @@ class Payment implements iPayment
         $token = $this->getToken();
         $client = $this->createHttp($token);
 
-        $notifyUrl = config('app.url').'/api/pay-u/notify';
+        $createOrderModel = new CreateOrderModel(
+            new PaymentPayuData(),
+            $this->address
+        );
+        $createOrderModel->setDescription('Platnosc testowa');
+        $createOrderModel->setAmount(200);
 
-        $data = [
-            'notifyUrl'=> $notifyUrl,
-            'continueUrl'=> config('app.url'),
-            'customerIp' => request()->ip(),
-            'merchantPosId' => config('payment.payU.pos_id'),
-            'description' => 'Testowa platność',
-            'currencyCode' => 'PLN',
-            'totalAmount' => '100',
-
-            "buyer" => $this->address->toArray(),
-
-            'settings' => [
-                "invoiceDisabled" => "true"
-            ],
-
-            'products' => [
-                [
-                    'name' => 't',
-                    'unitPrice' => '100',
-                    'quantity' => '1'
-                ]
-            ],
-        ];
-
-        $formData = json_encode($data);
+        $formData = json_encode($createOrderModel->toArray());
 
         $request = new Request('POST',
             config('payment.payU.order_endpoint'),
             $client->getConfig('headers'),
             $formData
         );
+        $response = $client->send($request, ['allow_redirects' => false]); // todo create model for response
 
-        $response = $client->send($request, ['allow_redirects' => false]);
         $data = json_decode($response->getBody(), true);
 
         return $data['redirectUri'];
