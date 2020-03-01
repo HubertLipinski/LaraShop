@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Payments;
 use App\Http\Controllers\Controller;
 use App\Services\Payments\Payment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-class PaymentController extends Controller
+class PayUController extends Controller
 {
 
     protected $payment;
@@ -24,7 +23,7 @@ class PaymentController extends Controller
 
     public function notify(Request $request) {
 
-        Log::debug("Data from PayU",["request"=>$request->all()]);
+        Log::debug("Data from PayU", ["request"=>$request->all()]);
 
         return response("OK", 200);
     }

@@ -17,6 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Route::middleware('auth')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+
+Route::prefix('pay-u')->group(function () {
+    Route::post('notify','Payments\PayUController@notify');
+});

@@ -6,6 +6,7 @@ use App\Http\Requests\CreateCheckoutRequest;
 use App\Models\SavedAddress;
 use App\Models\User;
 use App\Services\Payments\Models\CreateOrderModel;
+use App\Services\Payments\Models\PaymentUserData;
 use App\Services\Payments\Payment;
 use App\Providers\PaymentProvider;
 use Illuminate\Http\Request;
@@ -39,12 +40,11 @@ class CheckoutController extends Controller
             $address = SavedAddress::findOrFail($id);
         }
 
-        $orderModel = new CreateOrderModel(Auth::user());
-        $orderModel->createFromSavedAddress($address);
+//        $orderModel = new PaymentUserData(Auth::user(), $address);
 
-        dd($orderModel->toArray());
-
+        $this->payment->setAddress($address);
         $url = $this->payment->createOrder();
+
         return redirect($url);
     }
 }

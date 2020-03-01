@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\Payments\iPayment;
 use App\Services\Payments\Payment;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use GuzzleHttp\Client;
 
