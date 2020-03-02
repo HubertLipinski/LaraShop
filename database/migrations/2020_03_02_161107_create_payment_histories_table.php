@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCartsTable extends Migration
+class CreatePaymentHistoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,21 @@ class CreateCartsTable extends Migration
      */
     public function up()
     {
-        Schema::create('carts', function (Blueprint $table) {
+        Schema::create('payment_histories', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')
-                ->unsigned();
-            $table->string('coupon')
-                ->nullable();
-            $table->boolean('has_discount')
-                ->default(0);
-            $table->softDeletes();
+            $table->integer('user_id')->unsigned();
+            $table->integer('order_id')->unsigned();
+            $table->string('payment_provider_order_id');
+            $table->string('order_status');
             $table->timestamps();
 
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users');
+
+            $table->foreign('order_id')
+                ->references('id')
+                ->on('orders');
         });
     }
 
@@ -37,6 +38,6 @@ class CreateCartsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('carts');
+        Schema::dropIfExists('payment_histories');
     }
 }

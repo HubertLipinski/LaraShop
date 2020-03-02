@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Services\Payments\Models\CreateOrderModel;
 use App\Services\Payments\Models\PaymentPayuData;
 use App\Services\Payments\Models\PaymentUserData;
+use App\Services\Payments\Models\PayuResponseModel;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
@@ -50,11 +51,12 @@ class Payment implements iPayment
                     'client_secret' => config('payment.payU.client_secret'),
                 ]
             ]);
+            $responseModel = new PayuResponseModel($response);
         } catch(GuzzleException $exception) {
             abort(401, $exception->getMessage());
         }
 
-        return json_decode($response->getBody(), true)['access_token'];
+        return $responseModel->getToken();
     }
 
     /**
@@ -82,8 +84,8 @@ class Payment implements iPayment
         );
         $response = $client->send($request, ['allow_redirects' => false]); // todo create model for response
 
-        $data = json_decode($response->getBody(), true);
+        $responseModel = new PayuResponseModel($response);
 
-        return $data['redirectUri'];
+        return $responseModel->getRedirectUri();
     }
 }
