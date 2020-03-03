@@ -25,7 +25,7 @@ class Payment implements iPayment
         $this->address = new PaymentUserData(Auth::user(), $address);
     }
 
-    protected function createHttp(String $token = ''): Client
+    protected function createHttp(String $token = ""): Client
     {
         $headers = [
             'Content-Type' => 'application/json',
@@ -75,14 +75,14 @@ class Payment implements iPayment
         $createOrderModel->setDescription('Platnosc testowa');
         $createOrderModel->setAmount(200);
 
-        $formData = json_encode($createOrderModel->toArray());
+        $formData = $createOrderModel->toJson();
 
         $request = new Request('POST',
             config('payment.payU.order_endpoint'),
             $client->getConfig('headers'),
             $formData
         );
-        $response = $client->send($request, ['allow_redirects' => false]); // todo create model for response
+        $response = $client->send($request, ['allow_redirects' => false]);
 
         $responseModel = new PayuResponseModel($response);
 
