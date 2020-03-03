@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
+use App\Http\Requests\CartDeleteItemRequest;
 use App\Models\Product;
-use App\Models\SavedAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CartController extends Controller
 {
@@ -53,5 +53,22 @@ class CartController extends Controller
         } else {
             return back()->with(['message'=>'Masz już ten przedmiot w koszyku!']);
         }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param CartDeleteItemRequest $request
+     * @return JsonResponse
+     */
+    public function destroy(CartDeleteItemRequest $request) : JsonResponse
+    {
+        $cart = Auth::user()->cart;
+        $data = $request->validated();
+        $singleProduct = $cart->items()->findOrFail($data['id']);
+//       abort_unless(Auth::user()->can('delete', $singleProduct), 401);
+
+        $cart->items()->detach($singleProduct);
+        return response()->json('Pomyślnie usunięto przedmiot!');
     }
 }

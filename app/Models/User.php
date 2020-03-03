@@ -42,7 +42,7 @@ class User extends \TCG\Voyager\Models\User
     }
 
     public function cart() {
-        return $this->hasOne('App\Models\Cart');
+        return $this->hasOne('App\Models\Cart', 'user_id');
     }
 
     public function address() {

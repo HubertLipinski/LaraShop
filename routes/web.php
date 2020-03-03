@@ -22,7 +22,7 @@ Route::post('/items/add', 'ProductController@store')->name('addItem');
 Route::get('/sell', 'UserPanelController@sellView')->name('sellItem');
 Route::get('/cart', 'CartController@index')->name('cart');
 Route::post('/cart/add', 'CartController@addToCart')->name('addToCart');
-Route::post('/cart/delete/{id}', 'CartController@deleteFromCart')->name('deleteFromCart');
+Route::post('/cart/delete', 'CartController@destroy')->name('deleteFromCart');
 
 Route::post('/cart/checkout', 'CheckoutController@checkout')->name('cartCheckout');
 

@@ -156,6 +156,7 @@
         props: ['actionRoute', 'products', 'saved_addresses', 'errors'],
         data() {
             return {
+                response: '',
                 imageLinks: [],
                 productsList: {},
                 savedAddresses: [],
@@ -163,16 +164,30 @@
             }
         },
         methods: {
-          deleteItem(id) {
-              this.productsList.splice(-1, 1);
-              //ajax request to delete from cart
-          },
-
+            async requestDelete(id) {
+              let currentObj = this;
+              await axios.post('cart/delete', {id: id})
+                  .then((response) => {
+                      currentObj.response = response;
+                      // todo add modal
+                 })
+                  .catch((err) => {
+                      console.log("[Dev] Błąd podczas usuwania z koszyka:", err);
+                      //todo add modal
+                 });
+            },
+            deleteItem(id) {
+                this.requestDelete(id)
+                    .then(() => {
+                        if(this.response.status === 200) {
+                            this.productsList.splice(-1, 1);
+                        }
+                    })
+            },
         },
         mounted() {
             this.productsList = JSON.parse(this.products);
             this.savedAddresses = JSON.parse(this.saved_addresses);
-            // console.log(this.savedAddresses);
         }
     }
 </script>
