@@ -2010,6 +2010,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 Vue.use(vue_csrf__WEBPACK_IMPORTED_MODULE_1___default.a);
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2018,6 +2021,9 @@ Vue.use(vue_csrf__WEBPACK_IMPORTED_MODULE_1___default.a);
   data: function data() {
     return {
       response: '',
+      productTotal: [],
+      orderItemPrice: [],
+      orderTotal: 0,
       imageLinks: [],
       productsList: {},
       savedAddresses: [],
@@ -2058,19 +2064,42 @@ Vue.use(vue_csrf__WEBPACK_IMPORTED_MODULE_1___default.a);
 
       return requestDelete;
     }(),
-    deleteItem: function deleteItem(id) {
+    deleteItem: function deleteItem(id, index) {
       var _this = this;
 
       this.requestDelete(id).then(function () {
         if (_this.response.status === 200) {
-          _this.productsList.splice(-1, 1);
+          _this.productsList.splice(index, 1);
+
+          _this.orderItemPrice.splice(index, 1);
         }
       });
+    },
+    calculateTotal: function calculateTotal(price, index) {
+      var total = price * this.productTotal[index];
+      this.orderItemPrice[index] = total;
+      return total;
+    },
+    calculateOrderTotal: function calculateOrderTotal() {
+      // this.orderItemPrice.forEach((item, index) => {
+      //     console.log(item, index);
+      //     this.orderTotal += parseInt(item)
+      // });
+      this.orderTotal = this.orderItemPrice.reduce(function (a, b) {
+        return a + b;
+      }, 0);
+      return this.orderTotal;
     }
   },
   mounted: function mounted() {
+    var _this2 = this;
+
     this.productsList = JSON.parse(this.products);
     this.savedAddresses = JSON.parse(this.saved_addresses);
+    this.productsList.forEach(function (item, index) {
+      _this2.productTotal[index] = 1;
+      _this2.orderItemPrice[index] = item.price;
+    });
   }
 });
 
@@ -38400,77 +38429,123 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "tbody",
-                      _vm._l(_vm.productsList, function(product, index) {
-                        return _c("tr", [
-                          _c("td", { staticClass: "align-middle" }, [
-                            _c("div", { staticClass: "cart-image" }, [
-                              _c("img", {
-                                staticClass: "rounded img-fluid",
-                                attrs: {
-                                  src: JSON.parse(product.thumbnail)[0],
-                                  alt: "Card image cap"
-                                }
-                              })
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("td", { staticClass: "align-middle" }, [
-                            _vm._v(_vm._s(product.name))
-                          ]),
-                          _vm._v(" "),
-                          _c("td", { staticClass: "align-middle" }, [
-                            _vm._v(_vm._s(product.price) + " zł")
-                          ]),
-                          _vm._v(" "),
-                          _c("td", { staticClass: "align-middle" }, [
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "form-group cart-qty m-auto p-0 m-0"
-                              },
-                              [
-                                _c("input", {
-                                  staticClass: "form-control",
+                      [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(_vm.orderItemPrice) +
+                            "\n                    "
+                        ),
+                        _vm._l(_vm.productsList, function(product, index) {
+                          return _c("tr", [
+                            _c("td", { staticClass: "align-middle" }, [
+                              _c("div", { staticClass: "cart-image" }, [
+                                _c("img", {
+                                  staticClass: "rounded img-fluid",
                                   attrs: {
-                                    type: "number",
-                                    name: "qty[" + index + "]",
-                                    value: "1",
-                                    min: "1",
-                                    placeholder: "1"
+                                    src: JSON.parse(product.thumbnail)[0],
+                                    alt: "Card image cap"
                                   }
                                 })
-                              ]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("td", { staticClass: "align-middle" }, [
-                            _vm._v("razem")
-                          ]),
-                          _vm._v(" "),
-                          _c("td", { staticClass: "align-middle" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-outline-danger",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.deleteItem(product.id)
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "align-middle" }, [
+                              _vm._v(_vm._s(product.name))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "align-middle" }, [
+                              _vm._v(_vm._s(product.price) + " zł")
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "align-middle" }, [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "form-group cart-qty m-auto p-0 m-0"
+                                },
+                                [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model.number",
+                                        value: _vm.productTotal[index],
+                                        expression: "productTotal[index]",
+                                        modifiers: { number: true }
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "number",
+                                      name: "items_list[" + index + "][qty]",
+                                      value: "1",
+                                      min: "1",
+                                      placeholder: "1"
+                                    },
+                                    domProps: {
+                                      value: _vm.productTotal[index]
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.productTotal,
+                                          index,
+                                          _vm._n($event.target.value)
+                                        )
+                                      },
+                                      blur: function($event) {
+                                        return _vm.$forceUpdate()
+                                      }
+                                    }
+                                  })
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "align-middle" }, [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.calculateTotal(product.price, index)
+                                ) + " zł"
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "align-middle" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-outline-danger",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.deleteItem(product.id, index)
+                                    }
                                   }
-                                }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                Usuń "
+                                  ),
+                                  _c("i", { staticClass: "fas fa-trash" })
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              attrs: {
+                                type: "hidden",
+                                name: "items_list[" + index + "][id]"
                               },
-                              [
-                                _vm._v(
-                                  "\n                                Usuń "
-                                ),
-                                _c("i", { staticClass: "fas fa-trash" })
-                              ]
-                            )
+                              domProps: { value: product.id }
+                            })
                           ])
-                        ])
-                      }),
-                      0
+                        })
+                      ],
+                      2
                     )
                   ]
                 )
@@ -38675,7 +38750,26 @@ var render = function() {
             _vm._v(" "),
             _vm._m(4),
             _vm._v(" "),
-            _vm._m(5)
+            _c("div", { staticClass: "p-5 text-right" }, [
+              _c("p", { staticClass: "h4" }, [
+                _vm._v("Do zapłaty: "),
+                _c("b", [_vm._v(_vm._s(_vm.calculateOrderTotal()) + " zł")])
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                attrs: { type: "hidden", name: "total_price" },
+                domProps: { value: _vm.orderTotal }
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-lg btn-outline-primary py-2",
+                  attrs: { type: "submit" }
+                },
+                [_vm._v("Przejdź do płatności")]
+              )
+            ])
           ])
         ])
       : _c(
@@ -38882,26 +38976,6 @@ var staticRenderFns = [
           ])
         ])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "p-5 text-right" }, [
-      _c("p", { staticClass: "h4" }, [
-        _vm._v("Do zapłaty: "),
-        _c("b", [_vm._v("123 zł")])
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-lg btn-outline-primary py-2",
-          attrs: { type: "submit" }
-        },
-        [_vm._v("Przejdź do płatności")]
-      )
     ])
   }
 ]

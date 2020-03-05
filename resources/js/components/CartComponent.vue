@@ -16,6 +16,7 @@
                     </tr>
                     </thead>
                     <tbody>
+                    {{orderItemPrice}}
                     <tr v-for="(product, index) in productsList">
                         <td class="align-middle">
                             <div class="cart-image">
@@ -26,15 +27,16 @@
                         <td class="align-middle">{{product.price}} zł</td>
                         <td class="align-middle">
                             <div class="form-group cart-qty m-auto p-0 m-0">
-                                <input type="number" :name="'qty['+index+']'" class="form-control" value="1" min="1" placeholder="1">
+                                <input type="number" :name="'items_list['+index+'][qty]'" class="form-control" value="1" min="1" placeholder="1" v-model.number="productTotal[index]">
                             </div>
                         </td>
-                        <td class="align-middle">razem</td>
+                        <td class="align-middle">{{calculateTotal(product.price, index)}} zł</td>
                         <td class="align-middle">
-                            <button type="button" class="btn btn-outline-danger" @click="deleteItem(product.id)">
+                            <button type="button" class="btn btn-outline-danger" @click="deleteItem(product.id, index)">
                                 Usuń <i class="fas fa-trash"></i>
                             </button>
                         </td>
+                        <input type="hidden" :name="'items_list['+index+'][id]'" :value="product.id">
                     </tr>
                     </tbody>
                 </table>
@@ -136,8 +138,9 @@
                     </div>
                 </div>
                 <div class="p-5 text-right">
-                    <p class="h4">Do zapłaty: <b>123 zł</b></p>
+                    <p class="h4">Do zapłaty: <b>{{calculateOrderTotal()}} zł</b></p>
 <!--                    <p class="text-muted">Kupon rabatowy -</p>-->
+                    <input type="hidden" name="total_price" :value="orderTotal">
                     <button type="submit" class="btn btn-lg btn-outline-primary py-2">Przejdź do płatności</button>
                 </div>
             </form>
@@ -157,6 +160,9 @@
         data() {
             return {
                 response: '',
+                productTotal: [],
+                orderItemPrice: [],
+                orderTotal: 0,
                 imageLinks: [],
                 productsList: {},
                 savedAddresses: [],
@@ -176,18 +182,36 @@
                       //todo add modal
                  });
             },
-            deleteItem(id) {
+            deleteItem(id, index) {
                 this.requestDelete(id)
                     .then(() => {
                         if(this.response.status === 200) {
-                            this.productsList.splice(-1, 1);
+                            this.productsList.splice(index, 1);
+                            this.orderItemPrice.splice(index, 1);
                         }
                     })
             },
+            calculateTotal(price, index) {
+                let total = price * this.productTotal[index];
+                this.orderItemPrice[index] = total;
+                return total;
+            },
+            calculateOrderTotal() {
+                // this.orderItemPrice.forEach((item, index) => {
+                //     console.log(item, index);
+                //     this.orderTotal += parseInt(item)
+                // });
+                this.orderTotal = this.orderItemPrice.reduce((a,b) => a + b, 0);
+                return this.orderTotal;
+            }
         },
         mounted() {
             this.productsList = JSON.parse(this.products);
             this.savedAddresses = JSON.parse(this.saved_addresses);
+            this.productsList.forEach((item, index) => {
+                this.productTotal[index] = 1;
+                this.orderItemPrice[index] = item.price;
+            })
         }
     }
 </script>

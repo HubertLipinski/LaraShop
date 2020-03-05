@@ -26,6 +26,10 @@ class CreateCheckoutRequest extends FormRequest
         return [
             'saved_address' => 'sometimes|required|string',
             'payment_option' => 'required|string',
+            'items_list' => 'required|array',
+            'items_list.*.qty' => 'required|integer',
+            'items_list.*.id' => 'required|integer',
+            'total_price' => 'required|integer|nullable|min:1',
 
             'name' => 'sometimes|required_without:saved_address,',
             'surname' => 'sometimes|required_without:saved_address',

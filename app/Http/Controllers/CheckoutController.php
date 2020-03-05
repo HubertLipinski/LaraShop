@@ -40,7 +40,7 @@ class CheckoutController extends Controller
             $address = SavedAddress::findOrFail($id);
         }
 
-//        $orderModel = new PaymentUserData(Auth::user(), $address);
+        dd($fields);
 
         $this->payment->setAddress($address);
         $url = $this->payment->createOrder();

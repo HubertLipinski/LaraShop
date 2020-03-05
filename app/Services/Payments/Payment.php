@@ -16,16 +16,18 @@ use Illuminate\Support\Facades\Auth;
 class Payment implements iPayment
 {
     private $address;
+    private $products;
 
     /**
-     * @param PaymentUserData $address
+     * @param SavedAddress $address
      */
     public function setAddress(SavedAddress $address): void
     {
         $this->address = new PaymentUserData(Auth::user(), $address);
     }
 
-    protected function createHttp(String $token = ""): Client
+
+    protected function createHttp(string $token = ""): Client
     {
         $headers = [
             'Content-Type' => 'application/json',
