@@ -10,17 +10,18 @@ class CreateOrderModel implements Arrayable, Jsonable
 
     private $payuData;
     private $paymentUserData;
-    private $products;
+    private $paymentProductList;
     private $description;
     private $amount;
 
 
-    public function __construct(PaymentPayuData $payuData, PaymentUserData $paymentUserData)
+    public function __construct(PaymentPayuData $payuData, PaymentUserData $paymentUserData, PaymentProductList $paymentProductList)
     {
         $this->payuData = $payuData;
         $this->paymentUserData = $paymentUserData;
         $this->description = 'Testowa płatność';
         $this->amount = 100;
+        $this->paymentProductList = $paymentProductList;
     }
 
     /**
@@ -36,7 +37,7 @@ class CreateOrderModel implements Arrayable, Jsonable
      */
     public function setAmount(int $amount): void
     {
-        $this->amount = $amount;
+        $this->amount = $amount * 100;
     }
 
 
@@ -58,13 +59,7 @@ class CreateOrderModel implements Arrayable, Jsonable
                     "invoiceDisabled" => "true"
                 ],
 
-                'products' => [
-                    [
-                        'name' => 't',
-                        'unitPrice' => '100',
-                        'quantity' => '1'
-                    ]
-                ],
+                'products' => $this->paymentProductList->toArray()
             ];
     }
 

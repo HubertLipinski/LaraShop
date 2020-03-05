@@ -19,7 +19,7 @@ class CreateOrdersTable extends Migration
                 ->unsigned();
             $table->integer('cart_id')
                 ->unsigned();
-            $table->integer('payment_id')
+            $table->integer('payment_histories_id')
                 ->unsigned();
             $table->float('value');
             $table->string('status');

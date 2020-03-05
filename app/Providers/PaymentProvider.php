@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Order;
+use App\Models\PaymentHistory;
 use App\Services\Payments\iPayment;
 use App\Services\Payments\Payment;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +20,10 @@ class PaymentProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(iPayment::class, function (){
-            return new Payment();
+            return new Payment(
+                Order::class,
+                PaymentHistory::class
+            );
         });
     }
 

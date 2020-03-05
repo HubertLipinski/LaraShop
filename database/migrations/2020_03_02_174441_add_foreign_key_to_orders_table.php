@@ -18,7 +18,7 @@ class AddForeignKeyToOrdersTable extends Migration
                 ->references('id')
                 ->on('user_saved_addresses');
 
-            $table->foreign('payment_id')
+            $table->foreign('payment_histories_id')
                 ->references('id')
                 ->on('payment_histories');
         });

@@ -16,7 +16,6 @@ class CreatePaymentHistoriesTable extends Migration
         Schema::create('payment_histories', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('order_id')->unsigned();
             $table->string('payment_provider_order_id');
             $table->string('order_status');
             $table->timestamps();
@@ -24,10 +23,6 @@ class CreatePaymentHistoriesTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users');
-
-            $table->foreign('order_id')
-                ->references('id')
-                ->on('orders');
         });
     }
 

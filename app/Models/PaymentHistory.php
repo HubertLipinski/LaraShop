@@ -10,7 +10,6 @@ class PaymentHistory extends Model
 
     protected $fillable = [
         'user_id',
-        'order_id',
         'payment_provider_order_id',
         'order_status'
     ];

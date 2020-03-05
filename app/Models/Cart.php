@@ -11,18 +11,17 @@ class Cart extends Model
 
     protected $table = 'carts';
 
-//    protected $casts = ['deleted_at' => 'string'];
-
     public function user() {
         return $this->belongsTo('App\Models\User', 'user_id');
     }
 
     public function items() {
-        return $this->belongsToMany('App\Models\Product')
+        return $this->belongsToMany('App\Models\Product', 'cart_product')
             ->using('App\Models\CartPivot')
             ->withPivot([
                 'cart_id',
-                'product_id'
+                'product_id',
+                'qty'
             ]);
     }
 }

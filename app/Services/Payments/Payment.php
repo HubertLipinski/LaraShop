@@ -2,21 +2,41 @@
 
 namespace App\Services\Payments;
 
+use App\Models\Order;
+use App\Models\PaymentHistory;
 use App\Models\SavedAddress;
 use App\Models\User;
 use App\Services\Payments\Models\CreateOrderModel;
 use App\Services\Payments\Models\PaymentPayuData;
+use App\Services\Payments\Models\PaymentProductList;
+use App\Services\Payments\Models\PaymentProductModel;
 use App\Services\Payments\Models\PaymentUserData;
 use App\Services\Payments\Models\PayuResponseModel;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class Payment implements iPayment
 {
+    private $orderModel;
+    private $paymentHistoryModel;
     private $address;
-    private $products;
+    private $amount;
+    private $paymentProductList;
+
+    /**
+     * Payment constructor.
+     * @param Order $order
+     * @param PaymentHistory $paymentHistory
+     */
+    public function __construct(Order $order, PaymentHistory $paymentHistory)
+    {
+        $this->orderModel = $order;
+        $this->paymentHistoryModel = $paymentHistory;
+    }
+
 
     /**
      * @param SavedAddress $address
@@ -26,6 +46,27 @@ class Payment implements iPayment
         $this->address = new PaymentUserData(Auth::user(), $address);
     }
 
+    /**
+     * @param mixed $products
+     */
+    public function setProducts(Collection $products): void
+    {
+        $paymentProductList = new PaymentProductList();
+        foreach ($products as $product) {
+            $paymentProduct = new PaymentProductModel(
+                $product->name,
+                $product->price,
+                $product->pivot->qty
+            );
+            $paymentProductList->add($paymentProduct);
+        }
+        $this->paymentProductList = $paymentProductList;
+    }
+
+    public function setAmount(int $amount)
+    {
+        $this->amount = $amount;
+    }
 
     protected function createHttp(string $token = ""): Client
     {
@@ -66,28 +107,40 @@ class Payment implements iPayment
      */
     public function createOrder()
     {
-
         $token = $this->getToken();
         $client = $this->createHttp($token);
 
         $createOrderModel = new CreateOrderModel(
             new PaymentPayuData(),
-            $this->address
+            $this->address,
+            $this->paymentProductList
         );
         $createOrderModel->setDescription('Platnosc testowa');
-        $createOrderModel->setAmount(200);
+        $createOrderModel->setAmount($this->amount);
+
+        //todo add
+//        $this->order->create([
+//
+//        ]);
 
         $formData = $createOrderModel->toJson();
-
         $request = new Request('POST',
             config('payment.payU.order_endpoint'),
             $client->getConfig('headers'),
             $formData
         );
-        $response = $client->send($request, ['allow_redirects' => false]);
 
+        $response = $client->send($request, ['allow_redirects' => false]);
         $responseModel = new PayuResponseModel($response);
 
+        $this->clearCart();
+
         return $responseModel->getRedirectUri();
+    }
+
+    private function clearCart()
+    {
+        $cart = Auth::user()->cart;
+        $cart->items()->detach();
     }
 }
