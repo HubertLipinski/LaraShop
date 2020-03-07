@@ -37,7 +37,6 @@ class Payment implements iPayment
         $this->paymentHistoryModel = $paymentHistory;
     }
 
-
     /**
      * @param SavedAddress $address
      */
