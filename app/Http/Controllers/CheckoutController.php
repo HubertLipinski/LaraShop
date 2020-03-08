@@ -52,9 +52,17 @@ class CheckoutController extends Controller
         $this->payment->setAddress($address);
         $this->payment->setProducts($productList);
         $this->payment->setAmount($fields['total_price']);
-        $url = $this->payment->createOrder();
+        $orderDetails = $this->payment->createOrder();
 
-        return redirect($url);
+       $this->order->create([
+           'user_address_id' => $address->id,
+           'cart_id' => Auth::user()->cart->id,
+           'payment_histories_id' => $orderDetails['paymentId'],
+           'value' => $fields['total_price'],
+           'status' => $orderDetails['paymentStatus'],
+       ]);
+
+        return redirect($orderDetails['redirectUri']);
     }
 
     private function updateProducts(array $products): Collection

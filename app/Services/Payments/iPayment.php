@@ -7,5 +7,5 @@ interface iPayment
     /**
      * @return mixed
      */
-    public function createOrder();
+    public function createOrder(): array;
 }

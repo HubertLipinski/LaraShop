@@ -5,7 +5,6 @@ namespace App\Services\Payments;
 use App\Models\Order;
 use App\Models\PaymentHistory;
 use App\Models\SavedAddress;
-use App\Models\User;
 use App\Services\Payments\Models\CreateOrderModel;
 use App\Services\Payments\Models\PaymentPayuData;
 use App\Services\Payments\Models\PaymentProductList;
@@ -104,7 +103,7 @@ class Payment implements iPayment
     /**
      * @return mixed
      */
-    public function createOrder()
+    public function createOrder(): array
     {
         $token = $this->getToken();
         $client = $this->createHttp($token);
@@ -117,29 +116,36 @@ class Payment implements iPayment
         $createOrderModel->setDescription('Platnosc testowa');
         $createOrderModel->setAmount($this->amount);
 
-        //todo add
-//        $this->order->create([
-//
-//        ]);
-
         $formData = $createOrderModel->toJson();
         $request = new Request('POST',
             config('payment.payU.order_endpoint'),
             $client->getConfig('headers'),
             $formData
         );
-
         $response = $client->send($request, ['allow_redirects' => false]);
         $responseModel = new PayuResponseModel($response);
 
+        $paymentRecord = $this->paymentHistoryModel->create([
+            'user_id' => Auth::user()->id,
+            'payment_provider_order_id' => $responseModel->getOrderId(),
+            'order_status' => $responseModel->getResponseStatus()
+        ]);
+
+        $response = [
+            'paymentId' => $paymentRecord->id,
+            'redirectUri' => $responseModel->getRedirectUri(),
+            'paymentStatus' => $paymentRecord->order_status
+        ];
+
         $this->clearCart();
 
-        return $responseModel->getRedirectUri();
+        return $response;
     }
 
     private function clearCart()
     {
         $cart = Auth::user()->cart;
-        $cart->items()->detach();
+        $cart->delete();
+        Auth::user()->cart()->create();
     }
 }

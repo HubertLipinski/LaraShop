@@ -35,6 +35,14 @@ class PayuResponseModel
     }
 
     /**
+     * @return string
+     */
+    public function getResponseStatus(): string
+    {
+        return $this->response->status->statusCode;
+    }
+
+    /**
      * @return string |null
      */
     public function getToken(): string
