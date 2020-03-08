@@ -56,7 +56,7 @@ class CreateOrderModel implements Arrayable, Jsonable
                 'buyer' => $this->paymentUserData->toArray(),
 
                 'settings' => [
-                    "invoiceDisabled" => "true"
+                    'invoiceDisabled' => 'true'
                 ],
 
                 'products' => $this->paymentProductList->toArray()

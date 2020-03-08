@@ -2,7 +2,6 @@
 
 namespace App\Services\Payments\Models;
 
-use foo\bar;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 
@@ -14,15 +13,6 @@ class PaymentProductList implements Arrayable, Jsonable
     public function add(PaymentProductModel $product)
     {
         array_push($this->productList, $product->toArray());
-    }
-
-    /**
-     * @param int $index
-     * @return void
-     */
-    public function delete(int $index)
-    {
-        //implement
     }
 
     /**
