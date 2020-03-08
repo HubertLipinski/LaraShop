@@ -34,7 +34,7 @@
                 </li>
             @endguest
             @auth
-                    @if(Auth::user()->role = "Admin")
+                    @if(Auth::user()->isAdmin())
                         <li class="nav-item px-1">
                             <a class="nav-link px-3" href="{{url('/admin')}}">Panel Admina</a>
                         </li>

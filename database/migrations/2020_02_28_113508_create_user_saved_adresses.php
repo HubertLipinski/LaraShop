@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCartsTable extends Migration
+class CreateUserSavedAdresses extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,22 @@ class CreateCartsTable extends Migration
      */
     public function up()
     {
-        Schema::create('carts', function (Blueprint $table) {
+        Schema::create('user_saved_addresses', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')
                 ->unsigned();
-            $table->string('coupon')
-                ->nullable();
-            $table->boolean('has_discount')
-                ->default(0);
-            $table->softDeletes();
+            $table->string('display_name');
+            $table->string('name');
+            $table->string('surname');
+            $table->string('address');
+            $table->char('zip_code', 6)
+                ->default('00-000');
+            $table->string('city');
+            $table->string('country');
+            $table->char('number', 11)
+                ->default('48123456789');
             $table->timestamps();
+
 
             $table->foreign('user_id')
                 ->references('id')
@@ -37,6 +43,6 @@ class CreateCartsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('carts');
+        Schema::dropIfExists('user_saved_addresses');
     }
 }

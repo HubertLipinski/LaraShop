@@ -15,8 +15,12 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_address')->unsigned(); //todo add user_addresses table
-            $table->integer('cart_id')->unsigned();
+            $table->integer('user_address_id')
+                ->unsigned();
+            $table->integer('cart_id')
+                ->unsigned();
+            $table->integer('payment_histories_id')
+                ->unsigned();
             $table->float('value');
             $table->string('status');
             $table->timestamps();
@@ -24,6 +28,9 @@ class CreateOrdersTable extends Migration
             $table->foreign('cart_id')
                 ->references('id')
                 ->on('carts');
+
+//
+
         });
     }
 
