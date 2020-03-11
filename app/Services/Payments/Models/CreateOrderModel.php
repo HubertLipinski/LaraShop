@@ -48,17 +48,13 @@ class CreateOrderModel implements Arrayable, Jsonable
                 'continueUrl'=> $this->payuData->getContinueUrl(),
                 'customerIp' => $this->payuData->getCustomerIp(),
                 'merchantPosId' => $this->payuData->getMerchantPosId(),
-
                 'description' => $this->description,
                 'currencyCode' => 'PLN',
                 'totalAmount' => $this->amount,
-
                 'buyer' => $this->paymentUserData->toArray(),
-
                 'settings' => [
                     'invoiceDisabled' => 'true'
                 ],
-
                 'products' => $this->paymentProductList->toArray()
             ];
     }

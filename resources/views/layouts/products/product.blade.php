@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-{{--    {{dd(json_decode($product->thumbnail)[0])}}--}}
     <div class="container">
         <nav aria-label="breadcrumb" class="m-auto ">
             <ol class="breadcrumb product-breadcrumbs px-0 text-left">
@@ -22,11 +21,10 @@
             <div class="col-md-6">
                 <p class="lead">Opis produktu:</p>
                 <p>{{$product->description}}</p>
-
                 <div class="item-body pt-5">
                     <div class="item-price text-right">
-                        <p class="h5 text-muted"><s>550 zł</s></p>
-                        <p class="h3">250 zł</p>
+{{--                        <p class="h5 text-muted"><s>550 zł</s></p>--}}
+                        <p class="h3">Cena: {{$product->price}} zł</p>
                     </div>
                     <div class="row">
                         <div class="col-12 d-flex align-items-center justify-content-end mt-2">

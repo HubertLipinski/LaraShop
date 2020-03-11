@@ -60,13 +60,13 @@
                             </div>
                         </div>
                         <div class="item-body">
-                            <p class="h4 card-title mt-1 pt-3 text-truncate">Tytuł</p>
+                            <p class="h4 card-title mt-1 pt-3 text-truncate">{{$item->name}}</p>
                             <p class="item-text p-0">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pharetra mauris id neque convallis feugiat. Sed sodales, magna ut malesuada pretium, eros arcu scelerisque velit, et convallis nunc augue id lectus. In accumsan lacinia maximus. Nunc dapibus blandit felis, vel mollis augue iaculis a. Nullam mattis neque a mauris bibendum rutrum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse eu venenatis felis. Aliquam suscipit quam tortor, at lacinia est bibendum et. Nullam pretium quis sem sit amet elementum. Curabitur at fermentum purus. Etiam auctor mattis mi, ut tincidunt dolor ultricies sed. Nullam sed mattis mauris. Proin cursus at tellus non dictum.
+                                {{$item->description}}
                             </p>
                             <div class="item-price text-right">
-                                <p class="h5 text-muted"><s>550 zł</s></p>
-                                <p class="h3">250 zł</p>
+{{--                                <p class="h5 text-muted"><s>550 zł</s></p>--}}
+                                <p class="h3">Cena: {{$item->price}} zł</p>
                             </div>
                             <div class="row pb-2">
                                 <div class="col-3 d-flex align-items-center">
