@@ -28,8 +28,20 @@ Route::post('/cart/checkout', 'CheckoutController@checkout')->name('cartCheckout
 
 Route::middleware('auth')->group(function () {
     Route::get('user/profile', function () {
-        return view('welcome');
+        return view('layouts.user.profile');
     })->name('user.profile');
+    Route::get('user/items', function () {
+        return view('layouts.user.items');
+    })->name('user.items');
+    Route::get('user/favourites', function () {
+        return view('layouts.user.favourites');
+    })->name('user.fav');
+    Route::get('user/settings', function () {
+        return view('layouts.user.settings');
+    })->name('user.settings');
+    Route::get('user/messages', function () {
+        return view('layouts.user.messages');
+    })->name('user.messages');
 });
 
 
