@@ -2,6 +2,7 @@
 
 namespace App\Services\Payments\Models;
 
+use Illuminate\Config\Repository;
 use Illuminate\Contracts\Support\Arrayable;
 
 class PaymentPayuData implements Arrayable
@@ -23,7 +24,7 @@ class PaymentPayuData implements Arrayable
     }
 
     /**
-     * @return \Illuminate\Config\Repository|mixed
+     * @return Repository|mixed
      */
     public function getNotifyUrl()
     {
@@ -31,7 +32,7 @@ class PaymentPayuData implements Arrayable
     }
 
     /**
-     * @return \Illuminate\Config\Repository|mixed
+     * @return Repository|mixed
      */
     public function getContinueUrl()
     {
@@ -47,7 +48,7 @@ class PaymentPayuData implements Arrayable
     }
 
     /**
-     * @return \Illuminate\Config\Repository|mixed
+     * @return Repository|mixed
      */
     public function getMerchantPosId()
     {

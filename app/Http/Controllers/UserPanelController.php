@@ -19,11 +19,37 @@ class UserPanelController extends Controller
         $this->categories = $categoryModel;
     }
 
-    public function sellView() {
+    public function sell()
+    {
         $categories = $this->categories
             ->all();
-
         return view('layouts.products.sellProduct')
             ->with(['categories' => $categories]);
+    }
+
+    public function profile()
+    {
+
+        return view('layouts.user.profile');
+    }
+
+    public function items()
+    {
+        return view('layouts.user.items');
+    }
+
+    public function favourites()
+    {
+        return view('layouts.user.favourites');
+    }
+
+    public function settings()
+    {
+        return view('layouts.user.settings');
+    }
+
+    public function messages()
+    {
+        return view('layouts.user.messages');
     }
 }

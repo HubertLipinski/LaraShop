@@ -16,7 +16,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {{orderItemPrice}}
                     <tr v-for="(product, index) in productsList">
                         <td class="align-middle">
                             <div class="cart-image">
@@ -96,8 +95,8 @@
                                     <div class="form-group col-md-4">
                                         <label for="voivodeship">Województwo</label>
                                         <select id="voivodeship" class="form-control" name="voivodeship" required>
-                                            <option>Choose...</option>
-                                            <option>...</option>
+                                            <option disabled selected>Wybierz</option>
+                                            <option v-for="item in voivodeship" :value="item">{{item}}</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-2">
@@ -112,16 +111,16 @@
                 <div class="cart-payment-container">
                     <p class="h3 pt-2">3. Płatność</p>
                     <div class="row m-3">
-                        <input type="radio" id="credit-card" value="credit-card" name="payment_option" required>
-                        <label for="credit-card">
+                        <input type="radio" id="credit-card" value="credit-card" name="payment_option" disabled required>
+                        <label for="credit-card" class="text-muted">
                             <div class="cart-payment mr-3">
                                 <i class="credit-card"></i>
                                 <p class="font-weight-bold">Karta kredytowa</p>
                             </div>
                         </label>
 
-                        <input type="radio" id="paypal" value="paypal" name="payment_option" required>
-                        <label for="paypal">
+                        <input type="radio" id="paypal" value="paypal" name="payment_option" disabled required>
+                        <label for="paypal" class="text-muted">
                             <div class="cart-payment mr-3">
                                 <i class="cc-paypal"></i>
                                 <p class="font-weight-bold">PayPal</p>
@@ -146,7 +145,7 @@
             </form>
         </div>
         <div class="d-flex justify-content-center align-content-center p-5 m-5 m-auto " v-else>
-            <p class="h5 p-3">Dodaj najpierw przedmioty do koszyka!</p>
+            <p class="h5 p-3">Nie masz żdanych przedmiotów, <a :href="products_list_url">możesz znaleźć je tutaj</a></p>
         </div>
     </div>
 </template>
@@ -156,7 +155,7 @@
     Vue.use(VueCsrf);
     export default {
         name: "CartComponent",
-        props: ['actionRoute', 'products', 'saved_addresses', 'errors'],
+        props: ['actionRoute', 'products', 'saved_addresses', 'errors', 'products_list_url'],
         data() {
             return {
                 response: '',
@@ -167,6 +166,23 @@
                 productsList: {},
                 savedAddresses: [],
                 selectedAddress: 'new_address',
+                voivodeship: [
+                    'Dolnośląskie',
+                    'Kujawsko-pomorskie',
+                    'Lubelskie',
+                    'Lubuskie',
+                    'Łódzkie',
+                    'Małopolskie',
+                    'Mazowieckie',
+                    'Opolskie',
+                    'Podkarpackie',
+                    'Pomorskie',
+                    'Śląskie',
+                    'Świętokrzyskie',
+                    'Warmińsko-mazurskie',
+                    'Wielkopolskie',
+                    'Zachodniopomorskie',
+                ]
             }
         },
         methods: {
@@ -176,9 +192,10 @@
                   .then((response) => {
                       currentObj.response = response;
                       // todo add modal
+                      location.reload()
                  })
                   .catch((err) => {
-                      console.log("[Dev] Błąd podczas usuwania z koszyka:", err);
+                      console.log("Błąd podczas usuwania z koszyka:", err);
                       //todo add modal
                  });
             },
@@ -197,10 +214,6 @@
                 return total;
             },
             calculateOrderTotal() {
-                // this.orderItemPrice.forEach((item, index) => {
-                //     console.log(item, index);
-                //     this.orderTotal += parseInt(item)
-                // });
                 this.orderTotal = this.orderItemPrice.reduce((a,b) => a + b, 0);
                 return this.orderTotal;
             }

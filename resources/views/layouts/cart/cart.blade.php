@@ -5,6 +5,7 @@
         action-route="{{route('cartCheckout')}}"
         products="{{$products}}"
         saved_addresses="{{$addresses}}"
+        products_list_url="{{route('productsList')}}"
     >
     </cart>
 

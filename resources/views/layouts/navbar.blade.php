@@ -18,7 +18,7 @@
                     <a class="nav-link px-3 @if(Request::is('items*')) {{'active'}} @endif" href="{{route('productsList')}}">Przedmioty</a>
                 </li>
                 <li class="nav-item px-1">
-                    <a class="nav-link px-3 @if(Request::is('sell')) {{'active'}} @endif" href="{{route('sellItem')}}">Sprzedaj</a>
+                    <a class="nav-link px-3 @if(Request::is('sell')) {{'active'}} @endif" href="{{route('user.sell')}}">Sprzedaj</a>
                 </li>
             @else
                 <li class="nav-item px-1">
@@ -45,10 +45,11 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="profileMenu">
                             <a class="dropdown-item" href="{{route('user.profile')}}">Profil</a>
-                            <a class="dropdown-item" href="#">Wiadomości</a>
-                            <a class="dropdown-item" href="#">Moje przedmioty</a>
+                            <a class="dropdown-item" href="{{route('user.messages')}}">Wiadomości <span class="font-weight-bold">(1)</span></a>
+                            <a class="dropdown-item" href="{{route('user.items')}}">Moje przedmioty</a>
                             <a class="dropdown-item" href="#">Kupione</a>
-                            <a class="dropdown-item" href="#">Ustawienia</a>
+                            <a class="dropdown-item" href="{{route('user.fav')}}">Ulubione</a>
+                            <a class="dropdown-item" href="{{route('user.settings')}}">Ustawienia</a>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Wyloguj się</a>
                         </div>
                     </li>

@@ -12,7 +12,7 @@
                             <a href="#items" role="button" class="btn btn-lg btn-outline-primary btn-block py-3 btn-prod">Przedmioty</a>
                         </div>
                         <div class="col-6 text-right">
-                            <a href="{{route('sellItem')}}" role="button" class="btn btn-lg btn-danger btn-block py-3 btn-sprz">Sprzedawaj</a>
+                            <a href="{{route('user.sell')}}" role="button" class="btn btn-lg btn-danger btn-block py-3 btn-sprz">Sprzedawaj</a>
                         </div>
                     </div>
                 </div>
