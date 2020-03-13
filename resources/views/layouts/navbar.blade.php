@@ -18,7 +18,7 @@
                     <a class="nav-link px-3 @if(Request::is('items*')) {{'active'}} @endif" href="{{route('productsList')}}">Przedmioty</a>
                 </li>
                 <li class="nav-item px-1">
-                    <a class="nav-link px-3 @if(Request::is('sell')) {{'active'}} @endif" href="{{route('sellItem')}}">Sprzedaj</a>
+                    <a class="nav-link px-3 @if(Request::is('sell')) {{'active'}} @endif" href="{{route('user.sell')}}">Sprzedaj</a>
                 </li>
             @else
                 <li class="nav-item px-1">

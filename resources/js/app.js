@@ -23,6 +23,8 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('sell-product', require('./components/SellProductComponent.vue').default);
 Vue.component('cart', require('./components/CartComponent.vue').default);
+Vue.component('cart-add', require('./components/Misc/AddToCart.vue').default);
+Vue.component('fav-add', require('./components/Misc/AddToFavourites.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

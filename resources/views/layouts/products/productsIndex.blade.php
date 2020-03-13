@@ -70,10 +70,18 @@
                             </div>
                             <div class="row pb-2">
                                 <div class="col-3 d-flex align-items-center">
-                                    <a href="#" class="btn btn-block p-2 favourite"></a>
+                                    <fav-add
+                                        :id="{{$item->id}}"
+                                    >
+                                    </fav-add>
                                 </div>
-                                <div class="col-9">
-                                    <a href="{{route('showProduct', $item->id)}}" class="btn btn-block btn-outline-primary w-50 ml-auto">Zobacz więcej</a>
+                                <div class="col-9 d-flex justify-content-center align-items-center">
+                                    <cart-add
+                                        :id="{{$item->id}}"
+                                        :cart_url="{{json_encode(route('cart'))}}"
+                                    >
+                                    </cart-add>
+                                    <a href="{{route('showProduct', $item->id)}}" class="btn btn-outline-primary w-50">Zobacz więcej</a>
                                 </div>
                             </div>
                         </div>

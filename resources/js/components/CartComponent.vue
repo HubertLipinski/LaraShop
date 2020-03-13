@@ -145,7 +145,7 @@
             </form>
         </div>
         <div class="d-flex justify-content-center align-content-center p-5 m-5 m-auto " v-else>
-            <p class="h5 p-3">Dodaj najpierw przedmioty do koszyka!</p>
+            <p class="h5 p-3">Nie masz żdanych przedmiotów, <a :href="products_list_url">możesz znaleźć je tutaj</a></p>
         </div>
     </div>
 </template>
@@ -155,7 +155,7 @@
     Vue.use(VueCsrf);
     export default {
         name: "CartComponent",
-        props: ['actionRoute', 'products', 'saved_addresses', 'errors'],
+        props: ['actionRoute', 'products', 'saved_addresses', 'errors', 'products_list_url'],
         data() {
             return {
                 response: '',
@@ -192,6 +192,7 @@
                   .then((response) => {
                       currentObj.response = response;
                       // todo add modal
+                      location.reload()
                  })
                   .catch((err) => {
                       console.log("Błąd podczas usuwania z koszyka:", err);
