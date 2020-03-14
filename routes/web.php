@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
         Route::get('settings', 'UserPanelController@settings')->name('user.settings');
         Route::get('messages', 'UserPanelController@messages')->name('user.messages');
     });
+    Route::get('payment-summary/{hash}', 'CheckoutController@summary')->name('payment.summary');
 });
 
 Route::group(['prefix' => 'admin'], function () {

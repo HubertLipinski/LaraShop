@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'continue_url' => env('PAYMENT_CONTINUE_URL', config('app.url')),
+    'continue_url' => config('app.url').'/payment-summary/',
     'payU' => [
             'oauth_endpoint' => env('PAYU_OAUTH_ENDPOINT'),
             'order_endpoint' => env('PAYU_ORDER_ENDPOINT'),

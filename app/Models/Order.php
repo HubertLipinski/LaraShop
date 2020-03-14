@@ -21,7 +21,7 @@ class Order extends Model
     }
 
     public function cart() {
-        return $this->hasOne('App\Models\Cart');
+        return $this->belongsTo('App\Models\Cart')->withTrashed();
     }
 
     public function payment() {

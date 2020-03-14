@@ -6,6 +6,7 @@ use App\Http\Requests\CreateCheckoutRequest;
 use App\Models\Cart;
 use App\Models\CartPivot;
 use App\Models\Order;
+use App\Models\PaymentHistory;
 use App\Models\Product;
 use App\Models\SavedAddress;
 use App\Models\User;
@@ -17,22 +18,25 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Monolog\Handler\IFTTTHandler;
 
 class CheckoutController extends Controller
 {
     private $payment;
     private $order;
+    private $paymentHistory;
 
     /**
      * CheckoutController constructor.
      * @param Payment $payment
      * @param Order $order
      */
-    public function __construct(Payment $payment, Order $order)
+    public function __construct(Payment $payment, Order $order, PaymentHistory $paymentHistory)
     {
         $this->middleware('auth');
         $this->payment = $payment;
         $this->order = $order;
+        $this->paymentHistory = $paymentHistory;
     }
 
     public function checkout(CreateCheckoutRequest $request)
@@ -73,5 +77,30 @@ class CheckoutController extends Controller
             $inCart->pivot->update(['qty'=>$product['qty']]);
         }
         return $cart->items;
+    }
+
+    public function summary($hash, Request $request) {
+        $payment = $this->paymentHistory->where('order_hash', $hash)->firstOrFail();
+
+        abort_unless(Auth::user()->can('view', $payment), 401);
+        $order = $this->order->where('payment_histories_id', $payment->id)->firstOrFail();
+
+        $success = true;
+        if($request->has('error')) {
+            abort_unless(Auth::user()->can('update', $payment), 401);
+            $payment->update(['order_status' => 'DECLINED']);
+            $success = false;
+        } else if (empty($request->all())) {
+            abort_unless(Auth::user()->can('update', $payment), 401);
+            $payment->update(['order_status' => 'SUCCESS']);
+        }
+
+        //add more data
+        return view('layouts.paymentSummary')
+            ->with([
+                'success' => $success,
+                'order' => $order,
+                'payment'=> $payment
+            ]);
     }
 }
