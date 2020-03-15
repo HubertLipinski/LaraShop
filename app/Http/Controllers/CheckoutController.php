@@ -95,10 +95,10 @@ class CheckoutController extends Controller
             $payment->update(['order_status' => 'SUCCESS']);
         }
 
-        //add more data
         return view('layouts.paymentSummary')
             ->with([
                 'success' => $success,
+                'code' => $request->has('error') ? $request->error : 200,
                 'order' => $order,
                 'payment'=> $payment
             ]);

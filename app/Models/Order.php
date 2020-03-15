@@ -24,7 +24,11 @@ class Order extends Model
         return $this->belongsTo('App\Models\Cart')->withTrashed();
     }
 
+    public function address() {
+        return $this->belongsTo('App\Models\SavedAddress', 'user_address_id');
+    }
+
     public function payment() {
-        return $this->hasOne('App\Models\PaymentHistory');
+        return $this->belongsTo('App\Models\PaymentHistory', 'payment_histories_id');
     }
 }
