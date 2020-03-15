@@ -25,6 +25,7 @@ Vue.component('sell-product', require('./components/SellProductComponent.vue').d
 Vue.component('cart', require('./components/CartComponent.vue').default);
 Vue.component('cart-add', require('./components/Misc/AddToCart.vue').default);
 Vue.component('fav-add', require('./components/Misc/AddToFavourites.vue').default);
+Vue.component('saved-addresses', require('./components/Misc/SavedAddresses.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
