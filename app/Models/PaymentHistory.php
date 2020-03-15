@@ -11,7 +11,8 @@ class PaymentHistory extends Model
     protected $fillable = [
         'user_id',
         'payment_provider_order_id',
-        'order_status'
+        'order_status',
+        'order_hash'
     ];
 
     public function user() {

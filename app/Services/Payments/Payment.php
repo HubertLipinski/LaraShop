@@ -16,6 +16,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class Payment implements iPayment
 {
@@ -115,6 +116,7 @@ class Payment implements iPayment
         );
         $createOrderModel->setDescription('Platnosc testowa');
         $createOrderModel->setAmount($this->amount);
+        $createOrderModel->hash();
 
         $formData = $createOrderModel->toJson();
         $request = new Request('POST',
@@ -124,11 +126,11 @@ class Payment implements iPayment
         );
         $response = $client->send($request, ['allow_redirects' => false]);
         $responseModel = new PayuResponseModel($response);
-
         $paymentRecord = $this->paymentHistoryModel->create([
             'user_id' => Auth::user()->id,
             'payment_provider_order_id' => $responseModel->getOrderId(),
-            'order_status' => $responseModel->getResponseStatus()
+            'order_status' => 'STARTED',
+            'order_hash' => $createOrderModel->getHash()
         ]);
 
         $response = [

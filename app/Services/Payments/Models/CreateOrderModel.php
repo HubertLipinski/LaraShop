@@ -4,6 +4,7 @@ namespace App\Services\Payments\Models;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Support\Facades\Hash;
 
 class CreateOrderModel implements Arrayable, Jsonable
 {
@@ -13,6 +14,7 @@ class CreateOrderModel implements Arrayable, Jsonable
     private $paymentProductList;
     private $description;
     private $amount;
+    private $hash;
 
 
     public function __construct(PaymentPayuData $payuData, PaymentUserData $paymentUserData, PaymentProductList $paymentProductList)
@@ -40,12 +42,28 @@ class CreateOrderModel implements Arrayable, Jsonable
         $this->amount = $amount * 100;
     }
 
+    public function hash(): void
+    {
+        $hash = Hash::make(
+            json_encode($this->paymentUserData->toArray())
+            . $this->paymentProductList->toJson()
+        );
+        $this->hash = str_replace ('/', '', $hash);
+    }
+
+    /**
+     * @return string
+     */
+    public function getHash(): string
+    {
+        return $this->hash;
+    }
 
     public function toArray(): array
     {
         return [
                 'notifyUrl'=> $this->payuData->getNotifyUrl(),
-                'continueUrl'=> $this->payuData->getContinueUrl(),
+                'continueUrl'=> $this->payuData->getContinueUrl().$this->hash,
                 'customerIp' => $this->payuData->getCustomerIp(),
                 'merchantPosId' => $this->payuData->getMerchantPosId(),
                 'description' => $this->description,
