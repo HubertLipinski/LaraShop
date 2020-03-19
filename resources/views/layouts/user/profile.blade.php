@@ -22,7 +22,6 @@
             <div class="col-md-3">
                 <span class="font-weight-bold">Kupione przedmioty: </span> <p>{{$user->boughtItems()}}</p>
                 <span class="font-weight-bold">Konto od: </span> <p>{{$user->created_at}}</p>
-{{--                <span class="font-weight-bold">Email: </span> <p>{{$user->email}}</p>--}}
             </div>
             <div class="col-md-1">
                 edytuj
