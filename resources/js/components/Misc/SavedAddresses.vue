@@ -94,14 +94,11 @@
         },
         methods: {
             modal(index, address) {
-                console.log("Address: ",address);
                 this.id = address.id;
                 this.form = address;
                 this.$bvModal.show('modal-'+index);
             },
             async send(index) {
-                // let self = this;
-                console.log('sending');
                 await axios.put('saved-addresses/'+this.id, this.form)
                     .then((response) => console.log(response))
                     .catch((err) => console.log(err));
@@ -112,9 +109,6 @@
               console.log(id);
             }
         },
-        mounted() {
-            console.log(this.addresses);
-        }
     }
 </script>
 
