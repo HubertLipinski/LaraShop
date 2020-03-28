@@ -1,18 +1,18 @@
 <template>
     <div class="container py-2 d-flex flex-row flex-md-wrap align-content-between">
-        <div class="p-2" v-for="(address, index) in this.addresses">
+        <div class="p-2" v-for="(address, index) in this.list">
             <span class="h5"> {{index+1}}. {{address.display_name}} </span>
             <b-button @click="modal(index, address)"
                       variant="outline-primary"
                       size="sm">
                 Edytuj
             </b-button>
-            <b-button @click="deleteItem(address.id)"
+            <b-button @click="deleteItem(address.id, index)"
                       variant="outline-danger"
                       size="sm">
                 <i class="fas fa-trash"></i>
             </b-button>
-            <div class="cart-saved-address px-4 pt-2" v-if="edit">
+            <div class="cart-saved-address px-4 pt-2">
                 <p><b>Imie: </b> {{address.name}} </p>
                 <p><b>Nazwisko: </b> {{address.surname}}</p>
                 <p><b>Adres: </b> {{address.address}} </p>
@@ -57,6 +57,13 @@
                         <input type="text" class="form-control" id="inputZip" name="zip_code" placeholder="00-000" v-model="form.zip_code" required>
                     </div>
                 </div>
+
+                <div class="errors text-danger" v-if="errorResponse.message">
+                    Wystąpił błąd:
+                    <ul v-for="(errorList) in errorResponse.errors" class="pl-3 my-0 mx-2">
+                        <li class="" v-for="error in errorList">{{error}}</li>
+                    </ul>
+                </div>
                 <template v-slot:modal-footer>
                     <div class="w-100">
                         <b-button
@@ -70,13 +77,13 @@
                 </template>
             </b-modal>
         </div>
-        <b-toast id="my-toast" variant="success" solid>
+        <b-toast id="success" variant="success" solid>
             <template v-slot:toast-title>
                 <div class="d-flex flex-grow-1 align-items-baseline">
                     <strong class="mr-auto">Sukces!</strong>
                 </div>
             </template>
-            Edycja adresu przebiegła pomyślnie
+            {{message}}
         </b-toast>
     </div>
 </template>
@@ -87,9 +94,11 @@
         props: ['addresses', 'route'],
         data() {
             return {
-                edit: true,
+                list: {},
                 id: null,
-                form: {}
+                form: {},
+                message: "",
+                errorResponse: {}
             }
         },
         methods: {
@@ -100,15 +109,26 @@
             },
             async send(index) {
                 await axios.put('saved-addresses/'+this.id, this.form)
-                    .then((response) => console.log(response))
-                    .catch((err) => console.log(err));
-                this.$bvModal.hide('modal-'+index);
-                this.$bvToast.show('my-toast');
+                    .then(response => {
+                        this.message = response.data;
+                        this.$bvModal.hide('modal-'+index);
+                        this.$bvToast.show('success');
+                    })
+                    .catch(err => this.errorResponse = err.response.data);
             },
-            async deleteItem(id) {
-              console.log(id);
+            async deleteItem(id, arrayIndex) {
+                await axios.delete('saved-addresses/'+id)
+                    .then(response => {
+                        this.message = response.data;
+                        this.list.splice(arrayIndex, 1);
+                        this.$bvToast.show('success');
+                    })
+                    .catch(err => console.log(err));
             }
         },
+        created() {
+            this.list = this.addresses;
+        }
     }
 </script>
 

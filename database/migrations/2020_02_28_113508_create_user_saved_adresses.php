@@ -27,6 +27,7 @@ class CreateUserSavedAdresses extends Migration
             $table->string('country');
             $table->char('number', 11)
                 ->default('48123456789');
+            $table->softDeletes();
             $table->timestamps();
 
 
