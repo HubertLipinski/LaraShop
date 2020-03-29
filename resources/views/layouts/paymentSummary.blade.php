@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="container pb-5">
-        <p class="h1 text-center py-3">Dziękujęmy za zakup!</p>
+        <p class="h1 text-center py-3">Dziękujemy za zakup!</p>
         @if($success)
             <div class="p-3">
                 <p class="h2">Zamówienie nr #{{$order->id}}</p>

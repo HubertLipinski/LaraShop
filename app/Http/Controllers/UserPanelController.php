@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserPanelController extends Controller
 {
@@ -29,8 +31,16 @@ class UserPanelController extends Controller
 
     public function profile()
     {
+        $user = Auth::user();
 
-        return view('layouts.user.profile');
+        //wystawione
+
+        return view('layouts.user.profile')
+            ->with([
+                'user' => $user,
+                'addresses' => $user->address,
+                'product_number' => $user->products->count(),
+            ]);
     }
 
     public function items()

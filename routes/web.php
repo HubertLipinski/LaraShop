@@ -32,6 +32,8 @@ Route::middleware('auth')->group(function () {
         Route::get('favourites', 'UserPanelController@favourites')->name('user.fav');
         Route::get('settings', 'UserPanelController@settings')->name('user.settings');
         Route::get('messages', 'UserPanelController@messages')->name('user.messages');
+
+        Route::resource('saved-addresses', 'SavedAddressesController');
     });
     Route::get('payment-summary/{hash}', 'CheckoutController@summary')->name('payment.summary');
 });
@@ -39,3 +41,4 @@ Route::middleware('auth')->group(function () {
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
+
