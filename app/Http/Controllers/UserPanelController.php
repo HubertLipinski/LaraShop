@@ -33,13 +33,12 @@ class UserPanelController extends Controller
     {
         $user = Auth::user();
 
-        //wystawione
-
         return view('layouts.user.profile')
             ->with([
                 'user' => $user,
                 'addresses' => $user->address,
                 'product_number' => $user->products->count(),
+                'items_bought' => $user->boughtItems()
             ]);
     }
 
