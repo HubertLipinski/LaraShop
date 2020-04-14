@@ -13,11 +13,11 @@
             <span class="font-weight-bold">Liczba adresów: </span> <p>{{userArr.address_number}}</p>
             <span class="font-weight-bold">Liczba przedmiotów: </span> <p>{{userArr.product_number}}</p>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <span class="font-weight-bold">Kupione przedmioty: </span> <p>{{userArr.items_bought}}</p>
             <span class="font-weight-bold">Konto od: </span> <p>{{userArr.created_at}}</p>
         </div>
-        <div class="col-md-1">
+        <div class="col-md-1 p-1">
             <b-button @click="edit"
                       variant="outline-primary"
                       >
@@ -26,51 +26,61 @@
         </div>
     </div>
     <div class="py-3" v-else>
-        <div class="row text-left">
-            <div class="col-md-3 text-center">
-                <img class="img-fluid pt-2" :src="userArr.user_avatar" alt="User avatar" v-if="!userNewAvatar">
-                <img class="img-fluid pt-2 img-fluid" :src="userNewAvatar" alt="User avatar" v-else>
-                <div class="form-group pt-2">
-                    <label for="avatar">Wybierz nowy avatar</label>
-                    <input type="file" class="form-control-file form-control-file-sm" id="avatar" @change="onFileSelected">
+        <b-overlay :show="isSending"
+                   spinner-variant="primary">
+            <div class="row text-left">
+                <div class="col-md-3 text-center">
+                    <img class="img-fluid pt-2" :src="userArr.user_avatar" alt="User avatar" v-if="!userNewAvatar">
+                    <img class="img-fluid pt-2 img-fluid" :src="userNewAvatar" alt="User avatar" v-else>
+                    <div class="form-group pt-2">
+                        <label for="avatar">Wybierz nowy avatar</label>
+                        <input type="file" class="form-control-file form-control-file-sm" id="avatar" @change="onFileSelected">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="user_name" class="font-weight-bold">Imię: </label>
+                        <input type="text" class="form-control" name="user_name" id="user_name" v-model="userArr.name"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="user_surname" class="font-weight-bold">Nazwisko: </label>
+                        <input type="text" class="form-control" name="user_surname" id="user_surname" v-model="userArr.name"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="user_email" class="font-weight-bold">Email: </label>
+                        <input type="email" class="form-control" name="user_email" id="user_email" v-model="userArr.email"/>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="user_password" class="font-weight-bold">Hasło: </label>
+                        <input type="password" class="form-control" name="user_password" id="user_password" v-model="userArr.password"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="user_password_confirm" class="font-weight-bold">Potwierdź hasło: </label>
+                        <input type="password" class="form-control" name="user_password_confirm" id="user_password_confirm" v-model="userArr.password_confirm"/>
+                    </div>
+                    <small class="form-text text-muted font-weight-bold">
+                        Jeśli nie chcesz zmieniać hasła zostaw puste pola.
+                    </small>
+                </div>
+                <div class="col-md-1 offset-md-1 p-1">
+                    <b-button @click="save"
+                              variant="outline-success"
+                              >
+                        Zapisz
+                    </b-button>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="user_name" class="font-weight-bold">Imię: </label>
-                    <input type="text" class="form-control" name="user_name" id="user_name" v-model="userArr.name"/>
+        </b-overlay>
+        <b-toast id="success-info" variant="success" solid>
+            <template v-slot:toast-title>
+                <div class="d-flex flex-grow-1 align-items-baseline">
+                    <strong class="mr-auto">Sukces!</strong>
                 </div>
-                <div class="form-group">
-                    <label for="user_surname" class="font-weight-bold">Nazwisko: </label>
-                    <input type="text" class="form-control" name="user_surname" id="user_surname" v-model="userArr.name"/>
-                </div>
-                <div class="form-group">
-                    <label for="user_email" class="font-weight-bold">Email: </label>
-                    <input type="email" class="form-control" name="user_email" id="user_email" v-model="userArr.email"/>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="user_password" class="font-weight-bold">Hasło: </label>
-                    <input type="password" class="form-control" name="user_password" id="user_password" v-model="userArr.password"/>
-                </div>
-                <div class="form-group">
-                    <label for="user_password_confirm" class="font-weight-bold">Potwierdź hasło: </label>
-                    <input type="password" class="form-control" name="user_password_confirm" id="user_password_confirm" v-model="userArr.password_confirm"/>
-                </div>
-                <small class="form-text text-muted font-weight-bold">
-                    Jeśli nie chcesz zmieniać hasła zostaw puste pola.
-                </small>
-            </div>
-            <div class="col-md-1 offset-md-2">
-                <b-button @click="save"
-                          variant="outline-success"
-                          >
-                    Zapisz
-                </b-button>
-            </div>
-        </div>
-
+            </template>
+            {{message}}
+        </b-toast>
     </div>
 </template>
 
@@ -94,7 +104,8 @@
                 ],
                 edition: false,
                 userNewAvatar: null,
-                userArr: {}
+                userArr: {},
+                isSending: false
             }
         },
 
@@ -108,15 +119,17 @@
             edit() {
                 this.edition = true;
             },
-            save() {
-                this.edition = false;
-
-                //handle api request
+            async save() {
+                this.isSending = true;
+                this.$bvToast.show('success-info');
+                //await axios.put('')
 
                 //api request successful
                 if(this.userNewAvatar)
                     this.userArr.user_avatar = this.userNewAvatar;
-            }
+
+                //this.edition = false;
+            },
         },
 
         created() {
