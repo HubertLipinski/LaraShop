@@ -2672,22 +2672,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "UserProfile",
-  props: ['user', 'user_avatar', 'product_number', 'items_bought', 'address_number'],
+  props: ['user', 'user_avatar', 'product_number', 'items_bought', 'address_number', 'route'],
   data: function data() {
     return {
-      acceptedImageTypes: ['image/gif', 'image/jpeg', 'image/png'],
+      acceptedImageTypes: ['image/jpeg', 'image/png'],
       edition: false,
       userNewAvatar: null,
       userArr: {},
-      isSending: false
+      message: '',
+      isSending: false,
+      avatarError: false
     };
   },
   methods: {
     onFileSelected: function onFileSelected(event) {
+      var data = new FormData();
       var img = event.target.files[0];
-      if (this.acceptedImageTypes.includes(img.type)) this.userNewAvatar = URL.createObjectURL(img);else console.log("Zły typ!"); //todo display error
+
+      if (this.acceptedImageTypes.includes(img.type)) {
+        this.userNewAvatar = URL.createObjectURL(img);
+        data.append('name', 'avatar');
+        data.append('file', img);
+        this.userArr.avatar = this.userNewAvatar; //todo repair
+      } else this.avatarError = true;
     },
     edit: function edit() {
       this.edition = true;
@@ -2696,17 +2706,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _save = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _this = this;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 this.isSending = true;
-                this.$bvToast.show('success-info'); //await axios.put('')
-                //api request successful
+                console.log(this.userArr.avatar);
+                _context.next = 4;
+                return axios.put('edit/' + this.userArr.id, this.userArr).then(function (response) {
+                  _this.message = response.data;
 
-                if (this.userNewAvatar) this.userArr.user_avatar = this.userNewAvatar; //this.edition = false;
+                  _this.$bvToast.show('response-info');
 
-              case 3:
+                  _this.isSending = false;
+                  _this.edition = false;
+                  if (_this.userNewAvatar) _this.userArr.user_avatar = _this.userNewAvatar;
+                })["catch"](function (err) {
+                  return console.log("err!", err);
+                });
+
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -2723,12 +2744,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   created: function created() {
     this.userArr = this.user;
+    this.userArr.products = null;
     this.userArr.user_avatar = this.user_avatar;
     this.userArr.product_number = this.product_number;
     this.userArr.items_bought = this.items_bought;
     this.userArr.address_number = this.address_number;
-    this.userArr.password = '';
-    this.userArr.password_confirm = '';
   }
 });
 
@@ -80759,13 +80779,22 @@ var render = function() {
                       }),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group pt-2" }, [
-                    _c("label", { attrs: { for: "avatar" } }, [
-                      _vm._v("Wybierz nowy avatar")
-                    ]),
+                    _vm.avatarError
+                      ? _c(
+                          "label",
+                          {
+                            staticClass: "text-danger",
+                            attrs: { for: "avatar" }
+                          },
+                          [_vm._v("Wybierz poprawny format!")]
+                        )
+                      : _c("label", { attrs: { for: "avatar" } }, [
+                          _vm._v("Wybierz nowy avatar")
+                        ]),
                     _vm._v(" "),
                     _c("input", {
                       staticClass: "form-control-file form-control-file-sm",
-                      attrs: { type: "file", id: "avatar" },
+                      attrs: { type: "file", id: "avatar", name: "avatar" },
                       on: { change: _vm.onFileSelected }
                     })
                   ])
@@ -80792,11 +80821,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: {
-                        type: "text",
-                        name: "user_name",
-                        id: "user_name"
-                      },
+                      attrs: { type: "text", name: "name", id: "user_name" },
                       domProps: { value: _vm.userArr.name },
                       on: {
                         input: function($event) {
@@ -80831,7 +80856,7 @@ var render = function() {
                       staticClass: "form-control",
                       attrs: {
                         type: "text",
-                        name: "user_surname",
+                        name: "surname",
                         id: "user_surname"
                       },
                       domProps: { value: _vm.userArr.name },
@@ -80866,11 +80891,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: {
-                        type: "email",
-                        name: "user_email",
-                        id: "user_email"
-                      },
+                      attrs: { type: "email", name: "email", id: "user_email" },
                       domProps: { value: _vm.userArr.email },
                       on: {
                         input: function($event) {
@@ -80907,7 +80928,7 @@ var render = function() {
                       staticClass: "form-control",
                       attrs: {
                         type: "password",
-                        name: "user_password",
+                        name: "password",
                         id: "user_password"
                       },
                       domProps: { value: _vm.userArr.password },
@@ -80944,7 +80965,7 @@ var render = function() {
                       staticClass: "form-control",
                       attrs: {
                         type: "password",
-                        name: "user_password_confirm",
+                        name: "password_confirm",
                         id: "user_password_confirm"
                       },
                       domProps: { value: _vm.userArr.password_confirm },
@@ -80996,7 +81017,7 @@ var render = function() {
           _c(
             "b-toast",
             {
-              attrs: { id: "success-info", variant: "success", solid: "" },
+              attrs: { id: "response-info", variant: "success", solid: "" },
               scopedSlots: _vm._u([
                 {
                   key: "toast-title",

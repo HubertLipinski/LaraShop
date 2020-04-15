@@ -33,32 +33,33 @@
                     <img class="img-fluid pt-2" :src="userArr.user_avatar" alt="User avatar" v-if="!userNewAvatar">
                     <img class="img-fluid pt-2 img-fluid" :src="userNewAvatar" alt="User avatar" v-else>
                     <div class="form-group pt-2">
-                        <label for="avatar">Wybierz nowy avatar</label>
-                        <input type="file" class="form-control-file form-control-file-sm" id="avatar" @change="onFileSelected">
+                        <label for="avatar" class="text-danger" v-if="avatarError">Wybierz poprawny format!</label>
+                        <label for="avatar" v-else>Wybierz nowy avatar</label>
+                        <input type="file" class="form-control-file form-control-file-sm" id="avatar" name="avatar" @change="onFileSelected">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="user_name" class="font-weight-bold">Imię: </label>
-                        <input type="text" class="form-control" name="user_name" id="user_name" v-model="userArr.name"/>
+                        <input type="text" class="form-control" name="name" id="user_name" v-model="userArr.name"/>
                     </div>
                     <div class="form-group">
                         <label for="user_surname" class="font-weight-bold">Nazwisko: </label>
-                        <input type="text" class="form-control" name="user_surname" id="user_surname" v-model="userArr.name"/>
+                        <input type="text" class="form-control" name="surname" id="user_surname" v-model="userArr.name"/>
                     </div>
                     <div class="form-group">
                         <label for="user_email" class="font-weight-bold">Email: </label>
-                        <input type="email" class="form-control" name="user_email" id="user_email" v-model="userArr.email"/>
+                        <input type="email" class="form-control" name="email" id="user_email" v-model="userArr.email"/>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="user_password" class="font-weight-bold">Hasło: </label>
-                        <input type="password" class="form-control" name="user_password" id="user_password" v-model="userArr.password"/>
+                        <input type="password" class="form-control" name="password" id="user_password" v-model="userArr.password"/>
                     </div>
                     <div class="form-group">
                         <label for="user_password_confirm" class="font-weight-bold">Potwierdź hasło: </label>
-                        <input type="password" class="form-control" name="user_password_confirm" id="user_password_confirm" v-model="userArr.password_confirm"/>
+                        <input type="password" class="form-control" name="password_confirm" id="user_password_confirm" v-model="userArr.password_confirm"/>
                     </div>
                     <small class="form-text text-muted font-weight-bold">
                         Jeśli nie chcesz zmieniać hasła zostaw puste pola.
@@ -73,7 +74,7 @@
                 </div>
             </div>
         </b-overlay>
-        <b-toast id="success-info" variant="success" solid>
+        <b-toast id="response-info" variant="success" solid>
             <template v-slot:toast-title>
                 <div class="d-flex flex-grow-1 align-items-baseline">
                     <strong class="mr-auto">Sukces!</strong>
@@ -92,54 +93,64 @@
             'user_avatar',
             'product_number',
             'items_bought',
-            'address_number'
+            'address_number',
+            'route'
         ],
 
         data() {
             return {
                 acceptedImageTypes: [
-                    'image/gif',
                     'image/jpeg',
                     'image/png'
                 ],
                 edition: false,
                 userNewAvatar: null,
                 userArr: {},
-                isSending: false
+                message: '',
+                isSending: false,
+                avatarError: false
             }
         },
 
         methods: {
             onFileSelected(event) {
+                let data = new FormData();
                 const img = event.target.files[0];
-                if(this.acceptedImageTypes.includes(img.type))
+                if(this.acceptedImageTypes.includes(img.type)) {
                     this.userNewAvatar = URL.createObjectURL(img);
-                else console.log("Zły typ!"); //todo display error
+                    data.append('name', 'avatar');
+                    data.append('file', img);
+                    this.userArr.avatar = this.userNewAvatar; //todo repair
+                }
+                else
+                    this.avatarError = true;
             },
             edit() {
                 this.edition = true;
             },
             async save() {
                 this.isSending = true;
-                this.$bvToast.show('success-info');
-                //await axios.put('')
-
-                //api request successful
-                if(this.userNewAvatar)
-                    this.userArr.user_avatar = this.userNewAvatar;
-
-                //this.edition = false;
+                console.log(this.userArr.avatar);
+                await axios.put('edit/'+this.userArr.id, this.userArr)
+                .then((response) => {
+                    this.message = response.data;
+                    this.$bvToast.show('response-info');
+                    this.isSending = false;
+                    this.edition = false;
+                    if(this.userNewAvatar)
+                        this.userArr.user_avatar = this.userNewAvatar;
+                })
+                .catch(err => console.log("err!",err));
             },
         },
 
         created() {
             this.userArr = this.user;
+            this.userArr.products = null;
             this.userArr.user_avatar = this.user_avatar;
             this.userArr.product_number = this.product_number;
             this.userArr.items_bought = this.items_bought;
             this.userArr.address_number = this.address_number;
-            this.userArr.password = '';
-            this.userArr.password_confirm = '';
         }
     }
 </script>
