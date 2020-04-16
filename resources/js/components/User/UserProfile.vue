@@ -5,7 +5,7 @@
         </div>
         <div class="col-md-3">
             <span class="font-weight-bold">Imie: </span> <p>{{userArr.name}}</p>
-            <span class="font-weight-bold">Nazwisko: </span> <p>{{userArr.name}}</p>
+            <span class="font-weight-bold">Nazwisko: </span> <p>{{userArr.surname}}</p>
             <span class="font-weight-bold">Email: </span> <p>{{userArr.email}}</p>
         </div>
         <div class="col-md-3">
@@ -26,6 +26,8 @@
         </div>
     </div>
     <div class="py-3" v-else>
+        {{form}}
+        {{form.ee}}
         <b-overlay :show="isSending"
                    spinner-variant="primary">
             <div class="row text-left">
@@ -45,7 +47,7 @@
                     </div>
                     <div class="form-group">
                         <label for="user_surname" class="font-weight-bold">Nazwisko: </label>
-                        <input type="text" class="form-control" name="surname" id="user_surname" v-model="userArr.name"/>
+                        <input type="text" class="form-control" name="surname" id="user_surname" v-model="userArr.surname"/>
                     </div>
                     <div class="form-group">
                         <label for="user_email" class="font-weight-bold">Email: </label>
@@ -108,30 +110,26 @@
                 userArr: {},
                 message: '',
                 isSending: false,
-                avatarError: false
+                avatarError: false,
+                form: null
             }
         },
 
         methods: {
             onFileSelected(event) {
-                let data = new FormData();
                 const img = event.target.files[0];
                 if(this.acceptedImageTypes.includes(img.type)) {
                     this.userNewAvatar = URL.createObjectURL(img);
-                    data.append('name', 'avatar');
-                    data.append('file', img);
-                    this.userArr.avatar = this.userNewAvatar; //todo repair
+                    this.form.append('avatar', img, img.name);
                 }
                 else
                     this.avatarError = true;
             },
-            edit() {
-                this.edition = true;
-            },
+            edit() { this.edition = true; },
             async save() {
                 this.isSending = true;
-                console.log(this.userArr.avatar);
-                await axios.put('edit/'+this.userArr.id, this.userArr)
+                this.prepareForm();
+                await axios.post('edit/'+this.userArr.id, this.form)
                 .then((response) => {
                     this.message = response.data;
                     this.$bvToast.show('response-info');
@@ -142,12 +140,19 @@
                 })
                 .catch(err => console.log("err!",err));
             },
+            prepareForm() {
+                this.form.append('user', JSON.stringify(this.userArr)); //todo separate fields
+                this.form.set('_method', 'put');
+            }
         },
 
         created() {
-            this.userArr = this.user;
-            this.userArr.products = null;
+            this.form = new FormData();
+            this.userArr.id = this.user.id;
+            this.userArr.name = this.user.name;
+            this.userArr.surname = this.user.name; //todo change
             this.userArr.user_avatar = this.user_avatar;
+            this.userArr.email = this.user.email;
             this.userArr.product_number = this.product_number;
             this.userArr.items_bought = this.items_bought;
             this.userArr.address_number = this.address_number;

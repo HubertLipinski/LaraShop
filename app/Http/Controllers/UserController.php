@@ -40,7 +40,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -72,8 +72,9 @@ class UserController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function update(UpdateUserRequest $request, $id)
+    public function update(Request $request, $id)
     {
+        dd($request->all());
         $user = User::findOrFail($id);
         abort_unless(Auth::user()->can('update', $user), 401);
         $data = $request->validated();

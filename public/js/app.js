@@ -2673,6 +2673,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "UserProfile",
   props: ['user', 'user_avatar', 'product_number', 'items_bought', 'address_number', 'route'],
@@ -2684,19 +2686,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       userArr: {},
       message: '',
       isSending: false,
-      avatarError: false
+      avatarError: false,
+      form: null
     };
   },
   methods: {
     onFileSelected: function onFileSelected(event) {
-      var data = new FormData();
       var img = event.target.files[0];
 
       if (this.acceptedImageTypes.includes(img.type)) {
         this.userNewAvatar = URL.createObjectURL(img);
-        data.append('name', 'avatar');
-        data.append('file', img);
-        this.userArr.avatar = this.userNewAvatar; //todo repair
+        this.form.append('avatar', img, img.name);
       } else this.avatarError = true;
     },
     edit: function edit() {
@@ -2713,9 +2713,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 this.isSending = true;
-                console.log(this.userArr.avatar);
+                this.prepareForm();
                 _context.next = 4;
-                return axios.put('edit/' + this.userArr.id, this.userArr).then(function (response) {
+                return axios.post('edit/' + this.userArr.id, this.form).then(function (response) {
                   _this.message = response.data;
 
                   _this.$bvToast.show('response-info');
@@ -2740,12 +2740,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return save;
-    }()
+    }(),
+    prepareForm: function prepareForm() {
+      this.form.append('user', JSON.stringify(this.userArr)); //todo separate fields
+
+      this.form.set('_method', 'put');
+    }
   },
   created: function created() {
-    this.userArr = this.user;
-    this.userArr.products = null;
+    this.form = new FormData();
+    this.userArr.id = this.user.id;
+    this.userArr.name = this.user.name;
+    this.userArr.surname = this.user.name; //todo change
+
     this.userArr.user_avatar = this.user_avatar;
+    this.userArr.email = this.user.email;
     this.userArr.product_number = this.product_number;
     this.userArr.items_bought = this.items_bought;
     this.userArr.address_number = this.address_number;
@@ -80700,7 +80709,7 @@ var render = function() {
             _vm._v("Nazwisko: ")
           ]),
           _vm._v(" "),
-          _c("p", [_vm._v(_vm._s(_vm.userArr.name))]),
+          _c("p", [_vm._v(_vm._s(_vm.userArr.surname))]),
           _vm._v(" "),
           _c("span", { staticClass: "font-weight-bold" }, [_vm._v("Email: ")]),
           _vm._v(" "),
@@ -80759,6 +80768,13 @@ var render = function() {
         "div",
         { staticClass: "py-3" },
         [
+          _vm._v(
+            "\n    " +
+              _vm._s(_vm.form) +
+              "\n    " +
+              _vm._s(_vm.form.ee) +
+              "\n    "
+          ),
           _c(
             "b-overlay",
             { attrs: { show: _vm.isSending, "spinner-variant": "primary" } },
@@ -80849,8 +80865,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.userArr.name,
-                          expression: "userArr.name"
+                          value: _vm.userArr.surname,
+                          expression: "userArr.surname"
                         }
                       ],
                       staticClass: "form-control",
@@ -80859,13 +80875,13 @@ var render = function() {
                         name: "surname",
                         id: "user_surname"
                       },
-                      domProps: { value: _vm.userArr.name },
+                      domProps: { value: _vm.userArr.surname },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.userArr, "name", $event.target.value)
+                          _vm.$set(_vm.userArr, "surname", $event.target.value)
                         }
                       }
                     })
