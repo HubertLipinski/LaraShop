@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
         Route::get('messages', 'UserPanelController@messages')->name('user.messages');
 
         Route::resource('saved-addresses', 'SavedAddressesController');
+        Route::resource('edit', 'UserController');
     });
     Route::get('payment-summary/{hash}', 'CheckoutController@summary')->name('payment.summary');
 });

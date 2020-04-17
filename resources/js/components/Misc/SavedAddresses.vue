@@ -71,7 +71,7 @@
                             class="float-right"
                             @click="send(index)"
                         >
-                            Wyślij
+                            Zapisz
                         </b-button>
                     </div>
                 </template>

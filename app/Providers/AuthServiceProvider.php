@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\PaymentHistory;
 use App\Models\Product;
 use App\Models\SavedAddress;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -17,7 +18,8 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Product::class => 'App\Policies\ProductsPolicy',
         PaymentHistory::class => 'App\Policies\PaymentHistoryPolicy',
-        SavedAddress::class => 'App\Policies\SavedAddressPolicy'
+        SavedAddress::class => 'App\Policies\SavedAddressPolicy',
+        User::class => 'App\Policies\UserPolicy',
     ];
 
     /**
