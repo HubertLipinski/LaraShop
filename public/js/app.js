@@ -2671,10 +2671,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "UserProfile",
   props: ['user', 'user_avatar', 'product_number', 'items_bought', 'address_number', 'route'],
@@ -2684,9 +2680,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       edition: false,
       userNewAvatar: null,
       userArr: {},
-      message: '',
       isSending: false,
       avatarError: false,
+      formErrors: null,
       form: null
     };
   },
@@ -2716,15 +2712,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 this.prepareForm();
                 _context.next = 4;
                 return axios.post('edit/' + this.userArr.id, this.form).then(function (response) {
-                  _this.message = response.data;
-
-                  _this.$bvToast.show('response-info');
+                  _this.$bvToast.toast("".concat(response.data), {
+                    title: 'Sukces!',
+                    autoHideDelay: 5000,
+                    variant: 'success'
+                  });
 
                   _this.isSending = false;
                   _this.edition = false;
+                  _this.form = new FormData();
+                  _this.formErrors = null;
                   if (_this.userNewAvatar) _this.userArr.user_avatar = _this.userNewAvatar;
                 })["catch"](function (err) {
-                  return console.log("err!", err);
+                  return _this.handleSaveError(err);
                 });
 
               case 4:
@@ -2741,23 +2741,43 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       return save;
     }(),
+    handleSaveError: function handleSaveError(err) {
+      this.isSending = false;
+      this.formErrors = err.response.data;
+      this.form["delete"]('name');
+      this.form["delete"]('surname');
+      this.form["delete"]('email');
+
+      if (this.form.has('password')) {
+        this.form["delete"]('password');
+        this.form["delete"]('password_confirm');
+      }
+    },
     prepareForm: function prepareForm() {
-      this.form.append('user', JSON.stringify(this.userArr)); //todo separate fields
+      this.form.append('name', this.userArr.name);
+      this.form.append('surname', this.userArr.surname);
+      this.form.append('email', this.userArr.email);
+
+      if (this.userArr.password && this.userArr.password.length > 0) {
+        this.form.append('password', this.userArr.password);
+        this.form.append('password_confirm', this.userArr.password_confirm);
+      }
 
       this.form.set('_method', 'put');
+      this.ready = true;
     }
   },
   created: function created() {
     this.form = new FormData();
     this.userArr.id = this.user.id;
     this.userArr.name = this.user.name;
-    this.userArr.surname = this.user.name; //todo change
-
+    this.userArr.surname = this.user.surname;
     this.userArr.user_avatar = this.user_avatar;
     this.userArr.email = this.user.email;
     this.userArr.product_number = this.product_number;
     this.userArr.items_bought = this.items_bought;
     this.userArr.address_number = this.address_number;
+    this.userArr.created_at = this.user.created_at;
   }
 });
 
@@ -80768,17 +80788,39 @@ var render = function() {
         "div",
         { staticClass: "py-3" },
         [
-          _vm._v(
-            "\n    " +
-              _vm._s(_vm.form) +
-              "\n    " +
-              _vm._s(_vm.form.ee) +
-              "\n    "
-          ),
           _c(
             "b-overlay",
             { attrs: { show: _vm.isSending, "spinner-variant": "primary" } },
             [
+              _vm.formErrors
+                ? _c(
+                    "div",
+                    { staticClass: "errors text-danger py-2" },
+                    [
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(_vm.formErrors.message) +
+                          "\n            "
+                      ),
+                      _vm._l(_vm.formErrors.errors, function(errorList) {
+                        return _c(
+                          "ul",
+                          { staticClass: "pl-3 my-0 mx-2" },
+                          _vm._l(errorList, function(error) {
+                            return _c(
+                              "li",
+                              { staticClass: "font-weight-bold" },
+                              [_vm._v(_vm._s(error))]
+                            )
+                          }),
+                          0
+                        )
+                      })
+                    ],
+                    2
+                  )
+                : _vm._e(),
+              _vm._v(" "),
               _c("div", { staticClass: "row text-left" }, [
                 _c("div", { staticClass: "col-md-3 text-center" }, [
                   !_vm.userNewAvatar
@@ -81028,35 +81070,6 @@ var render = function() {
                 )
               ])
             ]
-          ),
-          _vm._v(" "),
-          _c(
-            "b-toast",
-            {
-              attrs: { id: "response-info", variant: "success", solid: "" },
-              scopedSlots: _vm._u([
-                {
-                  key: "toast-title",
-                  fn: function() {
-                    return [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "d-flex flex-grow-1 align-items-baseline"
-                        },
-                        [
-                          _c("strong", { staticClass: "mr-auto" }, [
-                            _vm._v("Sukces!")
-                          ])
-                        ]
-                      )
-                    ]
-                  },
-                  proxy: true
-                }
-              ])
-            },
-            [_vm._v("\n        " + _vm._s(_vm.message) + "\n    ")]
           )
         ],
         1

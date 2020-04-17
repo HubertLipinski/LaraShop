@@ -26,10 +26,14 @@
         </div>
     </div>
     <div class="py-3" v-else>
-        {{form}}
-        {{form.ee}}
         <b-overlay :show="isSending"
                    spinner-variant="primary">
+            <div class="errors text-danger py-2" v-if="formErrors">
+                {{formErrors.message}}
+                <ul v-for="(errorList) in formErrors.errors" class="pl-3 my-0 mx-2">
+                    <li class="font-weight-bold" v-for="error in errorList">{{error}}</li>
+                </ul>
+            </div>
             <div class="row text-left">
                 <div class="col-md-3 text-center">
                     <img class="img-fluid pt-2" :src="userArr.user_avatar" alt="User avatar" v-if="!userNewAvatar">
@@ -76,14 +80,6 @@
                 </div>
             </div>
         </b-overlay>
-        <b-toast id="response-info" variant="success" solid>
-            <template v-slot:toast-title>
-                <div class="d-flex flex-grow-1 align-items-baseline">
-                    <strong class="mr-auto">Sukces!</strong>
-                </div>
-            </template>
-            {{message}}
-        </b-toast>
     </div>
 </template>
 
@@ -108,10 +104,10 @@
                 edition: false,
                 userNewAvatar: null,
                 userArr: {},
-                message: '',
                 isSending: false,
                 avatarError: false,
-                form: null
+                formErrors: null,
+                form: null,
             }
         },
 
@@ -130,19 +126,42 @@
                 this.isSending = true;
                 this.prepareForm();
                 await axios.post('edit/'+this.userArr.id, this.form)
-                .then((response) => {
-                    this.message = response.data;
-                    this.$bvToast.show('response-info');
+                .then(response => {
+                    this.$bvToast.toast(`${response.data}`, {
+                        title: 'Sukces!',
+                        autoHideDelay: 5000,
+                        variant: 'success'
+                    });
                     this.isSending = false;
                     this.edition = false;
+                    this.form = new FormData();
+                    this.formErrors = null;
                     if(this.userNewAvatar)
                         this.userArr.user_avatar = this.userNewAvatar;
                 })
-                .catch(err => console.log("err!",err));
+                .catch(err => this.handleSaveError(err));
+            },
+            handleSaveError(err) {
+                this.isSending = false;
+                this.formErrors = err.response.data;
+                this.form.delete('name');
+                this.form.delete('surname');
+                this.form.delete('email');
+                if(this.form.has('password')) {
+                    this.form.delete('password');
+                    this.form.delete('password_confirm');
+                }
             },
             prepareForm() {
-                this.form.append('user', JSON.stringify(this.userArr)); //todo separate fields
+                this.form.append('name', this.userArr.name);
+                this.form.append('surname', this.userArr.surname);
+                this.form.append('email', this.userArr.email);
+                if (this.userArr.password && this.userArr.password.length > 0) {
+                    this.form.append('password', this.userArr.password);
+                    this.form.append('password_confirm', this.userArr.password_confirm);
+                }
                 this.form.set('_method', 'put');
+                this.ready = true;
             }
         },
 
@@ -150,12 +169,13 @@
             this.form = new FormData();
             this.userArr.id = this.user.id;
             this.userArr.name = this.user.name;
-            this.userArr.surname = this.user.name; //todo change
+            this.userArr.surname = this.user.surname;
             this.userArr.user_avatar = this.user_avatar;
             this.userArr.email = this.user.email;
             this.userArr.product_number = this.product_number;
             this.userArr.items_bought = this.items_bought;
             this.userArr.address_number = this.address_number;
+            this.userArr.created_at = this.user.created_at;
         }
     }
 </script>
