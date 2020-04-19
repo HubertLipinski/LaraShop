@@ -2228,9 +2228,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AddToCart",
-  props: ['id'],
+  props: ['id', 'store', 'delete', 'name', 'isfavourite'],
   data: function data() {
     return {
       isAdded: false // .favourite || .favourite-saved
@@ -2242,20 +2246,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _addToFav = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _this = this;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                this.isAdded = true;
-                _context.next = 3;
-                return axios.post('favourites', {
-                  id: this.id
-                }).then(function (response) {//todo add modal
-                })["catch"](function (err) {
-                  console.log("Błąd podczas dodawania do koszyka:", err);
+                _context.next = 2;
+                return axios.post(this.store, {
+                  product_id: this.id
+                }).then(function (response) {
+                  _this.isAdded = true;
+
+                  _this.toast(true, response.data);
+                })["catch"](function () {
+                  _this.toast(false);
                 });
 
-              case 3:
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -2268,9 +2276,61 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return addToFav;
-    }()
+    }(),
+    deleteFav: function () {
+      var _deleteFav = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var _this2 = this;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                this.isAdded = false;
+                _context2.next = 3;
+                return axios["delete"](this["delete"]).then(function (response) {
+                  _this2.isAdded = false;
+
+                  _this2.toast(true, response.data);
+                })["catch"](function () {
+                  _this2.toast(false);
+                });
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function deleteFav() {
+        return _deleteFav.apply(this, arguments);
+      }
+
+      return deleteFav;
+    }(),
+    toast: function toast(success) {
+      var msg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+
+      if (success) {
+        this.$bvToast.toast(msg, {
+          title: 'Sukces!',
+          solid: true,
+          variant: 'success'
+        });
+      } else {
+        this.$bvToast.toast("Co\u015B posz\u0142o nie tak...", {
+          title: 'Oops!',
+          solid: true,
+          variant: 'danger'
+        });
+      }
+    }
   },
-  created: function created() {//check if its saved
+  created: function created() {
+    this.isAdded = this.isfavourite == true;
   }
 });
 
@@ -79983,12 +80043,17 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("button", {
-    staticClass: "btn btn-block p-2",
-    class: [_vm.isAdded ? "favourite-saved" : "favourite"],
-    attrs: { type: "button" },
-    on: { click: _vm.addToFav }
-  })
+  return _vm.isAdded !== true
+    ? _c("button", {
+        staticClass: "btn btn-block p-2 favourite",
+        attrs: { type: "button" },
+        on: { click: _vm.addToFav }
+      })
+    : _c("button", {
+        staticClass: "btn btn-block p-2 favourite-saved",
+        attrs: { type: "button" },
+        on: { click: _vm.deleteFav }
+      })
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -24,8 +24,7 @@ class Product extends Model
         return $this->belongsToMany('App\Models\Category')->using('App\Models\CategoryPivot');
     }
 
-    public function carts() {
-        return $this->belongsToMany('App\Models\Cart')->using('App\Models\CartPivot');
+    public function favourites() {
+        return $this->hasMany('App\Models\UserFavourite', 'product_id');
     }
-
 }

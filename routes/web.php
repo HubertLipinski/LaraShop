@@ -29,12 +29,14 @@ Route::middleware('auth')->group(function () {
         Route::get('sell', 'UserPanelController@sell')->name('user.sell');
         Route::get('profile', 'UserPanelController@profile')->name('user.profile');
         Route::get('items', 'UserPanelController@items')->name('user.items');
-        Route::get('favourites', 'UserPanelController@favourites')->name('user.fav');
         Route::get('settings', 'UserPanelController@settings')->name('user.settings');
         Route::get('messages', 'UserPanelController@messages')->name('user.messages');
 
         Route::resource('saved-addresses', 'SavedAddressesController');
         Route::resource('edit', 'UserController');
+        Route::resource('favourite', 'UserFavourite', [
+            'names' => [ 'index' => 'user.fav' ]
+        ]);
     });
     Route::get('payment-summary/{hash}', 'CheckoutController@summary')->name('payment.summary');
 });
