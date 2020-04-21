@@ -39,6 +39,11 @@ Route::middleware('auth')->group(function () {
     Route::get('payment-summary/{hash}', 'CheckoutController@summary')->name('payment.summary');
 });
 
+Route::get('/paypal', function(){
+   $paypal = new \App\Services\Payments\PayPal\PaypalPayment();
+   $paypal->getToken();
+});
+
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
