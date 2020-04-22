@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/paypal', function(){
    $paypal = new \App\Services\Payments\PayPal\PaypalPayment();
-   $paypal->getToken();
+   $paypal->sendRequest();
 });
 
 Route::group(['prefix' => 'admin'], function () {

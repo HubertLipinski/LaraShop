@@ -21,7 +21,7 @@ class PaypalPayment extends PaymentBase
      */
     public function getToken(): String
     {
-        $response = $this->http->post('https://api.sandbox.paypal.com/v1/oauth2/token', [
+        $response = $this->http->post(config('payment.paypal.oauth_endpoint'), [
             'form_params' => [
                 'grant_type' => 'client_credentials',
             ],
@@ -47,6 +47,33 @@ class PaypalPayment extends PaymentBase
      */
     public function sendRequest(): Response
     {
-        // TODO: Implement sendRequest() method.
+        if(!$this->token)
+            $this->token = $this->getToken();
+
+        $response = $this->http->post(config('payment.paypal.order_endpoint'), [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $this->token,
+            ],
+            'json' => [
+                "intent" => "CAPTURE",
+                "purchase_units" => [
+                    [
+                        "reference_id" => "test",
+                        "amount" => [
+                            "currency_code" => "PLN",
+                            "value" => "1.0"
+                        ]
+                    ]
+                ],
+                "application_context" =>[
+                    "return_url" => config('app.url'),
+                    "cancel_url"=> "",
+                ]
+            ]
+        ]);
+
+        dd($this->decodeJson($response));
+        //user aprove request then capture
+        //config('payment.paypal.order_endpoint')/ORDER_ID/capture
     }
 }
