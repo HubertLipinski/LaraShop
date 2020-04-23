@@ -40,9 +40,9 @@ abstract class PaymentBase
     /**
      * Sends request to API provider
      *
-     * @return Response
+     * @return mixed
      */
-    public abstract function sendRequest(): Response;
+    public abstract function sendRequest();
 
     /**
      * Returns Http Guzzle client

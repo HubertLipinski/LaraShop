@@ -18,4 +18,8 @@ class PaymentHistory extends Model
     public function user() {
         return $this->belongsTo('App\Models\User');
     }
+
+    public function provider() {
+        return $this->hasMany('App\Models\PaymentProvider', 'payment_providers_id');
+    }
 }

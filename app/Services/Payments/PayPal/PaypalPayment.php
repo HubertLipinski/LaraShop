@@ -2,8 +2,11 @@
 
 namespace App\Services\Payments\PayPal;
 
+use App\Events\Payment\OrderCompleted;
+use App\Models\Order;
 use App\Services\Payments\PaymentBase;
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Support\Facades\Event;
 
 class PaypalPayment extends PaymentBase
 {
@@ -45,7 +48,7 @@ class PaypalPayment extends PaymentBase
     /**
      * @inheritDoc
      */
-    public function sendRequest(): Response
+    public function sendRequest()
     {
         if(!$this->token)
             $this->token = $this->getToken();
@@ -72,7 +75,10 @@ class PaypalPayment extends PaymentBase
             ]
         ]);
 
-        dd($this->decodeJson($response));
+        $order = Order::findOrFail(1);
+        event(new OrderCompleted($order));
+
+        return $this->decodeJson($response);
         //user aprove request then capture
         //config('payment.paypal.order_endpoint')/ORDER_ID/capture
     }
