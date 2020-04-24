@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Payments;
+namespace App\Services\Payments\PayU;
 
 interface iPayment
 {

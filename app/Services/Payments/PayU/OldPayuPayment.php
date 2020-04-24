@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Payments;
+namespace App\Services\Payments\PayU;
 
 use App\Models\Order;
 use App\Models\PaymentHistory;
@@ -18,7 +18,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class Payment implements iPayment
+class OldPayuPayment implements iPayment
 {
     private $orderModel;
     private $paymentHistoryModel;
@@ -128,6 +128,7 @@ class Payment implements iPayment
         $responseModel = new PayuResponseModel($response);
         $paymentRecord = $this->paymentHistoryModel->create([
             'user_id' => Auth::user()->id,
+            'payment_providers_id' => 2,
             'payment_provider_order_id' => $responseModel->getOrderId(),
             'order_status' => 'STARTED',
             'order_hash' => $createOrderModel->getHash()

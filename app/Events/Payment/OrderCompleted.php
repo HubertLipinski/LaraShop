@@ -11,7 +11,7 @@ class OrderCompleted
 {
     use SerializesModels;
 
-    public $order;
+    private $order;
 
     /**
      * Create a new event instance.
@@ -22,4 +22,13 @@ class OrderCompleted
     {
         $this->order = $order;
     }
+
+    /**
+     * @return Order
+     */
+    public function getOrder(): Order
+    {
+        return $this->order;
+    }
+
 }

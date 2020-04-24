@@ -12,8 +12,8 @@ use App\Models\SavedAddress;
 use App\Models\User;
 use App\Services\Payments\Models\CreateOrderModel;
 use App\Services\Payments\Models\PaymentUserData;
-use App\Services\Payments\Payment;
-use App\Providers\PaymentProvider;
+use App\Services\Payments\PayU\PayuPayment;
+use App\Providers\CutomPaymentProvider;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -28,10 +28,10 @@ class CheckoutController extends Controller
 
     /**
      * CheckoutController constructor.
-     * @param Payment $payment
+     * @param PayuPayment $payment
      * @param Order $order
      */
-    public function __construct(Payment $payment, Order $order, PaymentHistory $paymentHistory)
+    public function __construct(PayuPayment $payment, Order $order, PaymentHistory $paymentHistory)
     {
         $this->middleware('auth');
         $this->payment = $payment;
@@ -51,6 +51,8 @@ class CheckoutController extends Controller
             $id = $fields['saved_address'];
             $address = SavedAddress::findOrFail($id);
         }
+
+//        $payment = PaymentProvider::findOrFail($fields['payment_option']);
 
         $productList = $this->updateProducts($fields['items_list']);
         $this->payment->setAddress($address);

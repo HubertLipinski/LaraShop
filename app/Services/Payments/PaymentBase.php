@@ -11,16 +11,14 @@ use Psr\Http\Message\ResponseInterface;
 
 abstract class PaymentBase
 {
-    protected $paymentHistory = null;
     protected $http = null;
     protected $token = null;
 
     /**
      * PaymentBase constructor.
-     *
      */
     public function __construct() {
-        $this->paymentHistory = PaymentHistory::class;
+
     }
 
     /**
@@ -43,6 +41,11 @@ abstract class PaymentBase
      * @return mixed
      */
     public abstract function sendRequest();
+
+    protected function checkToken() {
+        if(!$this->token)
+            $this->token = $this->getToken();
+    }
 
     /**
      * Returns Http Guzzle client

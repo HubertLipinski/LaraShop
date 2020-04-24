@@ -10,6 +10,7 @@ class PaymentHistory extends Model
 
     protected $fillable = [
         'user_id',
+        'payment_providers_id',
         'payment_provider_order_id',
         'order_status',
         'order_hash'
@@ -20,6 +21,6 @@ class PaymentHistory extends Model
     }
 
     public function provider() {
-        return $this->hasMany('App\Models\PaymentProvider', 'payment_providers_id');
+        return $this->hasMany('App\Models\PaymentProvider', 'id', 'payment_providers_id');
     }
 }

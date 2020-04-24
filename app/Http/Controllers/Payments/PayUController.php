@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Payments;
 
 use App\Http\Controllers\Controller;
-use App\Services\Payments\Payment;
+use App\Services\Payments\PayU\PayuPayment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -14,9 +14,9 @@ class PayUController extends Controller
 
     /**
      * CartController constructor.
-     * @param Payment $payment
+     * @param PayuPayment $payment
      */
-    public function __construct(Payment $payment)
+    public function __construct(PayuPayment $payment)
     {
         $this->payment = $payment;
     }
