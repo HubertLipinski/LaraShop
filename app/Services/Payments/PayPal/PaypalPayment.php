@@ -3,15 +3,20 @@
 namespace App\Services\Payments\PayPal;
 
 use App\Events\Payment\OrderCompleted;
+use App\Exceptions\PaypalPaymentException;
 use App\Models\Order;
 use App\Models\PaymentHistory;
 use App\Services\Payments\PaymentBase;
+use App\Services\Payments\PayPal\Models\PurchaseUnits;
+use App\Services\Payments\PayPal\Models\Unit;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Event;
 
 class PaypalPayment extends PaymentBase
 {
+    private $purchaseUnits;
+
     /**
      * PaypalPayment constructor.
      */
@@ -19,6 +24,7 @@ class PaypalPayment extends PaymentBase
     {
         parent::__construct();
         $this->http = $this->createHttp();
+        $this->purchaseUnits = new PurchaseUnits();
     }
 
     /**
@@ -44,11 +50,12 @@ class PaypalPayment extends PaymentBase
     }
 
     /**
-     * @inheritDoc
+     * @param array $params CreateCheckoutRequest fields
      */
-    public function createRequest()
+    public function createRequest(array $params)
     {
-        // TODO: Implement createRequest() method.
+        $unit = new Unit("Test", 1);
+        $this->purchaseUnits->addUnit($unit);
     }
 
     /**
@@ -57,39 +64,27 @@ class PaypalPayment extends PaymentBase
     public function sendRequest()
     {
         $this->checkToken();
-
         try {
+           if (!$this->purchaseUnits->hasUnits())
+               throw new PaypalPaymentException('Class PaypalPayment has no payment units!');
             $response = $this->http->post(config('payment.paypal.order_endpoint'), [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $this->token,
                 ],
                 'json' => [
                     "intent" => "CAPTURE",
-                    "purchase_units" => [
-                        [
-                            "reference_id" => "test",
-                            "amount" => [
-                                "currency_code" => "PLN",
-                                "value" => "1.0"
-                            ]
-                        ]
-                    ],
+                    "purchase_units" => $this->purchaseUnits->toArray(),
                     "application_context" =>[
                         "return_url" => config('app.url'),
                         "cancel_url"=> "",
                     ]
                 ]
             ]);
-        } catch(GuzzleException $exception) {
+        } catch(\Exception $exception) {
             abort($exception->getCode(), $exception->getMessage());
         }
 
-//        $order = Order::findOrFail(1);
-//        event(new OrderCompleted($order));
-
         return $this->decodeJson($response);
-        //user aprove request then capture
-        //config('payment.paypal.order_endpoint')/ORDER_ID/capture
     }
 
     public function caputrePayment(PaymentHistory $payment)

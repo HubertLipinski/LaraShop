@@ -40,9 +40,9 @@ class PayuPayment extends PaymentBase
     }
 
     /**
-     * @inheritDoc
+     * @param array $params
      */
-    public function createRequest()
+    public function createRequest(array $params)
     {
         // TODO: Implement createRequest() method.
     }

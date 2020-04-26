@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Order;
 use App\Models\PaymentHistory;
-use App\Services\Payments\PaymentBase;
 use App\Services\Payments\PaymentProvider;
 use App\Services\Payments\PayU\PayuPayment;
 use App\Services\Payments\PayPal\PaypalPayment;
@@ -21,8 +21,9 @@ class CustomPaymentProvider extends ServiceProvider
         $this->app->singleton(PaymentProvider::class, function (){
             return new PaymentProvider(
                 $this->app->make(PaypalPayment::class),
-                $this->app->make(PayuPayment::class)
-                //add more models
+                $this->app->make(PayuPayment::class),
+                $this->app->make(Order::class),
+                $this->app->make(PaymentHistory::class)
             );
         });
 

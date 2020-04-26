@@ -31,9 +31,10 @@ abstract class PaymentBase
     /**
      * Create request for API provider
      *
+     * @param array $params
      * @return mixed
      */
-    public abstract function createRequest();
+    public abstract function createRequest(array $params);
 
     /**
      * Sends request to API provider

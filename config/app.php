@@ -178,7 +178,7 @@ return [
         /*
          * Custom Service Providers
          */
-        App\Providers\CutomPaymentProvider::class
+        App\Providers\CustomPaymentProvider::class
 
     ],
 
