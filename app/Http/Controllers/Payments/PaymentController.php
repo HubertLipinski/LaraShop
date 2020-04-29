@@ -24,8 +24,8 @@ class PaymentController extends Controller
     }
 
     public function test() {
-        $this->paymentProvider->paypal->createRequest([]);
-       dd($this->paymentProvider->paypal->sendRequest());
+//        $this->paymentProvider->paypal->createRequest([]);
+//       dd($this->paymentProvider->paypal->sendRequest());
     }
 
     public function paymentSuccessful(Request $request)
