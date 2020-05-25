@@ -2,6 +2,7 @@
 
 namespace App\Services\Payments;
 
+use App\Http\Requests\CreateCheckoutRequest;
 use App\Models\PaymentHistory;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
@@ -37,11 +38,19 @@ abstract class PaymentBase
     public abstract function createRequest(array $params);
 
     /**
-     * Sends request to API provider
-     *
+     * Send request to API provider
+     * @param array $params
      * @return mixed
      */
     public abstract function sendRequest();
+
+    /**
+     * Payment gateway for client
+     *
+     * @param CreateCheckoutRequest $request
+     * @return mixed
+     */
+    public abstract function pay(CreateCheckoutRequest $request);
 
     protected function checkToken() {
         if(!$this->token)

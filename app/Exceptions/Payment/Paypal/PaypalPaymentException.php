@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions;
+namespace App\Exceptions\Payment\Paypal;
 
 use Exception;
 use Illuminate\Support\Facades\Log;

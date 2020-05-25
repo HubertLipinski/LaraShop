@@ -22,7 +22,8 @@ Route::post('/items/add', 'ProductController@store')->name('addItem');
 Route::get('/cart', 'CartController@index')->name('cart');
 Route::post('/cart/add', 'CartController@addToCart')->name('addToCart');
 Route::post('/cart/delete', 'CartController@destroy')->name('deleteFromCart');
-Route::post('/cart/checkout', 'CheckoutController@checkout')->name('cartCheckout');
+//Route::post('/cart/checkout', 'CheckoutController@checkout')->name('cartCheckout');
+Route::post('/cart/checkout', 'Payments\PaymentController@checkout')->name('cartCheckout');
 
 Route::middleware('auth')->group(function () {
     Route::group(['prefix' => 'user'], function (){
@@ -38,8 +39,6 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('payment-summary/{hash}', 'CheckoutController@summary')->name('payment.summary');
 });
-
-Route::get('paypal', 'Payments\PaymentController@test'); //testing
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

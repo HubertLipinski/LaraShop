@@ -3,7 +3,8 @@
 namespace App\Services\Payments\PayPal;
 
 use App\Events\Payment\OrderCompleted;
-use App\Exceptions\PaypalPaymentException;
+use App\Exceptions\Payment\Paypal\PaypalPaymentException;
+use App\Http\Requests\CreateCheckoutRequest;
 use App\Models\Order;
 use App\Models\PaymentHistory;
 use App\Services\Payments\PaymentBase;
@@ -85,6 +86,17 @@ class PaypalPayment extends PaymentBase
         }
 
         return $this->decodeJson($response);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function pay(CreateCheckoutRequest $request)
+    {
+        $this->createRequest([]);
+        $link = $this->sendRequest()->get('links')[1]['href'];
+
+        redirect($link)->send();
     }
 
     public function caputrePayment(PaymentHistory $payment)

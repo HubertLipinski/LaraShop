@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Payments;
 
 use App\Events\Payment\OrderCompleted;
+use App\Exceptions\CheckoutMethodNotFound;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateCheckoutRequest;
 use App\Services\Payments\PaymentProvider;
 use Illuminate\Http\Request;
 
@@ -22,8 +24,26 @@ class PaymentController extends Controller
         $this->paymentProvider = $paymentProvider;
     }
 
-    public function test() {
-//        $this->paymentProvider->paypal->createRequest([]);
+    /**
+     * @param CreateCheckoutRequest $request
+     * $paymentOption: 0 - Credit card, 1 - PayPal, 2 - PayU
+     */
+    public function checkout(CreateCheckoutRequest $request) : void
+    {
+        $paymentOption = $request->validated()['payment_option'];
+        try {
+            switch ($paymentOption) {
+                case 1:
+                    $this->paymentProvider->paypal->pay($request);
+                    break;
+                case 2:
+                    $this->paymentProvider->payu->pay($request);
+                    break;
+                default: throw new CheckoutMethodNotFound();
+            }
+        } catch (\Exception $e) {
+            abort($e->getCode(), $e->getMessage());
+        }
     }
 
     public function paymentSuccessful(Request $request)

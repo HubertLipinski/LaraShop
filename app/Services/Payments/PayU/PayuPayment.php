@@ -2,6 +2,7 @@
 
 namespace App\Services\Payments\PayU;
 
+use App\Http\Requests\CreateCheckoutRequest;
 use App\Services\Payments\Models\PayuResponseModel;
 use App\Services\Payments\PaymentBase;
 use GuzzleHttp\Exception\GuzzleException;
@@ -48,11 +49,20 @@ class PayuPayment extends PaymentBase
     }
 
     /**
-     * @inheritDoc
+     * @return mixed|void
      */
     public function sendRequest()
+    {
+        //
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function pay(CreateCheckoutRequest $request)
     {
         $this->checkToken();
         // TODO: Implement sendRequest() method.
     }
+
 }

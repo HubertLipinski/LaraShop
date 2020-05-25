@@ -120,8 +120,8 @@
                             </div>
                         </label>
 
-                        <input type="radio" id="paypal" value="1" name="payment_option" disabled required>
-                        <label for="paypal" class="text-muted">
+                        <input type="radio" id="paypal" value="1" name="payment_option" required>
+                        <label for="paypal">
                             <div class="cart-payment mr-3">
                                 <i class="cc-paypal"></i>
                                 <p class="font-weight-bold">PayPal</p>

@@ -12,7 +12,7 @@ use App\Models\SavedAddress;
 use App\Models\User;
 use App\Services\Payments\Models\CreateOrderModel;
 use App\Services\Payments\Models\PaymentUserData;
-use App\Services\Payments\PayU\PayuPayment;
+use App\Services\Payments\PayU\OldPayuPayment;
 use App\Providers\CustomPaymentProvider;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
@@ -31,7 +31,7 @@ class CheckoutController extends Controller
      * @param PayuPayment $payment
      * @param Order $order
      */
-    public function __construct(PayuPayment $payment, Order $order, PaymentHistory $paymentHistory)
+    public function __construct(OldPayuPayment $payment, Order $order, PaymentHistory $paymentHistory)
     {
         $this->middleware('auth');
         $this->payment = $payment;
