@@ -2,17 +2,13 @@
 
 namespace App\Services\Payments\PayPal;
 
-use App\Events\Payment\OrderCompleted;
 use App\Exceptions\Payment\Paypal\PaypalPaymentException;
 use App\Http\Requests\CreateCheckoutRequest;
-use App\Models\Order;
 use App\Models\PaymentHistory;
 use App\Services\Payments\PaymentBase;
 use App\Services\Payments\PayPal\Models\PurchaseUnits;
 use App\Services\Payments\PayPal\Models\Unit;
 use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Psr7\Response;
-use Illuminate\Support\Facades\Event;
 
 class PaypalPayment extends PaymentBase
 {
@@ -21,8 +17,7 @@ class PaypalPayment extends PaymentBase
     /**
      * PaypalPayment constructor.
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         $this->http = $this->createHttp();
         $this->purchaseUnits = new PurchaseUnits();
@@ -31,8 +26,7 @@ class PaypalPayment extends PaymentBase
     /**
      * @inheritDoc
      */
-    public function getToken(): String
-    {
+    public function getToken(): String {
         try {
             $response = $this->http->post(config('payment.paypal.oauth_endpoint'), [
                 'form_params' => [
@@ -53,8 +47,7 @@ class PaypalPayment extends PaymentBase
     /**
      * @param array $params CreateCheckoutRequest fields
      */
-    public function createRequest(array $params)
-    {
+    public function createRequest(array $params) : void {
         $unit = new Unit("Test", 1);
         $this->purchaseUnits->addUnit($unit);
     }
@@ -62,13 +55,12 @@ class PaypalPayment extends PaymentBase
     /**
      * @inheritDoc
      */
-    public function sendRequest()
-    {
+    public function sendRequest() {
         $this->checkToken();
         try {
            if (!$this->purchaseUnits->hasUnits())
                throw new PaypalPaymentException('Class PaypalPayment has no payment units!');
-            $response = $this->http->post(config('payment.paypal.order_endpoint'), [
+           $response = $this->http->post(config('payment.paypal.order_endpoint'), [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $this->token,
                 ],
@@ -91,16 +83,14 @@ class PaypalPayment extends PaymentBase
     /**
      * @inheritDoc
      */
-    public function pay(CreateCheckoutRequest $request)
-    {
-        $this->createRequest([]);
+    public function pay(CreateCheckoutRequest $request) : void {
+        $this->createRequest($request->validated());
         $link = $this->sendRequest()->get('links')[1]['href'];
 
         redirect($link)->send();
     }
 
-    public function caputrePayment(PaymentHistory $payment)
-    {
+    public function caputrePayment(PaymentHistory $payment) : void {
         $this->checkToken();
         try {
             $orderId = $payment->payment_provider_order_id;
@@ -113,8 +103,6 @@ class PaypalPayment extends PaymentBase
         } catch (GuzzleException $exception) {
             abort($exception->getCode(), $exception->getMessage());
         }
-
-        //event paymentCaptured($payment->id)
     }
 
 }

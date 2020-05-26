@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Payments;
 
-use App\Events\Payment\OrderCompleted;
 use App\Exceptions\CheckoutMethodNotFound;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCheckoutRequest;

@@ -3,9 +3,7 @@
 namespace App\Services\Payments;
 
 use App\Http\Requests\CreateCheckoutRequest;
-use App\Models\PaymentHistory;
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Psr\Http\Message\ResponseInterface;
@@ -18,9 +16,7 @@ abstract class PaymentBase
     /**
      * PaymentBase constructor.
      */
-    public function __construct() {
-
-    }
+    public function __construct() {}
 
     /**
      * Get authentication token from API provider
