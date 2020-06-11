@@ -48,7 +48,10 @@ abstract class PaymentBase
      */
     public abstract function pay(CreateCheckoutRequest $request);
 
-    protected function checkToken() {
+    /**
+     * Checks if instance have token
+     */
+    protected function checkToken() : void {
         if(!$this->token)
             $this->token = $this->getToken();
     }
@@ -80,7 +83,7 @@ abstract class PaymentBase
     /**
      * Clears User's cart.
      */
-    protected final function clearCart(): void {
+    protected final function clearCart() : void {
         $cart = Auth::user()->cart;
         $cart->delete();
         Auth::user()->cart()->create();

@@ -12,8 +12,3 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-
-Route::prefix('pay-u')->group(function () {
-    Route::post('notify','Payments\PayUController@notify');
-});

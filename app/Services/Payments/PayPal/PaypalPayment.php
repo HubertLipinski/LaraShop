@@ -5,6 +5,7 @@ namespace App\Services\Payments\PayPal;
 use App\Exceptions\Payment\Paypal\PaypalPaymentException;
 use App\Http\Requests\CreateCheckoutRequest;
 use App\Models\PaymentHistory;
+use App\Models\Product;
 use App\Services\Payments\PaymentBase;
 use App\Services\Payments\PayPal\Models\PurchaseUnits;
 use App\Services\Payments\PayPal\Models\Unit;
@@ -48,8 +49,12 @@ class PaypalPayment extends PaymentBase
      * @param array $params CreateCheckoutRequest fields
      */
     public function createRequest(array $params) : void {
-        $unit = new Unit("Test", 1);
-        $this->purchaseUnits->addUnit($unit);
+        $items = $params['items_list'];
+        foreach($items as $item) {
+            $product = Product::findOrFail($item['id']);
+            $unit = new Unit($product->name, $product->price * (int)$item['qty']);
+            $this->purchaseUnits->addUnit($unit);
+        }
     }
 
     /**
@@ -68,7 +73,7 @@ class PaypalPayment extends PaymentBase
                     "intent" => "CAPTURE",
                     "purchase_units" => $this->purchaseUnits->toArray(),
                     "application_context" =>[
-                        "return_url" => config('app.url'),
+                        "return_url" => config('app.url') . '/payment-summary/paypal',
                         "cancel_url"=> "",
                     ]
                 ]
@@ -86,8 +91,9 @@ class PaypalPayment extends PaymentBase
     public function pay(CreateCheckoutRequest $request) : void {
         $this->createRequest($request->validated());
         $link = $this->sendRequest()->get('links')[1]['href'];
-
+        //todo create payment in database
         redirect($link)->send();
+        $this->clearCart();
     }
 
     public function caputrePayment(PaymentHistory $payment) : void {

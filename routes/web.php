@@ -37,7 +37,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('saved-addresses', 'SavedAddressesController');
         Route::resource('edit', 'UserController');
     });
-    Route::get('payment-summary/{hash}', 'CheckoutController@summary')->name('payment.summary');
+    Route::get('payment-summary/paypal', 'Payments\SummaryController@paypal');
+    Route::get('payment-summary/payu{hash}', 'Payments\SummaryController@payu')->name('payment.summary');
 });
 
 Route::group(['prefix' => 'admin'], function () {

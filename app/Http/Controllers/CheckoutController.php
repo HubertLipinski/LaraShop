@@ -28,8 +28,9 @@ class CheckoutController extends Controller
 
     /**
      * CheckoutController constructor.
-     * @param PayuPayment $payment
+     * @param OldPayuPayment $payment
      * @param Order $order
+     * @param PaymentHistory $paymentHistory
      */
     public function __construct(OldPayuPayment $payment, Order $order, PaymentHistory $paymentHistory)
     {
@@ -77,30 +78,5 @@ class CheckoutController extends Controller
             $inCart->pivot->update(['qty'=>$product['qty']]);
         }
         return $cart->items;
-    }
-
-    public function summary($hash, Request $request) {
-        $payment = $this->paymentHistory->where('order_hash', $hash)->firstOrFail();
-
-        abort_unless(Auth::user()->can('view', $payment), 401);
-        $order = $this->order->where('payment_histories_id', $payment->id)->firstOrFail();
-
-        $success = true;
-        if($request->has('error')) {
-            abort_unless(Auth::user()->can('update', $payment), 401);
-            $payment->update(['order_status' => 'DECLINED']);
-            $success = false;
-        } else if (empty($request->all())) {
-            abort_unless(Auth::user()->can('update', $payment), 401);
-            $payment->update(['order_status' => 'SUCCESS']);
-        }
-
-        return view('layouts.paymentSummary')
-            ->with([
-                'success' => $success,
-                'code' => $request->has('error') ? $request->error : 200,
-                'order' => $order,
-                'payment'=> $payment
-            ]);
     }
 }
