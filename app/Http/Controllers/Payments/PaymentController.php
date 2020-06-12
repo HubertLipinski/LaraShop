@@ -33,6 +33,7 @@ class PaymentController extends Controller
         try {
             switch ($paymentOption) {
                 case 1:
+                    //database payment create
                     $this->paymentProvider->paypal->pay($request);
                     break;
                 case 2:
