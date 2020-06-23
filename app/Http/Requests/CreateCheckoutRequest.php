@@ -34,7 +34,7 @@ class CreateCheckoutRequest extends FormRequest
             'name' => 'sometimes|required_without:saved_address,',
             'surname' => 'sometimes|required_without:saved_address',
             'address' => 'sometimes|required_without:saved_address',
-            'telephone' => 'sometimes|required_without:saved_address',
+            'number' => 'sometimes|required_without:saved_address',
             'city' => 'sometimes|required_without:saved_address',
             'voivodeship' => 'sometimes|required_without:saved_address',
             'zip_code' => 'sometimes|required_without:saved_address',

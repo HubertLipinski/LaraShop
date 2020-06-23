@@ -6,6 +6,7 @@ use App\Http\Requests\CreateCheckoutRequest;
 use GuzzleHttp\Client;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use phpDocumentor\Reflection\Types\Integer;
 use Psr\Http\Message\ResponseInterface;
 
 abstract class PaymentBase
@@ -44,9 +45,10 @@ abstract class PaymentBase
      * Payment gateway for client
      *
      * @param CreateCheckoutRequest $request
+     * @param int $address SavedAddress model id
      * @return mixed
      */
-    public abstract function pay(CreateCheckoutRequest $request);
+    public abstract function pay(CreateCheckoutRequest $request, int $address);
 
     /**
      * Checks if instance have token

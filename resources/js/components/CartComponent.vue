@@ -83,8 +83,8 @@
                                         <input type="text" class="form-control" id="inputAddress" name="address" placeholder="1234 Main St" required>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label for="telephone">Nr Telefonu</label>
-                                        <input type="text" class="form-control" id="telephone" name="telephone" required>
+                                        <label for="number">Nr Telefonu</label>
+                                        <input type="text" class="form-control" id="number" name="number" required>
                                     </div>
                                 </div>
                                 <div class="form-row">

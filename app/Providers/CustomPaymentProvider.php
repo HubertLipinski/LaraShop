@@ -18,7 +18,7 @@ class CustomPaymentProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(PaymentProvider::class, function (){
+        $this->app->singleton(PaymentProvider::class, function () {
             return new PaymentProvider(
                 $this->app->make(PaypalPayment::class),
                 $this->app->make(PayuPayment::class),

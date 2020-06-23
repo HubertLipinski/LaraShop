@@ -58,14 +58,16 @@ class SummaryController extends Controller
     }
 
     public function paypal(Request $request) {
-//        dd($request->all());
+        $token = $request->get('token');
+        $payment = $this->paymentHistory->where('payment_provider_order_id', $token)->first();
+        $order = $this->order->where('payment_histories_id', $payment->id)->first();
         //todo update
         return view('layouts.paymentSummary')
             ->with([
                 'success' => true,
                 'code' => $request->has('error') ? $request->error : 200,
-                'order' => $this->order->first(),
-                'payment'=> $this->paymentHistory->first()
+                'order' => $order,
+                'payment'=> $payment
             ]);
     }
 }

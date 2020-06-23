@@ -79771,16 +79771,11 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "form-group col-md-4" }, [
-        _c("label", { attrs: { for: "telephone" } }, [_vm._v("Nr Telefonu")]),
+        _c("label", { attrs: { for: "number" } }, [_vm._v("Nr Telefonu")]),
         _vm._v(" "),
         _c("input", {
           staticClass: "form-control",
-          attrs: {
-            type: "text",
-            id: "telephone",
-            name: "telephone",
-            required: ""
-          }
+          attrs: { type: "text", id: "number", name: "number", required: "" }
         })
       ])
     ])

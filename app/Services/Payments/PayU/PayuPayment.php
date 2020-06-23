@@ -54,7 +54,7 @@ class PayuPayment extends PaymentBase
     /**
      * @inheritDoc
      */
-    public function pay(CreateCheckoutRequest $request) {
+    public function pay(CreateCheckoutRequest $request, int $address) {
         $this->checkToken();
         // TODO: Implement sendRequest() method.
     }

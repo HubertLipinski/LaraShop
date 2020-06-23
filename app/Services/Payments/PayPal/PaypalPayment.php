@@ -4,24 +4,32 @@ namespace App\Services\Payments\PayPal;
 
 use App\Exceptions\Payment\Paypal\PaypalPaymentException;
 use App\Http\Requests\CreateCheckoutRequest;
+use App\Models\Order;
 use App\Models\PaymentHistory;
 use App\Models\Product;
 use App\Services\Payments\PaymentBase;
 use App\Services\Payments\PayPal\Models\PurchaseUnits;
 use App\Services\Payments\PayPal\Models\Unit;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\Auth;
 
 class PaypalPayment extends PaymentBase
 {
     private $purchaseUnits;
+    private $order;
+    private $paymentHistory;
 
     /**
      * PaypalPayment constructor.
+     * @param Order $order
+     * @param PaymentHistory $paymentHistory
      */
-    public function __construct() {
+    public function __construct(Order $order, PaymentHistory $paymentHistory) {
         parent::__construct();
         $this->http = $this->createHttp();
         $this->purchaseUnits = new PurchaseUnits();
+        $this->order = $order;
+        $this->paymentHistory = $paymentHistory;
     }
 
     /**
@@ -88,10 +96,26 @@ class PaypalPayment extends PaymentBase
     /**
      * @inheritDoc
      */
-    public function pay(CreateCheckoutRequest $request) : void {
+    public function pay(CreateCheckoutRequest $request, int $address) : void {
         $this->createRequest($request->validated());
-        $link = $this->sendRequest()->get('links')[1]['href'];
-        //todo create payment in database
+        $response = $this->sendRequest();
+        $link = $response->get('links')[1]['href'];
+
+        $payment = $this->paymentHistory->create([
+            'user_id' => Auth::user()->id,
+            'payment_providers_id' => 1,
+            'payment_provider_order_id' => $response->get('id'),
+            'order_status' => $response->get('status')
+        ]);
+
+        $this->order->create([
+            'user_address_id' => $address,
+            'cart_id' => Auth::user()->cart->id,
+            'payment_histories_id' => $payment->id,
+            'value' => $request['total_price'],
+            'status' => 'STARTED',
+        ]);
+
         redirect($link)->send();
         $this->clearCart();
     }

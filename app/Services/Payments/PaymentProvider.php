@@ -4,6 +4,7 @@ namespace App\Services\Payments;
 
 use App\Models\Order;
 use App\Models\PaymentHistory;
+use App\Models\SavedAddress;
 use App\Services\Payments\PayPal\PaypalPayment;
 use App\Services\Payments\PayU\PayuPayment;
 
@@ -11,7 +12,7 @@ class PaymentProvider
 {
     public $paypal;
     public $payu;
-    private $order;
+    public $order;
     private $paymentHistory;
 
     /**
@@ -33,6 +34,18 @@ class PaymentProvider
         $this->paymentHistory = $paymentHistory;
     }
 
-
+    /**
+     * @param array $params
+     * @return int id of SavedAddress model
+     */
+    public function checkSavedAddress(array $params) : int {
+        if(!isset($params['saved_address'])) {
+            $address = new SavedAddress($params);
+            $address->fill(['user_id'=>auth()->id()]);
+            $address->save();
+            return $address->id;
+        }
+        return $params['saved_address'];
+    }
 
 }

@@ -18,7 +18,6 @@ class CreatePaymentHistoriesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('payment_provider_order_id');
             $table->string('order_status');
-            $table->string('order_hash');
             $table->timestamps();
 
             $table->foreign('user_id')
