@@ -37,7 +37,6 @@ class PaymentController extends Controller
         try {
             switch ($validated['payment_option']) {
                 case 1:
-                    //database payment create
                     $this->paymentProvider->paypal->pay($request, $address);
                     break;
                 case 2:

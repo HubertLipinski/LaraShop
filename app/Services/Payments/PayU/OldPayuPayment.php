@@ -8,7 +8,7 @@ use App\Models\SavedAddress;
 use App\Services\Payments\Models\CreateOrderModel;
 use App\Services\Payments\Models\PaymentPayuData;
 use App\Services\Payments\Models\PaymentProductList;
-use App\Services\Payments\Models\PaymentProductModel;
+use App\Services\Payments\Models\Unit;
 use App\Services\Payments\Models\PaymentUserData;
 use App\Services\Payments\Models\PayuResponseModel;
 use GuzzleHttp\Client;
@@ -52,7 +52,7 @@ class OldPayuPayment implements iPayment
     {
         $paymentProductList = new PaymentProductList();
         foreach ($products as $product) {
-            $paymentProduct = new PaymentProductModel(
+            $paymentProduct = new Unit(
                 $product->name,
                 $product->price,
                 $product->pivot->qty

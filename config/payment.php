@@ -8,7 +8,7 @@ return [
             'client_id' => env('PAYU_CLIENT_ID'),
             'client_secret' => env('PAYU_CLIENT_SECRET'),
             'pos_id' => env('PAYU_POS_ID'),
-            'notify' => config('app.url').'/api/pay-u/notify'
+            'notify' => config('app.url').'/api/payu/notify'
         ],
     'paypal' => [
         'oauth_endpoint' => env('PAYPAL_OAUTH_ENDPOINT'),

@@ -1,24 +1,21 @@
 <?php
 
-namespace App\Services\Payments\Models;
+namespace App\Services\Payments\PayU\Models;
 
 use Illuminate\Contracts\Support\Arrayable;
 
-class PaymentProductModel implements Arrayable
+class Unit implements Arrayable
 {
-
     private $name;
     private $unitPrice;
     private $quantity;
 
     /**
-     * PaymentProductModel constructor.
      * @param $name
      * @param $unitPrice
      * @param $quantity
      */
-    public function __construct(string $name, int $unitPrice, int $quantity)
-    {
+    public function __construct(string $name, int $unitPrice, int $quantity) {
         $this->name = $name;
         $this->unitPrice = $unitPrice * 100;
         $this->quantity = $quantity;
@@ -29,8 +26,7 @@ class PaymentProductModel implements Arrayable
      *
      * @return array
      */
-    public function toArray(): array
-    {
+    public function toArray() : array {
         return [
             'name' => $this->name,
             'unitPrice' => $this->unitPrice,

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Payments\PayPal\Models;
+namespace App\Services\Payments\PayU\Models;
 
 use Illuminate\Contracts\Support\Arrayable;
 

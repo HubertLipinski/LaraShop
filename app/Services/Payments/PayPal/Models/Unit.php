@@ -16,8 +16,7 @@ class Unit implements Arrayable
      * @param $currencyCode
      * @param $value
      */
-    public function __construct(String $referenceId, int $value, String $currencyCode = 'PLN')
-    {
+    public function __construct(String $referenceId, int $value, String $currencyCode = 'PLN') {
         $this->referenceId = $referenceId;
         $this->value = $value;
         $this->currencyCode = $currencyCode;
@@ -27,8 +26,7 @@ class Unit implements Arrayable
     /**
      * @inheritDoc
      */
-    public function toArray() : array
-    {
+    public function toArray() : array {
         return [
             'reference_id' => $this->referenceId,
             'amount' => [
