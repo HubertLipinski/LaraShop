@@ -6,7 +6,6 @@ use App\Http\Requests\CreateCheckoutRequest;
 use GuzzleHttp\Client;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use phpDocumentor\Reflection\Types\Integer;
 use Psr\Http\Message\ResponseInterface;
 
 abstract class PaymentBase
@@ -36,7 +35,6 @@ abstract class PaymentBase
 
     /**
      * Send request to API provider
-     * @param array $params
      * @return mixed
      */
     public abstract function sendRequest();
@@ -77,6 +75,12 @@ abstract class PaymentBase
         return new Client(['headers' => $headers]);
     }
 
+    /**
+     * Decode response and returns collection
+     * @param ResponseInterface $response
+     * @param bool $assoc
+     * @return Collection
+     */
     protected final function decodeJson(ResponseInterface $response, bool $assoc = true) : Collection {
         $decoded = json_decode($response->getBody(), $assoc);
         return collect($decoded);

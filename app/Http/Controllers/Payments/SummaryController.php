@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\PaymentHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SummaryController extends Controller
 {
@@ -26,36 +27,29 @@ class SummaryController extends Controller
 
     public function payu(Request $request)
     {
-        dd($request->all());
+        if(!$request->exists('cart'))
+            abort(500);
+        $order =  $this->order->where('cart_id', $request->get('cart'))->firstOrFail();
+        abort_unless(Auth::user()->can('view', $order), 401);
+        $payment = $order->payment;
 
-//        $payment = $this->paymentHistory->where('order_hash', $hash)->firstOrFail();
-//
-//        abort_unless(Auth::user()->can('view', $payment), 401);
-//        $order = $this->order->where('payment_histories_id', $payment->id)->firstOrFail();
-//
-//        $success = true;
-//        if($request->has('error')) {
-//            abort_unless(Auth::user()->can('update', $payment), 401);
-//            $payment->update(['order_status' => 'DECLINED']);
-//            $success = false;
-//        } else if (empty($request->all())) {
-//            abort_unless(Auth::user()->can('update', $payment), 401);
-//            $payment->update(['order_status' => 'SUCCESS']);
-//        }
-//
-//        return view('layouts.paymentSummary')
-//            ->with([
-//                'success' => $success,
-//                'code' => $request->has('error') ? $request->error : 200,
-//                'order' => $order,
-//                'payment'=> $payment
-//            ]);
+        return view('layouts.paymentSummary')
+            ->with([
+                'success' => !$request->has('error'),
+                'code' => $request->has('error') ? $request->error : 200,
+                'order' => $order,
+                'payment'=> $payment
+            ]);
     }
 
     public function paypal(Request $request) {
+        if(!$request->exists('token'))
+            abort(500);
         $token = $request->get('token');
-        $payment = $this->paymentHistory->where('payment_provider_order_id', $token)->first();
-        $order = $this->order->where('payment_histories_id', $payment->id)->first();
+        $payment = $this->paymentHistory->where('payment_provider_order_id', $token)->firstOrFail();
+        $order = $this->order->where('payment_histories_id', $payment->id)->firstOrFail();
+        abort_unless(Auth::user()->can('view', $order), 401);
+
         return view('layouts.paymentSummary')
             ->with([
                 'success' => true,

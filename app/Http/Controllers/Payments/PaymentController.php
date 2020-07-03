@@ -5,16 +5,12 @@ namespace App\Http\Controllers\Payments;
 use App\Exceptions\CheckoutMethodNotFound;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCheckoutRequest;
-use App\Models\Order;
-use App\Models\SavedAddress;
 use App\Services\Payments\PaymentProvider;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 
 class PaymentController extends Controller
 {
-
     private $paymentProvider;
 
     /**
@@ -29,6 +25,8 @@ class PaymentController extends Controller
     /**
      * @param CreateCheckoutRequest $request
      * $paymentOption: 0 - Credit card, 1 - PayPal, 2 - PayU
+     *
+     * Can be easily expanded
      */
     public function checkout(CreateCheckoutRequest $request) : void
     {
@@ -52,8 +50,6 @@ class PaymentController extends Controller
 
     public function paymentSuccessful(Request $request)
     {
-
 //        event(new OrderCompleted($order));
-//        wyswietlenie podsumowania
     }
 }

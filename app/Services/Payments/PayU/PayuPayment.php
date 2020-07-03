@@ -10,9 +10,7 @@ use App\Services\Payments\PaymentBase;
 use App\Services\Payments\PayU\Models\Unit;
 use App\Services\Payments\PayU\Models\PurchaseUnits;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use function MongoDB\BSON\toJSON;
 
 class PayuPayment extends PaymentBase
 {
@@ -80,7 +78,7 @@ class PayuPayment extends PaymentBase
             'allow_redirects' => false,
             'json' => [
                 'notifyUrl'=> config('payment.payU.notify'),
-                'continueUrl'=> config('app.url') . '/payment-summary/payu',
+                'continueUrl'=> config('app.url') . '/payment-summary/payu?cart=' . Auth::user()->cart->id,
                 'customerIp' => request()->ip(),
                 'merchantPosId' => config('payment.payU.pos_id'),
                 'description' => 'Płatność z LaraShop',

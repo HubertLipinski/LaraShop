@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Order;
 use App\Models\PaymentHistory;
 use App\Models\Product;
 use App\Models\SavedAddress;
@@ -19,6 +20,7 @@ class AuthServiceProvider extends ServiceProvider
         Product::class => 'App\Policies\ProductsPolicy',
         PaymentHistory::class => 'App\Policies\PaymentHistoryPolicy',
         SavedAddress::class => 'App\Policies\SavedAddressPolicy',
+        Order::class => 'App\Policies\OrderPolicy',
         User::class => 'App\Policies\UserPolicy',
     ];
 
