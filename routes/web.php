@@ -22,7 +22,7 @@ Route::post('/items/add', 'ProductController@store')->name('addItem');
 Route::get('/cart', 'CartController@index')->name('cart');
 Route::post('/cart/add', 'CartController@addToCart')->name('addToCart');
 Route::post('/cart/delete', 'CartController@destroy')->name('deleteFromCart');
-Route::post('/cart/checkout', 'CheckoutController@checkout')->name('cartCheckout');
+Route::post('/cart/checkout', 'Payments\PaymentController@checkout')->name('cartCheckout');
 
 Route::middleware('auth')->group(function () {
     Route::group(['prefix' => 'user'], function (){
@@ -36,7 +36,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('saved-addresses', 'SavedAddressesController');
         Route::resource('edit', 'UserController');
     });
-    Route::get('payment-summary/{hash}', 'CheckoutController@summary')->name('payment.summary');
+    Route::get('payment-summary/paypal', 'Payments\SummaryController@paypal');
+    Route::get('payment-summary/payu', 'Payments\SummaryController@payu');
 });
 
 Route::group(['prefix' => 'admin'], function () {

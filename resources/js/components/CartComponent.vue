@@ -83,8 +83,8 @@
                                         <input type="text" class="form-control" id="inputAddress" name="address" placeholder="1234 Main St" required>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label for="telephone">Nr Telefonu</label>
-                                        <input type="text" class="form-control" id="telephone" name="telephone" required>
+                                        <label for="number">Nr Telefonu</label>
+                                        <input type="text" class="form-control" id="number" name="number" required>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -109,9 +109,10 @@
                     </div>
                 </div>
                 <div class="cart-payment-container">
+<!--                    todo from database-->
                     <p class="h3 pt-2">3. Płatność</p>
                     <div class="row m-3">
-                        <input type="radio" id="credit-card" value="credit-card" name="payment_option" disabled required>
+                        <input type="radio" id="credit-card" value="0" name="payment_option" disabled required>
                         <label for="credit-card" class="text-muted">
                             <div class="cart-payment mr-3">
                                 <i class="credit-card"></i>
@@ -119,15 +120,15 @@
                             </div>
                         </label>
 
-                        <input type="radio" id="paypal" value="paypal" name="payment_option" disabled required>
-                        <label for="paypal" class="text-muted">
+                        <input type="radio" id="paypal" value="1" name="payment_option" required>
+                        <label for="paypal">
                             <div class="cart-payment mr-3">
                                 <i class="cc-paypal"></i>
                                 <p class="font-weight-bold">PayPal</p>
                             </div>
                         </label>
 
-                        <input type="radio" id="payU" value="payU" name="payment_option" required>
+                        <input type="radio" id="payU" value="2" name="payment_option" required>
                         <label for="payU">
                             <div class="cart-payment">
                                 <i class="payu"></i>

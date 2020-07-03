@@ -3,8 +3,8 @@
 @section('content')
 
     <div class="container pb-5">
-        <p class="h1 text-center py-3">Dziękujemy za zakup!</p>
         @if($success)
+            <p class="h1 text-center py-3">Dziękujemy za zakup!</p>
             <div class="p-3">
                 <p class="h2">Zamówienie nr #{{$order->id}}</p>
                 <div class="pl-3">
@@ -82,6 +82,7 @@
             </div>
             <a href="{{route('user.items')}}" class="btn btn-lg btn-block w-25 btn-outline-primary btn-prod py-2 ml-auto">Dalej</a>
         @else
+            <p class="h1 text-center py-3">Coś poszło nie tak...</p>
             <div class="p-3">
                 <p class="h2">Zamówienie nr #{{$order->id}}</p>
                 <div class="pl-3">
