@@ -11,7 +11,7 @@
 |
 */
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/', 'HomeController@index')->name('home');
 
@@ -19,12 +19,13 @@ Route::get('/items', 'ProductList@index')->name('productsList');
 Route::get('/items/{id}', 'ProductController@show')->name('showProduct');
 Route::post('/items/add', 'ProductController@store')->name('addItem');
 
-Route::get('/cart', 'CartController@index')->name('cart');
-Route::post('/cart/add', 'CartController@addToCart')->name('addToCart');
-Route::post('/cart/delete', 'CartController@destroy')->name('deleteFromCart');
-Route::post('/cart/checkout', 'Payments\PaymentController@checkout')->name('cartCheckout');
+Route::middleware(['auth', 'verified'])->group(function () {
 
-Route::middleware('auth')->group(function () {
+    Route::get('/cart', 'CartController@index')->name('cart');
+    Route::post('/cart/add', 'CartController@addToCart')->name('addToCart');
+    Route::post('/cart/delete', 'CartController@destroy')->name('deleteFromCart');
+    Route::post('/cart/checkout', 'Payments\PaymentController@checkout')->name('cartCheckout');
+
     Route::group(['prefix' => 'user'], function (){
         Route::get('sell', 'UserPanelController@sell')->name('user.sell');
         Route::get('profile', 'UserPanelController@profile')->name('user.profile');
