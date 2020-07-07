@@ -3,24 +3,23 @@
 namespace App\Listeners\Payment;
 
 use App\Events\Payment\OrderCompleted;
+use App\Mail\OrderPlaced;
 use App\Services\Payments\PayPal\PaypalPayment;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class CapturePayment implements ShouldQueue
 {
-
-    private $paypalPayment = null;
 
     /**
      * Create the event listener.
      *
      * @return void
      */
-    public function __construct(PaypalPayment $paypalPayment)
+    public function __construct()
     {
-        $this->paypalPayment = $paypalPayment;
     }
 
     /**
@@ -32,8 +31,8 @@ class CapturePayment implements ShouldQueue
     public function handle(OrderCompleted $order)
     {
        $order = $order->getOrder();
-       Log::info($order->payment);
-//       Log::info($this->paypalPayment->capturePayment());
+       $user = $order->cart->user;
+       Mail::to($user)->send(new OrderPlaced($order));
     }
 
     public function shouldQueue()

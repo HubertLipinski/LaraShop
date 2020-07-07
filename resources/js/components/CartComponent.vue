@@ -26,7 +26,7 @@
                         <td class="align-middle">{{product.price}} zł</td>
                         <td class="align-middle">
                             <div class="form-group cart-qty m-auto p-0 m-0">
-                                <input type="number" :name="'items_list['+index+'][qty]'" class="form-control" value="1" min="1" placeholder="1" v-model.number="productTotal[index]">
+                                <input type="number" :name="'items_list['+index+'][qty]'" class="form-control" value="1" min="1" placeholder="1" v-model.number="productTotal[index]" @change="updateCart(product.id, index)">
                             </div>
                         </td>
                         <td class="align-middle">{{calculateTotal(product.price, index)}} zł</td>
@@ -200,6 +200,16 @@
                       //todo add modal
                  });
             },
+            async updateCart(id, index) {
+                const value = this.productTotal[index];
+                await axios.put('cart/update', {
+                        id: id,
+                        value: value
+                    })
+                    .catch((e) => {
+                        console.log("Błąd podczas modyfikacji ilości:", e);
+                    });
+            },
             deleteItem(id, index) {
                 this.requestDelete(id)
                     .then(() => {
@@ -223,7 +233,7 @@
             this.productsList = JSON.parse(this.products);
             this.savedAddresses = JSON.parse(this.saved_addresses);
             this.productsList.forEach((item, index) => {
-                this.productTotal[index] = 1;
+                this.productTotal[index] = item.pivot.qty;
                 this.orderItemPrice[index] = item.price;
             })
         }

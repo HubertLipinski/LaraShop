@@ -20,7 +20,7 @@ class CartController extends Controller
      */
     public function __construct(Product $product)
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'verified']);
         $this->product = $product;
     }
 
@@ -53,6 +53,21 @@ class CartController extends Controller
         } else {
             return back()->with(['message'=>'Masz już ten przedmiot w koszyku!']);
         }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function update(Request $request) : JsonResponse
+    {
+        $id = $request->get('id');
+        $value = $request->get('value');
+        $product = Auth::user()->cart->items();
+        $product->updateExistingPivot($id, ['qty'=>$value]);
+        return response()->json('Rekord został pomyślnie zaktualizowany!');
     }
 
     /**

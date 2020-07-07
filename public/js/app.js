@@ -2067,6 +2067,38 @@ Vue.use(vue_csrf__WEBPACK_IMPORTED_MODULE_1___default.a);
 
       return requestDelete;
     }(),
+    updateCart: function () {
+      var _updateCart = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(id, index) {
+        var value;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                value = this.productTotal[index];
+                _context2.next = 3;
+                return axios.put('cart/update', {
+                  id: id,
+                  value: value
+                })["catch"](function (e) {
+                  console.log("Błąd podczas modyfikacji ilości:", e);
+                });
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function updateCart(_x2, _x3) {
+        return _updateCart.apply(this, arguments);
+      }
+
+      return updateCart;
+    }(),
     deleteItem: function deleteItem(id, index) {
       var _this = this;
 
@@ -2096,7 +2128,7 @@ Vue.use(vue_csrf__WEBPACK_IMPORTED_MODULE_1___default.a);
     this.productsList = JSON.parse(this.products);
     this.savedAddresses = JSON.parse(this.saved_addresses);
     this.productsList.forEach(function (item, index) {
-      _this2.productTotal[index] = 1;
+      _this2.productTotal[index] = item.pivot.qty;
       _this2.orderItemPrice[index] = item.price;
     });
   }
@@ -79367,6 +79399,9 @@ var render = function() {
                                   },
                                   domProps: { value: _vm.productTotal[index] },
                                   on: {
+                                    change: function($event) {
+                                      return _vm.updateCart(product.id, index)
+                                    },
                                     input: function($event) {
                                       if ($event.target.composing) {
                                         return
