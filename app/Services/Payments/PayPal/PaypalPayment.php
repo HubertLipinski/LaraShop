@@ -2,6 +2,7 @@
 
 namespace App\Services\Payments\PayPal;
 
+use App\Events\Payment\OrderCompleted;
 use App\Exceptions\Payment\Paypal\PaypalPaymentException;
 use App\Http\Requests\CreateCheckoutRequest;
 use App\Models\Order;
@@ -108,7 +109,7 @@ class PaypalPayment extends PaymentBase
             'order_status' => $response->get('status')
         ]);
 
-        $this->order->create([
+        $order = $this->order->create([
             'user_address_id' => $address,
             'cart_id' => Auth::user()->cart->id,
             'payment_histories_id' => $payment->id,
@@ -118,6 +119,7 @@ class PaypalPayment extends PaymentBase
 
         redirect($link)->send();
         $this->clearCart();
+        event(new OrderCompleted($order));
     }
 
     public function caputrePayment(PaymentHistory $payment) : void {

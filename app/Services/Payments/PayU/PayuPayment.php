@@ -2,6 +2,7 @@
 
 namespace App\Services\Payments\PayU;
 
+use App\Events\Payment\OrderCompleted;
 use App\Http\Requests\CreateCheckoutRequest;
 use App\Models\Order;
 use App\Models\PaymentHistory;
@@ -110,7 +111,7 @@ class PayuPayment extends PaymentBase
             'order_status' => 'PENDING'
         ]);
 
-        $this->order->create([
+        $order = $this->order->create([
             'user_address_id' => $address,
             'cart_id' => Auth::user()->cart->id,
             'payment_histories_id' => $payment->id,
@@ -120,6 +121,7 @@ class PayuPayment extends PaymentBase
 
         redirect($link)->send();
         $this->clearCart();
+        event(new OrderCompleted($order));
     }
 
 }

@@ -23,6 +23,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/cart', 'CartController@index')->name('cart');
     Route::post('/cart/add', 'CartController@addToCart')->name('addToCart');
+    Route::put('/cart/update', 'CartController@update');
     Route::post('/cart/delete', 'CartController@destroy')->name('deleteFromCart');
     Route::post('/cart/checkout', 'Payments\PaymentController@checkout')->name('cartCheckout');
 

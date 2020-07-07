@@ -47,9 +47,4 @@ class PaymentController extends Controller
 
         }
     }
-
-    public function paymentSuccessful(Request $request)
-    {
-//        event(new OrderCompleted($order));
-    }
 }
