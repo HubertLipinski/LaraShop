@@ -4,9 +4,9 @@ namespace App\Services\Payments\Models;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Support\Facades\Hash;
+use Psy\Util\Json;
 
-class CreateOrderModel implements Arrayable, Jsonable
+class PaymentModel implements Arrayable, Jsonable
 {
 
     private $payuData;
@@ -14,53 +14,30 @@ class CreateOrderModel implements Arrayable, Jsonable
     private $paymentProductList;
     private $description;
     private $amount;
-    private $hash;
 
 
-    public function __construct(PaymentPayuData $payuData, PaymentUserData $paymentUserData, PaymentProductList $paymentProductList)
-    {
-        $this->payuData = $payuData;
+    public function __construct(PaymentUserData $paymentUserData) {
         $this->paymentUserData = $paymentUserData;
         $this->description = 'Testowa płatność';
         $this->amount = 100;
-        $this->paymentProductList = $paymentProductList;
     }
 
     /**
      * @param string $description
      */
-    public function setDescription(string $description): void
-    {
+    public function setDescription(string $description): void {
         $this->description = $description;
     }
 
     /**
      * @param int $amount
      */
-    public function setAmount(int $amount): void
-    {
+    public function setAmount(int $amount) : void {
         $this->amount = $amount * 100;
     }
 
-    public function hash(): void
-    {
-        $hash = Hash::make(
-            json_encode($this->paymentUserData->toArray())
-            . $this->paymentProductList->toJson()
-        );
-        $this->hash = str_replace ('/', '', $hash);
-    }
 
-    /**
-     * @return string
-     */
-    public function getHash(): string
-    {
-        return $this->hash;
-    }
-
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return [
                 'notifyUrl'=> $this->payuData->getNotifyUrl(),
                 'continueUrl'=> $this->payuData->getContinueUrl().$this->hash,
@@ -81,10 +58,9 @@ class CreateOrderModel implements Arrayable, Jsonable
      * Convert the object to its JSON representation.
      *
      * @param int $options
-     * @return string
+     * @return Json
      */
-    public function toJson($options = 0)
-    {
+    public function toJson($options = 0) : Json {
         return json_encode($this->toArray(), $options);
     }
 }
