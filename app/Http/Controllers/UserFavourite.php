@@ -34,9 +34,16 @@ class UserFavourite extends Controller
     public function index()
     {
         $user = Auth::user();
+
+        $favourites = collect();
+        foreach ($user->favourites->all() as $record) {
+            $product = $record->product->first();
+            $favourites->add($product);
+        }
+
         return view('layouts.user.favourites')
             ->with([
-                'favourite' => $user->favourites
+                'favourite' => $favourites
             ]);
     }
 
@@ -96,6 +103,6 @@ class UserFavourite extends Controller
         $userFavourite = $this->userFav->where('product_id', $id)->firstOrFail();
         abort_unless(Auth::user()->can('delete', $userFavourite), 401);
         $this->userFav->destroy($userFavourite->id);
-        return response()->json(__('Pmyślnie usunięto ulubione!'));
+        return response()->json(__('Pomyślnie usunięto ulubione!'));
     }
 }

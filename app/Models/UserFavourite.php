@@ -18,6 +18,6 @@ class UserFavourite extends Model
     }
 
     public function product() {
-        return $this->hasMany('App\Models\Product', 'product_id');
+        return $this->hasMany('App\Models\Product', 'id', 'product_id');
     }
 }

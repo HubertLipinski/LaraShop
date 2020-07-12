@@ -37,7 +37,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('saved-addresses', 'SavedAddressesController');
         Route::resource('edit', 'UserController');
         Route::resource('favourite', 'UserFavourite', [
-            'names' => [ 'index' => 'user.fav' ]
+            'names' => ['index' => 'user.fav']
         ]);
     });
     Route::get('payment-summary/paypal', 'Payments\SummaryController@paypal');
