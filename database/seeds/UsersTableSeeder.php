@@ -2,6 +2,7 @@
 
 use App\Models\Cart;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use TCG\Voyager\Models\Role;
 use TCG\Voyager\Models\User;
@@ -24,6 +25,7 @@ class UsersTableSeeder extends Seeder
                 'surname'           => 'Admin',
                 'email'          => 'admin@admin.com',
                 'password'       => bcrypt('password'),
+                'email_verified_at' => Carbon::now(),
                 'remember_token' => Str::random(60),
                 'role_id'        => $admin->id,
             ]);
@@ -33,6 +35,7 @@ class UsersTableSeeder extends Seeder
                 'surname'           => 'User',
                 'email'          => 'user@user.com',
                 'password'       => bcrypt('password'),
+                'email_verified_at' => Carbon::now(),
                 'remember_token' => Str::random(60),
                 'role_id'        => $user->id
             ]);
