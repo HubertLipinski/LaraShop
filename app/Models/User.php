@@ -58,6 +58,10 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
         return $this->hasMany('App\Models\SavedAddress');
     }
 
+    public function favourites() {
+        return $this->hasMany('App\Models\UserFavourite');
+    }
+
     public function isAdmin() {
         return $this->role()->where('name', 'admin')->exists();
     }
@@ -78,5 +82,12 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
     public function getAvatar() {
         $url = Storage::url($this->avatar);
         return $url;
+    }
+
+
+    public function hasFavourite($id) {
+        $product = Product::find($id);
+        $test =  $product->favourites()->where('user_id', $this->id)->first();
+        return !is_null($test) ? 1 : 0;
     }
 }

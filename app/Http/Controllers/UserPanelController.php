@@ -47,10 +47,6 @@ class UserPanelController extends Controller
         return view('layouts.user.items');
     }
 
-    public function favourites()
-    {
-        return view('layouts.user.favourites');
-    }
 
     public function settings()
     {

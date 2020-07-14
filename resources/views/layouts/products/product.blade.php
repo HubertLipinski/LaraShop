@@ -23,14 +23,20 @@
                 <p>{{$product->description}}</p>
                 <div class="item-body pt-5">
                     <div class="item-price text-right">
-{{--                        <p class="h5 text-muted"><s>550 zł</s></p>--}}
                         <p class="h3">Cena: {{$product->price}} zł</p>
                     </div>
                     <div class="row">
                         <div class="col-12 d-flex align-items-center justify-content-end mt-2">
-                            <a href="#" class="btn btn-block favourite w-25 p-2 mr-3"></a>
+                           <div>
+                               <fav-add
+                                   :id="{{$product->id}}"
+                                   isfavourite="{{Auth::user()->hasFavourite($product->id)}}"
+                                   name="{{$product->name}}"
+                                   store="{{route('favourite.store')}}"
+                                   delete="{{route('favourite.destroy', $product->id)}}"
+                               ></fav-add>
+                           </div>
                             <a href="#" class="btn btn-block btn-outline-primary mt-0 w-50 ml-auto d-none">Dodaj do koszyka</a>
-{{--                            <a href="#" class="btn btn-block btn-danger mt-0 w-50 ml-3">Kup teraz</a>--}}
                             <form class="w-100 m-auto" method="POST" action="{{route('addToCart')}}">
                                 @csrf
                                 <input type="hidden" name="id" value="{{$product->id}}">

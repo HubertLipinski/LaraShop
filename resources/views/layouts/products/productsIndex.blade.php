@@ -72,13 +72,16 @@
                                 <div class="col-3 d-flex align-items-center">
                                     <fav-add
                                         :id="{{$item->id}}"
+                                        isfavourite="{{Auth::user()->hasFavourite($item->id)}}"
+                                        store="{{route('favourite.store')}}"
+                                        delete="{{route('favourite.destroy', $item->id)}}"
                                     >
                                     </fav-add>
                                 </div>
                                 <div class="col-9 d-flex justify-content-center align-items-center">
                                     <cart-add
                                         :id="{{$item->id}}"
-                                        :cart_url="{{json_encode(route('cart'))}}"
+                                        cart_url="{{route('cart')}}"
                                     >
                                     </cart-add>
                                     <a href="{{route('showProduct', $item->id)}}" class="btn btn-outline-primary w-50">Zobacz więcej</a>
