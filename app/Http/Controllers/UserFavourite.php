@@ -34,7 +34,6 @@ class UserFavourite extends Controller
     public function index()
     {
         $user = Auth::user();
-
         $favourites = collect();
         foreach ($user->favourites->all() as $record) {
             $product = $record->product->first();

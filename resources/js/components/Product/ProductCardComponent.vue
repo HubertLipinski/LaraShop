@@ -52,7 +52,7 @@
                 await axios.delete(this.delete)
                     .then((response) => {
                         this.$bvToast.toast(response.data, {
-                            title: `Sukcess!`,
+                            title: 'Sukcess!',
                             variant: 'success',
                             solid: true
                         })
