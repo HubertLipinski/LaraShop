@@ -72,7 +72,8 @@
                                 <div class="col-3 d-flex align-items-center">
                                     <fav-add
                                         :id="{{$item->id}}"
-                                        isfavourite="{{Auth::user()->hasFavourite($item->id)}}"
+                                        isfavourite="@guest 0 @endguest
+                                        @auth {{Auth::user()->hasFavourite($item->id)}} @endauth"
                                         store="{{route('favourite.store')}}"
                                         delete="{{route('favourite.destroy', $item->id)}}"
                                     >
