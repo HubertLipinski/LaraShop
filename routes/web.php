@@ -16,6 +16,7 @@ Auth::routes(['verify' => true]);
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/items', 'ProductList@index')->name('productsList');
+Route::get('/items?category={category}', 'ProductList@index')->name('withCategory');
 Route::get('/items/{id}', 'ProductController@show')->name('showProduct');
 Route::post('/items/add', 'ProductController@store')->name('addItem');
 
