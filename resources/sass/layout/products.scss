@@ -15,7 +15,10 @@
     }
     .nav-link:hover {
         color: $blue;
-        //font-weight: bold;
+    }
+    .active {
+        color: $primary;
+        font-weight: bold;
     }
 }
 

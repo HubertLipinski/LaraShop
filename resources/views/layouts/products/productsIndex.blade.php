@@ -19,20 +19,21 @@
                 <div class="d-sm-block d-md-flex justify-content-sm-center justify-content-md-center py-sm-3 py-1 m-auto">
                     <nav class="nav flex-md-column product-menu">
                         <p class="h2 normal w-100 pl-sm-3 p-md-1 text-sm-center text-md-left">Menu</p>
-                        <a class="nav-link active" href="#">Elektronika</a>
-                        <a class="nav-link" href="#">Dom i ogród</a>
-                        <a class="nav-link" href="#">Zdrowie</a>
-                        <a class="nav-link" href="#">Gadżety</a>
-                        <a class="nav-link" href="#">Motoryzacja</a>
-                        <a class="nav-link" href="#">Zabawki</a>
-                        <a class="nav-link" href="#">Książki</a>
-                        <a class="nav-link" href="#">Gry</a>
-                        <a class="nav-link" href="#">Filmy</a>
+                        @foreach($categories as $category)
+                            <a class="nav-link {{(app('request')->request->get('category')) === $category->name ? 'active' : ''}}"
+                               href="{{route('withCategory', $category->name)}}"
+                            >
+                                {{$category->name}}
+                            </a>
+                        @endforeach
                     </nav>
                 </div>
             </div>
             <div class="col-sm-12 col-md-9 px-3 py-1">
                 <div class="items-container m-auto">
+                    @if(!count($products))
+                            <p class="h3 mr-auto py-3">Brak produktów</p>
+                        @endif
                     @foreach($products as $item)
                     <div class="item p-2 m-3 border-0">
                         <div class="item-photos pt-2 pb-1">

@@ -14030,6 +14030,11 @@ html {
   color: #1e8cfc;
 }
 
+.product-menu .active {
+  color: #1e8cfc;
+  font-weight: bold;
+}
+
 .product img {
   height: 130px;
 }

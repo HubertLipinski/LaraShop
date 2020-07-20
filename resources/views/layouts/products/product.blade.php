@@ -2,11 +2,11 @@
 
 @section('content')
     <div class="container">
-        <nav aria-label="breadcrumb" class="m-auto ">
+        <nav aria-label="breadcrumb" class="m-auto">
             <ol class="breadcrumb product-breadcrumbs px-0 text-left">
                 <li class="breadcrumb-item"><a href="{{route('home')}}">Start</a></li>
                 <li class="breadcrumb-item"><a href="{{route('productsList')}}">Produkty</a></li>
-                <li class="breadcrumb-item"><a href="#">{{$categories[0]}}</a></li>
+                <li class="breadcrumb-item"><a href="{{route('withCategory', $categories[0])}}">{{$categories[0]}}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{$product->name}}</li>
             </ol>
         </nav>
